@@ -45,4 +45,8 @@ class CPersonne:
 
 #------------------------Methodes------------------------
 
-    def _
+    def ajouter_coordonnees(self, coordonnees):
+        self._lCoordonees.__add__(coordonnees)
+
+    def ajouter_direction(self, direction):
+        self._lDirection.__add__(direction)
