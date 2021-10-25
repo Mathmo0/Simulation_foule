@@ -953,6 +953,9 @@ diagram {
 <typeValue>
 <val>str</val>
 </typeValue>
+<visibility>
+<val>private</val>
+</visibility>
 </Property>
 <Operation id="2a1c1bad-28d2-11ec-a5a1-bedbea1c6d50">
 <class_>
@@ -1310,6 +1313,9 @@ diagram {
 <typeValue>
 <val>double</val>
 </typeValue>
+<visibility>
+<val>private</val>
+</visibility>
 </Property>
 <Property id="2e4f4bde-28d3-11ec-9f8e-bedbea1c6d50">
 <class_>
@@ -1321,6 +1327,9 @@ diagram {
 <typeValue>
 <val>list</val>
 </typeValue>
+<visibility>
+<val>private</val>
+</visibility>
 </Property>
 <Operation id="3244d55d-28d3-11ec-93da-bedbea1c6d50">
 <class_>
@@ -2030,9 +2039,6 @@ diagram {
 <points>
 <val>[(206.4639386648264, 100.97456360443266), (206.4639386648264, 348.5542579022697), (179.19451074169865, 348.5542579022697)]</val>
 </points>
-<head-connection>
-<ref refid="1acba406-28d2-11ec-ac52-bedbea1c6d50"/>
-</head-connection>
 <tail-connection>
 <ref refid="0f871622-28d5-11ec-9e3a-bedbea1c6d50"/>
 </tail-connection>
@@ -2066,9 +2072,6 @@ diagram {
 <owningAssociation>
 <ref refid="ec34592d-28d5-11ec-83cb-bedbea1c6d50"/>
 </owningAssociation>
-<type>
-<ref refid="1acba405-28d2-11ec-86db-bedbea1c6d50"/>
-</type>
 </Property>
 <Property id="ec34a771-28d5-11ec-b005-bedbea1c6d50">
 <association>
@@ -2077,9 +2080,6 @@ diagram {
 <owningAssociation>
 <ref refid="ec34592d-28d5-11ec-83cb-bedbea1c6d50"/>
 </owningAssociation>
-<type>
-<ref refid="0f864bf7-28d5-11ec-a2ff-bedbea1c6d50"/>
-</type>
 </Property>
 <AssociationItem id="146eadb7-28d6-11ec-819b-bedbea1c6d50">
 <diagram>
@@ -3084,7 +3084,7 @@ diagram {
 </Package>
 <PackageItem id="3667b663-2a66-11ec-9973-e4b05a199e2f">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 396.29291016698966, 683.1203869077016)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 386.02922058612285, 712.4574812781495)</val>
 </matrix>
 <width>
 <val>1724.0772108797362</val>
@@ -3126,7 +3126,7 @@ diagram {
 </Package>
 <PackageItem id="31cda082-2a6d-11ec-8fa5-e4b05a199e2f">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 148.69793125564635, 21.03367009395313)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 175.2461809724144, -196.2851126017562)</val>
 </matrix>
 <width>
 <val>2036.2379515838634</val>
