@@ -2,12 +2,25 @@ class CEnvironnement:
     """
     Classe de l'environnement
     """
-    def __init__(self, nom, superficie, nbPersonnes, nbObstacles, sorties):
+#-------------------Constructeur-------------------#
+
+    def __init__(self, nom, hauteur, largeur, superficie, nbPersonnes, nbObstacles, sorties):
         self.sNom = nom
+        self.iHauteur = hauteur
+        self.iLargeur = largeur
         self.fSuperficie = superficie
         self.iNbPersonnes = nbPersonnes
         self.iNbObstacles = nbObstacles
         self.tSorties = sorties
+
+    def __init__(self):
+        self.sNom
+        self.iHauteur
+        self.iLargeur
+        self.fSuperficie
+        self.iNbPersonnes
+        self.iNbObstacles
+        self.tSorties
 
 #-------------------Getters-------------------#
 
@@ -42,6 +55,10 @@ class CEnvironnement:
 
     def setSorties(self, list_sorties):
         self.tSorties = list_sorties
+
+#-------------------Methodes-------------------#
+
+    def
 
 print("Lancement de la classe")
 
