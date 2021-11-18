@@ -4,7 +4,7 @@ class CPersonne:
 
     def __init__(self):
         self._iPoids
-        self._fVitesse
+        self._fVitess
         self._fPression
         self._lDirection = []
         self._lCoordonees = []
