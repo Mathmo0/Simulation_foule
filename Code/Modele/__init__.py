@@ -1,1 +1,1 @@
-import numpy as np
+from CEnvironnement import CEnvironnement

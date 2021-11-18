@@ -5,11 +5,6 @@ list2 = [1, 5]
 
 a = np.array(list1)
 b = np.array(list2)
-
-<<<<<<< HEAD
-
-
-=======
 dt = 0
 vitesse = 0
 
@@ -36,4 +31,3 @@ for i in range(0, 10):
     print(ealpha)
     a = a + nouvellepos(ealpha*1.34, v)
     dt += 2
->>>>>>> 400a72c9547d6615064e7306fe558174b369c4a0
