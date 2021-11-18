@@ -2,51 +2,65 @@
 
 class CPersonne:
 
-    def __init__(self):
-        self._iPoids
-        self._fVitess
-        self._fPression
-        self._lDirection = []
-        self._lCoordonees = []
+    def __init__(self, poids, vitesse, pression, rayon, chpsVision):
+        self.iPERPoids = poids
+        self.fPERVitesse = vitesse
+        self.fPERPression = pression
+        self.lPERDirection = []
+        self.lPERCoordonees = []
+        self.fPERRayon = rayon
+        self.fPERChampsDeVision = chpsVision
 
 #------------------------Getter------------------------
 
-    def _get_iPoids(self):
-        return self._iPoids
+    def getPoids(self):
+        return self.iPERPoids
 
-    def _get_fVitesse(self):
-        return self._iVitesse
+    def getVitesse(self):
+        return self.fPERVitesse
 
-    def _get_fPression(self):
-        return self._fPression
+    def getPression(self):
+        return self.fPERPression
 
-    def _get_lDirection(self):
-        return self._lDirection
+    def getListDirection(self):
+        return self.lDirection
 
-    def _get_lCoordonnees(self):
-        return self._lCoordonees
+    def getListCoordonnees(self):
+        return self.lPERCoordonees
+
+    def getRayon(self):
+        return self.fPERRayon
+
+    def getChampsDeVision(self):
+        return self.fPERChampsDeVision
 
 #------------------------Setter------------------------
 
-    def _set_iPoids(self, poids):
-        self._iPoids = poids
+    def setPoids(self, poids):
+        self.iPERPoids = poids
 
-    def _set_fVitesse(self, vitesse):
-        self._fVitesse = vitesse
+    def setVitesse(self, vitesse):
+        self.fPERVitesse = vitesse
 
-    def _set_fPression(self, pression):
-        self._fPression = pression
+    def setPression(self, pression):
+        self.fPERPression = pression
 
-    def _self_lDirection(self, direction):
-        self._lDirection = direction
+    def setListDirection(self, direction):
+        self.lPERDirection = direction
 
-    def _self_lCoordonnees(self, coordonnees):
-        self._lCoordonees = coordonnees
+    def setListCoordonnees(self, coordonnees):
+        self.lPERCoordonees = coordonnees
+
+    def setRayon(self, rayon):
+        self.fPERRayon = rayon
+
+    def setChampsDeVision(self, chpsVision):
+        self.fPERChampsDeVision = chpsVision
 
 #------------------------Methodes------------------------
 
     def ajouter_coordonnees(self, coordonnees):
-        self._lCoordonees.__add__(coordonnees)
+        self.lPERCoordonees.append(coordonnees)
 
     def ajouter_direction(self, direction):
-        self._lDirection.__add__(direction)
+        self.lPERDirection.append(direction)
