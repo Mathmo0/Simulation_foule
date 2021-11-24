@@ -5,6 +5,7 @@ list2 = [1, 5]
 
 a = np.array(list1)
 b = np.array(list2)
+
 dt = 0
 vitesse = 0
 
