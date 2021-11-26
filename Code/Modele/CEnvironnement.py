@@ -17,7 +17,6 @@ class CEnvironnement:
         self.tSorties = sorties
 
     # -------------------Getters-------------------#
-
     def getNom(self):
         return self.sNom
 
@@ -41,7 +40,6 @@ class CEnvironnement:
 
 
     # ---------------------Setters---------------------#
-
     def setNom(self, nom):
         self.sNom = nom
 
@@ -68,7 +66,6 @@ class CEnvironnement:
 
 
     # -------------------Methodes-------------------#
-
     def ENVToString(self):
         print(
             "\nSalle : {}\n" 
@@ -79,6 +76,7 @@ class CEnvironnement:
             "Nombre d'obstacles : {}\n" 
             "Liste de sorties : {}"
                 .format(self.getNom(), self.getSuperficie(), self.getHauteur(), self.getLargeur(), self.getNbPersonnes(), self.getNbObstacles(), self.getSorties()))
+
 
 
 
