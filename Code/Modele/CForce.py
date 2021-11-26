@@ -1,4 +1,6 @@
 
+import numpy as np
+
 # constante :
 
 c = 0.5
@@ -14,22 +16,12 @@ UAlphaObstacle0 = 10  # (m/s)**2
 class CForce :
     #attribut :
 
+
     #constructeur :
 
     #methode :
 
-    def DetectionCercle(CentreCercle0, CentreCercle1, Point0, Point1, rayon):
-
-        DIstance = (Point0 - CentreCercle0) ** 2 + (Point1 - CentreCercle1 ** 2)
-        r2 = (rayon ** 2)
-        print("DIstance = ", DIstance)
-        if (DIstance <= r2):
-            # if((Point[0]-CentreCercle[0])**2 + (Point[1]-CentreCercle[1])**2 <= rayon**2 ) :
-            return True
-        else:
-            return False
-
-            # permet de calculer la vitesse max que peut attindre un piéton
+    # permet de calculer la vitesse max que peut attindre un piéton
 
     def VitesseAlphaMax(vAlpha0):
         return 1.3 * vAlpha0
@@ -45,25 +37,6 @@ class CForce :
             else:
                 return (Position - PositionDeltaT) / t
 
-    # Position : Position du pieton à l'intant t
-    # PositionDeltaT : Position du pieton à l'intant t- DeltaT
-    def FonctionTrajectoirePieton(Position, PositionDeltaT):
-        a = (Position[1] - PositionDeltaT[1]) / (Position[1] - PositionDeltaT[1])  # coef directeur
-        b = Position[1] - Position[0] * a  # ordonne à l'origine
-        coef = np.array([a, b])
-        return coef
-
-    # mm
-
-    # Position : Position du pieton à l'intant t
-    # PositionDeltaT : Position du pieton à l'intant t-DeltaT
-    # PositionB = Position de l'obstacle ou d'un autre piéton
-    def Nabla(Position, PositionDeltaT, PositionB):
-        coef = np.array([0, 0])
-        rAlphaBeta = rAlphaObstacle = (Position - PositionB)
-        coef = FonctionTrajectoirePieton(Position, PositionDeltaT)
-
-        return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 
     # vRkAlpha : destination du pieton alpha
     # vRalpha : position du piéton alpha
