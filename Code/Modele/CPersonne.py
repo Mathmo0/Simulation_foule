@@ -1,4 +1,4 @@
-
+from COperation import *
 
 class CPersonne:
 
@@ -59,8 +59,13 @@ class CPersonne:
 
 #------------------------Methodes------------------------
 
-    def ajouter_coordonnees(self, coordonnees):
+    def ajouterCoordonnees(self, coordonnees):
         self.lPERCoordonees.append(coordonnees)
 
-    def ajouter_direction(self, direction):
+    def ajouterDirection(self, direction):
         self.lPERDirection.append(direction)
+
+    def marcher(self):
+
+        self.canvas.delete(self.image)
+        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)

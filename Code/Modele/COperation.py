@@ -1,4 +1,5 @@
 import numpy as np
+import tkinter
 
 class COpetation:
 
@@ -59,3 +60,11 @@ class COpetation:
 
         return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 
+
+
+    def create_circle(cls, x, y, r, canvas, color):
+        x0 = x - r
+        y0 = y - r
+        x1 = x + r
+        y1 = y + r
+        return canvas.create_oval(x0, y0, x1, y1, fill=color)
