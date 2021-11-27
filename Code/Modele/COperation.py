@@ -19,9 +19,7 @@ class COpetation:
 
         DIstance = (Point0 - CentreCercle0) ** 2 + (Point1 - CentreCercle1 ** 2)
         r2 = (rayon ** 2)
-        print("DIstance = ", DIstance)
         if (DIstance <= r2):
-            # if((Point[0]-CentreCercle[0])**2 + (Point[1]-CentreCercle[1])**2 <= rayon**2 ) :
             return True
         else:
             return False
