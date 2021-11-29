@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import pygame
 
-from Code.Modele.CObstacle import CObstacle
+from Modele.CObstacle import CObstacle
 
 
 class CObstacleQuadrilatere(CObstacle):
