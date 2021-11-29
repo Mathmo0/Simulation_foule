@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import pygame
 
-from Modele.CObstacle import CObstacle
+from Code.Modele.CObstacle import CObstacle
 
 
 class CObstacleQuadrilatere(CObstacle):
@@ -48,35 +48,63 @@ class CObstacleQuadrilatere(CObstacle):
 
     # -------------------Dessin-------------------#
     def Dessin(self):
-        screen = pygame.display.set_mode((screen_width, screen_height))
-        screen.fill((255, 255, 255))
         pygame.draw.rect(screen, (0, 0, 0), self.rect)
-        pygame.display.flip()
+
+
+    def bouncing_rect(self):
+        global x_speed, y_speed, other_speed
+        moving_rect.x += x_speed
+        moving_rect.y += y_speed
+
+        # collision with screeen borders
+        if moving_rect.right >= screen_width + int(sol.left) or moving_rect.left <= int(sol.left):
+            x_speed *= -1
+        if moving_rect.bottom >= screen_height + int(sol.left) or moving_rect.top <= int(sol.left):
+            y_speed *= -1
+
+        pygame.draw.rect(screen, (255, 0, 0), moving_rect)
 
 
 pygame.init()
 clock = pygame.time.Clock()
 screen_width, screen_height = 800, 800
+screen_width2, screen_height2 = 900, 900
 
 """moving_rect = pygame.Rect(350, 350, 100, 100)"""
 x_speed, y_speed = 5, 4
+screen = pygame.display.set_mode((screen_width, screen_height))
+screen2 = pygame.display.set_mode((screen_width2, screen_height2))
+screen2.fill((0, 0, 0))
+"""screen.fill((255, 255, 255))
+"""
+screen.fill((0, 0, 0))
+
+sol = pygame.Rect(50, 50, 800, 800)
+pygame.draw.rect(screen, (255, 255, 255), sol)
 
 """other_rect = pygame.Rect(300, 600, 200, 100)"""
 """other_speed = 2"""
 list_sorties = np.array([(350, 350), (2, 4)])
-list_sorties2 = np.array([(300, 300), (2, 4)])
+list_sorties2 = np.array([(0, 300), (2, 4)])
 carreONE = CObstacleQuadrilatere("carreone", 120, 120, list_sorties)
-carreTWO = CObstacleQuadrilatere("carretwo", 120, 120, list_sorties)
+carreTWO = CObstacleQuadrilatere("carretwo", 120, 120, list_sorties2)
 carreONE.OBSToString()
 carreTWO.OBSToString()
+
+moving_rect = pygame.Rect(350, 350, 100, 100)
+x_speed, y_speed = 5, 4
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
+    screen.fill((0, 0, 0))
+    pygame.draw.rect(screen, (255, 255, 255), sol)
+    carreONE.bouncing_rect()
 
-
+    pygame.display.flip()
     clock.tick(60)
     carreONE.Dessin()
     carreTWO.Dessin()

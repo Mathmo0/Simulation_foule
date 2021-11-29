@@ -29,9 +29,9 @@ def bouncing_rect():
             x_speed *= -1
 
     pygame.draw.rect(screen, (255, 255, 255), moving_rect)
-    pygame.draw.rect(screen, (255, 0, 0), other_rect)
-
-pygame.init()
+"""    pygame.draw.rect(screen, (255, 0, 0), other_rect)
+"""
+"""pygame.init()
 clock = pygame.time.Clock()
 screen_width, screen_height = 800,800
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -51,4 +51,4 @@ while True :
     screen.fill((30, 30, 30))
     bouncing_rect()
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(60)"""
