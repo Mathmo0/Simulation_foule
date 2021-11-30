@@ -1,20 +1,23 @@
-from COperation import *
+import numpy as np
+
+from Code.Modele import COperation,CFRepulsion,CFAcceleration
+from Code.Modele.CForce import Phi
 
 class CPersonne:
 
-    def __init__(self, poids, vitesse, pression, rayon, chpsVision):
-        self.iPERPoids = poids
+    def __init__(self, vitesse = 0, pression = 0, rayon = 1, chpsVision = Phi):
         self.fPERVitesse = vitesse
         self.fPERPression = pression
-        self.lPERDirection = []
-        self.lPERCoordonees = []
+        self.lPERDirection = np.array()
+        self.lPERCoordonees = np.array()
+        self.lPERlistPersonneProximite = []
+        self.vPERForceRepulsion = np.array([0,0])
+        self.vPERForceAttraction = np.array([0,0])
+        self.vPERForceAcceleration = CFAcceleration()
         self.fPERRayon = rayon
         self.fPERChampsDeVision = chpsVision
 
 #------------------------Getter------------------------
-
-    def getPoids(self):
-        return self.iPERPoids
 
     def getVitesse(self):
         return self.fPERVitesse
@@ -35,9 +38,6 @@ class CPersonne:
         return self.fPERChampsDeVision
 
 #------------------------Setter------------------------
-
-    def setPoids(self, poids):
-        self.iPERPoids = poids
 
     def setVitesse(self, vitesse):
         self.fPERVitesse = vitesse
@@ -62,10 +62,21 @@ class CPersonne:
     def ajouterCoordonnees(self, coordonnees):
         self.lPERCoordonees.append(coordonnees)
 
+    def ajouterPersonne(self,Personne):
+        self.lPERlistPersonneProximite.append(Personne)
+
     def ajouterDirection(self, direction):
         self.lPERDirection.append(direction)
 
     def marcher(self):
-
         self.canvas.delete(self.image)
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
+
+    def CalculerForceRepulsion(self):
+        return 0
+
+    def CalculerForceAcceleration(self):
+        return 0
+
+    def CalculerNouvellePosition(self):
+        return 0

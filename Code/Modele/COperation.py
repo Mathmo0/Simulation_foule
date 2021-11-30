@@ -26,8 +26,8 @@ class COpetation:
 
 
 
-
-    def FonctionTrajectoirePieton(self,Position, PositionDeltaT):
+    @staticmethod
+    def FonctionTrajectoirePieton(Position, PositionDeltaT):
         '''
         Cette focntion permet de déterminer les coefficients a et b de la focntion linéaire f(x) = ax+b
         que suit les pieton entre 2 position
@@ -37,12 +37,13 @@ class COpetation:
         :return coef : coefficient de la fonction linéaire ax+b
 
         '''
-        a = (Position[1] - PositionDeltaT[1]) / (Position[1] - PositionDeltaT[1])  # coef directeur
+        a = (Position[1] - PositionDeltaT[1]) / (Position[0] - PositionDeltaT[0])  # coef directeur
         b = Position[1] - Position[0] * a  # ordonne à l'origine
         coef = np.array([a, b]) #coefficients de la fonction linéaire
         return coef
 
-    def Nabla(self,Position, PositionDeltaT, PositionB):
+    @staticmethod
+    def Nabla(Position, PositionDeltaT, PositionB):
         """
         Cette fonction permet de calculer le nabla mathematique pour un vecteur position donnee
 
@@ -52,15 +53,26 @@ class COpetation:
         :return: vecteur nabla
 
         """
-        coef = np.array([0, 0])
-        rAlphaBeta = rAlphaObstacle = (Position - PositionB)
-        coef = self.FonctionTrajectoirePieton(Position, PositionDeltaT)
+        #vecteur distance entre le pieton alpha et un pieton Beta ou un pieton alpha et un obstacle
+        rAlphaBeta = rAlphaObstacle = Position - PositionB
+
+        #coefficient a et b de la fonction trajectoire (f(x) = ax+b) du pieton alpha
+        coef = COpetation.FonctionTrajectoirePieton(Position, PositionDeltaT)
 
         return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 
-
-
     def create_circle(cls, x, y, r, canvas, color):
+        """
+        Cette focntion permet de créer un cercle dans un canvas
+
+        @param x: coordonné x du centre du cercle
+        @param y: coordonné y du centre du cercle
+        @param r: rayon du cercle
+        @param canvas : interface graphique dans lequel va être créer le cercle
+        @param color: couleur du cercle
+        @return: le canvas avec le cercle dedans
+        """
+
         x0 = x - r
         y0 = y - r
         x1 = x + r
