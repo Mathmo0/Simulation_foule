@@ -1,4 +1,7 @@
+import os
+
 import numpy as np
+#import Environnements
 
 class CEnvironnement:
     """
@@ -80,14 +83,14 @@ class CEnvironnement:
 
 
 
-print("Lancement de la classe")
+#print("Lancement de la classe")
 
-list_sorties = np.array([(3, 4), (2, 4)])
+"""list_sorties = np.array([(3, 4), (2, 4)])"""
 
+"""global e1
 e1 = CEnvironnement("Bureau", 34, 20, 3, 1, list_sorties)
-#e1 = CEnvironnement()
-
-e1.ENVToString()
-e1.tSorties[0][1] = 2
-e1.ENVToString()
+#e1 = CEnvironnement()"""
+"""Environnements.e1.ENVToString()
+Environnements.e1.tSorties[0][1] = 2
+Environnements.e1.ENVToString()"""
 
