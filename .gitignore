@@ -6,3 +6,5 @@
 Code/__pycache__/
 
 Code/Modele/__pycache__/
+
+*.xml
