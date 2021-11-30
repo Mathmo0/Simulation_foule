@@ -8,8 +8,8 @@ class CPersonne:
     def __init__(self, vitesse = 0, pression = 0, rayon = 1, chpsVision = Phi):
         self.fPERVitesse = vitesse
         self.fPERPression = pression
-        self.lPERDirection = np.array()
-        self.lPERCoordonees = np.array()
+        self.lPERDirection = np.array([(0,0)])
+        self.lPERCoordonees = np.array([(0,0)])
         self.lPERlistPersonneProximite = []
         self.vPERForceRepulsion = np.array([0,0])
         self.vPERForceAttraction = np.array([0,0])
