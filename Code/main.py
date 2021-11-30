@@ -11,3 +11,6 @@ list = []
 list = monFichier.LireFichier()
 
 print(list)
+arraylist = np.asarray(list)
+plt.pcolor(arraylist)
+plt.show()
