@@ -1,7 +1,7 @@
 import numpy as np
 
-from Code.Modele import COperation,CFRepulsion,CFAcceleration
-from Code.Modele.CForce import Phi
+from Modele import COperation,CFRepulsion,CFAcceleration
+from Modele.CForce import Phi
 
 class CPersonne:
 

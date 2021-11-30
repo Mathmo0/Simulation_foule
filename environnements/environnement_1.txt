@@ -1,0 +1,13 @@
+Salle_de_classe_1 = [
+10
+7
+(3, 5)
+
+Personnes=[
+
+]
+
+Obstacles=[
+
+]
+]
