@@ -24,6 +24,9 @@ class CEnvironnement:
 
         self.tSorties = sorties
 
+    """def __int__(self, Fichier = ""):"""
+
+
     # -------------------Getters-------------------#
     def getNom(self):
         return self.sNom

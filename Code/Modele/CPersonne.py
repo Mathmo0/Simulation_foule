@@ -13,8 +13,8 @@ class CPersonne:
         self.lPERlistPersonneProximite = []
         self.vPERForceRepulsion = np.array([0,0])
         self.vPERForceAttraction = np.array([0,0])
-        self.vPERForceAcceleration = CFAcceleration()
-        self.fPERRayon = rayon
+        """self.vPERForceAcceleration = CFAcceleration()
+        self.fPERRayon = rayon"""
         self.fPERChampsDeVision = chpsVision
 
 #------------------------Getter------------------------
