@@ -8,8 +8,8 @@ class CObstacleQuadrilatere(CObstacle):
     """
 
     # -------------------Constructeur-------------------#
-    def __init__(self, nom = "", hauteur = 0, largeur = 0, coordonneesSommets = np.array([(0, 0)])):
-        super().__init__(nom, coordonneesSommets)
+    def __init__(self, hauteur = 0, largeur = 0, coordonneesSommets = np.array([(0, 0)])):
+        super().__init__(coordonneesSommets)
         self.iSuperficie = hauteur * largeur
         self.iHauteur = hauteur
         self.iLargeur = largeur
@@ -35,14 +35,13 @@ class CObstacleQuadrilatere(CObstacle):
 
     # -------------------Methodes-------------------#
     def OBSToString(self):
-        print("\nNom : {}\n"
-              "Coordonnees : {}\n"
-              "Superficie : {}"
+        print("\nCoordonnees : {}\n"
+              "Superficie : {}\n"
               "Hauteur : {}\n"
               "Largeur : {}\n"
-              .format(self.getNom(), self.getCoordoneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
+              .format(self.getCoordoneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
 
 
 list_sorties = np.array([(3, 4), (2, 4)])
-carreONE = CObstacleQuadrilatere("carreone", 12, 12, list_sorties)
+carreONE = CObstacleQuadrilatere(12, 12, list_sorties)
 carreONE.OBSToString()
