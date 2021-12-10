@@ -1,16 +1,16 @@
 import numpy as np
 import tkinter
 
-class COpetation:
+class COperation():
 
     '''
 
     Cette focntion permet de savoir s'il est dans une cercle ou non
 
-    :param CentreCercle0 : coordonnée x du centre du cercle
-    :param CentreCercle1 : coordonnée y du centre du cercle
-    :param Point0 : coordonnée x du point
-    :param Point1 : coordonnée y du point
+    @param CentreCercle0 : coordonnée x du centre du cercle
+    @param CentreCercle1 : coordonnée y du centre du cercle
+    @param Point0 : coordonnée x du point
+    @param Point1 : coordonnée y du point
 
     :return boolean :
     '''
@@ -32,9 +32,9 @@ class COpetation:
         Cette focntion permet de déterminer les coefficients a et b de la focntion linéaire f(x) = ax+b
         que suit les pieton entre 2 position
 
-        :param Position: Position du pieton à l'intant t
-        :param PositionDeltaT:  Position du pieton à l'intant t- DeltaT
-        :return coef : coefficient de la fonction linéaire ax+b
+        @param Position: Position du pieton à l'intant t
+        @param PositionDeltaT:  Position du pieton à l'intant t- DeltaT
+        @return coef : coefficient de la fonction linéaire ax+b
 
         '''
         a = (Position[1] - PositionDeltaT[1]) / (Position[0] - PositionDeltaT[0])  # coef directeur
@@ -47,17 +47,17 @@ class COpetation:
         """
         Cette fonction permet de calculer le nabla mathematique pour un vecteur position donnee
 
-        :param Position:  Position du pieton à l'intant t
-        :param PositionDeltaT: Position du pieton à l'intant t-DeltaT
-        :param PositionB: Position de l'obstacle ou d'un autre piéton
-        :return: vecteur nabla
+        @param Position:  Position du pieton à l'intant t
+        @param PositionDeltaT: Position du pieton à l'intant t-DeltaT
+        @param PositionB: Position de l'obstacle ou d'un autre piéton
+        @return: vecteur nabla
 
         """
         #vecteur distance entre le pieton alpha et un pieton Beta ou un pieton alpha et un obstacle
         rAlphaBeta = rAlphaObstacle = Position - PositionB
 
         #coefficient a et b de la fonction trajectoire (f(x) = ax+b) du pieton alpha
-        coef = COpetation.FonctionTrajectoirePieton(Position, PositionDeltaT)
+        coef = COperation.FonctionTrajectoirePieton(Position, PositionDeltaT)
 
         return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 
