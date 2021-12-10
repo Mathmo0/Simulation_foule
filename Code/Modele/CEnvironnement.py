@@ -1,6 +1,6 @@
 import numpy as np
-from Modele import CPersonne
-from Modele import CObstacleQuadrilatere
+from Modele.CPersonne import CPersonne
+from Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 
 class CEnvironnement:
     """
@@ -23,6 +23,16 @@ class CEnvironnement:
         self.iNbObstacles = len(listePersonnes)
 
         self.tSorties = sorties
+
+    """def __init__(self, fichier):
+        self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.LireFichierEnvironnement()
+
+        self.fSuperficie = self.hauteur * self.largeur
+
+        self.iNbPersonnes = len(self.listePersonnes)
+        self.iNbObstacles = len(self.listePersonnes)"""
+
+
 
     # -------------------Getters-------------------#
     def getNom(self):
@@ -94,12 +104,12 @@ class CEnvironnement:
 
 print("Lancement de la classe")
 
-list_sorties = np.array([(3, 4), (2, 4)])
+"""list_sorties = np.array([(3, 4), (2, 4)])
 
 e1 = CEnvironnement("Bureau", 34, 20, 3, 1, list_sorties)
 #e1 = CEnvironnement()
 
 e1.ENVToString()
 e1.tSorties[0][1] = 2
-e1.ENVToString()
+e1.ENVToString()"""
 
