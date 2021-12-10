@@ -10,12 +10,14 @@ class CPersonne:
 
     def __init__(self,coordonne,vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
+
         self.vPERVitesse = np.array([0,0])
         self.fPERVitesse = vitesse
         self.fPERPression = pression
         self.lPERDirection = []
         self.lPERCoordonees = [coordonne] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
         self.lPERlistPersonneProximite = []
+        self.lPERlistObstacleProximite = []
         self.vPERForceRepulsionPersonne = ForceRepulsion
         self.vPERForceRepulsionObstacle = ForceObstacle
         self.vPERForceAttraction = ForceAttraction
@@ -26,12 +28,22 @@ class CPersonne:
 #------------------------Getter------------------------
 
     def getVitesse(self):
+        """
+        getter pour l'attribut fPERVitesse
+
+        @return: fPERVitesse
+        """
         return self.fPERVitesse
 
     def getPression(self):
+        """
+        getter pour l'attribut fPERPression
+        @return: fPERPression
+        """
         return self.fPERPression
 
     def getListDirection(self) :
+
         return self.lDirection
 
     def getListCoordonnees(self):
@@ -71,8 +83,23 @@ class CPersonne:
 
 #------------------------Methodes------------------------
 
-    def ajouterCoordonnees(self, coordonnees):
+    def RecupererDerniereCoordonne(self):
+        """
+        Permet de recupere la cordonnee actuelle du pieton
 
+        @return: cordonnee actuelle du pieton
+        """
+        if (len(self.lPERCoordonees) == 2):
+            return self.lPERCoordonees[1]
+        else :
+            return self.lPERCoordonees[2]
+
+    def ajouterCoordonnees(self, coordonnees):
+        """
+
+        @param coordonnees: coordonnee du pieton
+        @return: rien
+        """
         if(len(self.lPERCoordonees) == 2) :
             self.lPERCoordonees.pop(0)
             self.lPERCoordonees.append(coordonnees)
@@ -90,16 +117,32 @@ class CPersonne:
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
 
     def CalculerForceRepulsionPersonne(self):
+        """
+        Permet de calculer la force de repulsion applique sur le pieton par tous les autre pieton qui sont dans la liste lPERlistPersonneProximite
 
-        valeurTotaleForceRepulsion = np.array([0,0])
+        @return: rien
+        """
+        #recupere la valuer actuelle de la force la force de repulsion
+        valeurTotaleForceRepulsion = self.vPERForceRepulsionPersonne.gettertForceRepulsion()
 
+        #calcul de nouvelle force de repulsion
         for personne in self.lPERlistPersonneProximite :
 
-            self.vPERForceRepulsionPersonne.FREForceRepulsionPersonne()
+            valeurTotaleForceRepulsion += personne.FREForceRepulsionPersonne()
+
+        self.vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
 
 
     def CalculerForceRepulsionObstacle(self):
-        return 0
+        """
+        Permet de calculer la force de repulsion applique sur le pieton par tous les obstacles qui sont dans la liste lPERlistObstacleProximite
+
+        @return: rien
+        """
+        valeurTotaleForceRepulsionObstacle = self.vPERForceRepulsionObstacle.gettertForceRepulsion()
+
+        for obstacle in self.lPERlistObstacleProximite :
+            valeurTotaleForceRepulsionObstacle+= CFRepulsion.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),)
 
     def CalculerForceAcceleration(self):
         """
@@ -115,7 +158,10 @@ class CPersonne:
 
         @return: rien
         """
-        return 0
-        #nouvellecoord =
-        #self.lPERCoordonees.append(nouvellecoord)
+
+        Force = self.vPERForceAcceleration.FACgetForceAcceleration() +self.vPERForceRepulsionPersonne.gettertForceRepulsion()+self.vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.vPERForceAttraction.get()
+        nouvellecoord = self.RecupererDerniereCoordonne()+Force
+        self.ajouterCoordonnees(nouvellecoord)
+
+
 

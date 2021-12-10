@@ -12,7 +12,7 @@ class CFAcceleration(CForce) :
 
     #getter et setter :
 
-    def FACgeForceAcceleration(self):
+    def FACgetForceAcceleration(self):
         """
         getter pour l'attribut tForceAcceleration
 

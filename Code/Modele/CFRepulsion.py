@@ -49,7 +49,7 @@ class CFRepulsion(CForce) :
 
         @param Ralpha: position du piéton alpha à l'instant t
         @param RalphaDeltaT: position du piéton à l'instant t-DeltaT
-        @param RObstacle: pposition de l'obstacle
+        @param RObstacle: position de l'obstacle
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
