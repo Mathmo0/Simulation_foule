@@ -8,7 +8,7 @@ from Code.Modele.CForce import CForce,Phi
 
 class CPersonne:
 
-    def __init__(self,coordonne,vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
+    def __init__(self,coordonne = np.array([0,0]),vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
 
         self.vPERVitesse = np.array([0,0])
@@ -96,10 +96,12 @@ class CPersonne:
 
     def ajouterCoordonnees(self, coordonnees):
         """
+        Permet d'ajouter une coordonnee dans la liste lPERCoordonees
 
-        @param coordonnees: coordonnee du pieton
+        @param coordonnees: coordonnee du pieton qu'on veut ajouter
         @return: rien
         """
+
         if(len(self.lPERCoordonees) == 2) :
             self.lPERCoordonees.pop(0)
             self.lPERCoordonees.append(coordonnees)
