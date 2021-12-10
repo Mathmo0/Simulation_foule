@@ -35,7 +35,7 @@ class CIHMSimulation:
 
         canvas = Canvas(window, width = WIDTH, height = HEIGHT, bg = 'snow')
 
-richard = CPersonne(np.array([0,0]))
+richard = CPersonne()
 
 list_sorties = np.array([(3, 4), (2, 4)])
 

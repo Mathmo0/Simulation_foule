@@ -104,5 +104,5 @@ class CEnvironnement:
 
 print("Lancement de la classe")
 
-"""list_sorties = np.array([(3, 4), (2, 4)])
+list_sorties = np.array([(3, 4), (2, 4)])
 
