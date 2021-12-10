@@ -25,13 +25,14 @@ e4 = CEnvironnement("Bureau2", 34, 20, list_sorties, list_personnes, list_objets
         3 : CEnvironnement("Hall", 34, 20, list_sorties, list_personnes, list_objets),
         4 : CEnvironnement("Bureau2", 34, 20, list_sorties, list_personnes, list_objets)
     }"""
+nom, hauteur, largeur, sorties, list_personnes, list_objets = "", 0, 0 , np.array([(0, 0)]), np.array([(0, 0)]), np.array([(0, 0)])
+
 
 #TODO rendre cette partie de code robuste
 #TODO faire la recuperation de la liste de personnes et la liste des obstacles
 with open('E:\Projets\projets7_simulation\Environnements\Environnement_0.csv', newline='') as csvfile:
-    reader = csv.reader(csvfile, delimiter='\t')
+    reader = csv.reader(csvfile, delimiter=';')
     for rew in reader:
-
         #recuperer le nom
         if(rew[0] == 'Nom'):
             nom = rew[1]
@@ -67,10 +68,10 @@ with open('E:\Projets\projets7_simulation\Environnements\Environnement_0.csv', n
 
         #recuperer la liste des obstacles
 
-    test = CEnvironnement(nom, hauteur, largeur, sorties, list_personnes, list_objets)
-    test.ENVToString()
-    test2 = CEnvironnement("Chambre", 34, 20, list_sorties, list_personnes, list_objets)
-    test2.ENVToString()
+test = CEnvironnement(nom, hauteur, largeur, sorties, list_personnes, list_objets)
+test.ENVToString()
+test2 = CEnvironnement("Chambre", 34, 20, list_sorties, list_personnes, list_objets)
+test2.ENVToString()
 
 
 

@@ -42,6 +42,6 @@ class CObstacleQuadrilatere(CObstacle):
               .format(self.getCoordoneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
 
 
-list_sorties = np.array([(3, 4), (2, 4)])
+"""list_sorties = np.array([(3, 4), (2, 4)])
 carreONE = CObstacleQuadrilatere(12, 12, list_sorties)
-carreONE.OBSToString()
+carreONE.OBSToString()"""
