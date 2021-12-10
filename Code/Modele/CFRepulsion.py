@@ -1,13 +1,11 @@
-import numpy as np
-
 from Modele.CForce import CForce,tau
-from Modele.COperation import COperation
+from Modele.COperation import COpetation
 
 from numpy import linalg as la
 
 class CFRepulsion(CForce) :
 
-    def __init__(self, tForceRepulsion = np.array([0,0])):
+    def __init__(self, tForceRepulsion):
         self.tForceRepulsion = tForceRepulsion
 
     def gettertForceRepulsion(self):
@@ -39,7 +37,7 @@ class CFRepulsion(CForce) :
         @param vitesseBeta : vitesse du piéton beta
         @return: valeur de l'effet de repulsion
         """
-        nablarAlphaB = COperation.Nabla(Ralpha, RalphaDeltaT, Rbeta)
+        nablarAlphaB = COpetation.Nabla(Ralpha, RalphaDeltaT, Rbeta)
         bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
         V = self.VAlphaBeta(bEffet)
 
@@ -51,13 +49,13 @@ class CFRepulsion(CForce) :
 
         @param Ralpha: position du piéton alpha à l'instant t
         @param RalphaDeltaT: position du piéton à l'instant t-DeltaT
-        @param RObstacle: position de l'obstacle
+        @param RObstacle: pposition de l'obstacle
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
-        NablaFRO = COperation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
+        NablaFRO = COpetation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
-        UFRO = COperation.UAlphaObstacle(NormeVecteurRAlphaObstacle)
+        UFRO = COpetation.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
         return NablaFRO * UFRO
 
