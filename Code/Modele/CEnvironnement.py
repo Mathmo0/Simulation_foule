@@ -25,7 +25,6 @@ class CEnvironnement:
         self.tSorties = sorties
 
     def CEnvironnementFichier(self, fichier):
-        self.super()
         self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.LireFichierEnvironnement()
 
         self.fSuperficie = self.iHauteur * self.iLargeur
