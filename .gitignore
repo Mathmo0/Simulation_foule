@@ -2,3 +2,9 @@
 .idea/projets7_simulation.iml
 
 .idea/
+
+Code/__pycache__/
+
+Code/Modele/__pycache__/
+
+*.xml

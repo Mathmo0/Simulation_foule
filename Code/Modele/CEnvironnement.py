@@ -1,4 +1,6 @@
 import numpy as np
+from Modele import CPersonne
+from Modele import CObstacleQuadrilatere
 
 class CEnvironnement:
     """
@@ -6,18 +8,23 @@ class CEnvironnement:
     """
 
     # -------------------Constructeur-------------------#
-
-    def __init__(self, nom="", hauteur=1, largeur=1, nbPersonnes=0, nbObstacles=0, sorties= np.array([(0, 0)])):
+    def __init__(self, nom="", hauteur=1, largeur=1, sorties= np.array([(0, 0)]), listePersonnes = np.array([CPersonne()]), listeObstacles = np.array([CObstacleQuadrilatere()])):
         self.sNom = nom
+
         self.iHauteur = hauteur
         self.iLargeur = largeur
+
         self.fSuperficie = hauteur * largeur
-        self.iNbPersonnes = nbPersonnes
-        self.iNbObstacles = nbObstacles
+
+        self.lListePersonnes = listePersonnes
+        self.lListeObstacles = listeObstacles
+
+        self.iNbPersonnes = len(listePersonnes)
+        self.iNbObstacles = len(listePersonnes)
+
         self.tSorties = sorties
 
     # -------------------Getters-------------------#
-
     def getNom(self):
         return self.sNom
 
@@ -39,12 +46,16 @@ class CEnvironnement:
     def getLargeur(self):
         return self.iLargeur
 
+    def getListePersonnes(self):
+        return self.lListePersonnes
+
+    def getListeObstacles(self):
+        return self.lListeObstacles
+
 
     # ---------------------Setters---------------------#
-
     def setNom(self, nom):
         self.sNom = nom
-
 
     def setHauteur(self, hauteur):
         self.iHauteur = hauteur
@@ -55,20 +66,19 @@ class CEnvironnement:
         self.iLargeur = largeur
         self.superficie = self.iHauteur * self.iLargeur
 
-    def setNbPersonnes(self, nbPersonnes):
-        self.iNbPersonnes = nbPersonnes
-
-
-    def setNbObstacles(self, nbObstacles):
-        self.iNbObstacles = nbObstacles
-
-
     def setSorties(self, list_sorties):
         self.tSorties = list_sorties
 
+    def setListePersonnes(self, listePersonnes):
+        self.lListePersonnes = listePersonnes
+        self.iNbPersonnes = len(self.lListePersonnes)
+
+    def setListeObstacles(self, listeObstacles):
+        self.lListeObstacles = listeObstacles
+        self.iNbObstacles = len(self.lListeObstacles)
+
 
     # -------------------Methodes-------------------#
-
     def ENVToString(self):
         print(
             "\nSalle : {}\n" 
@@ -77,7 +87,7 @@ class CEnvironnement:
             "Largeur : {} m\n" 
             "Nombre de personnes : {}\n" 
             "Nombre d'obstacles : {}\n" 
-            "Liste de sorties : {}"
+            "Liste de sorties : {}\n"
                 .format(self.getNom(), self.getSuperficie(), self.getHauteur(), self.getLargeur(), self.getNbPersonnes(), self.getNbObstacles(), self.getSorties()))
 
 
