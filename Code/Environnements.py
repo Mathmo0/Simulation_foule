@@ -50,8 +50,7 @@ with open('E:\Projets\projets7_simulation\Environnements\Environnement_0.csv', n
             str = ""
             sorties = np.array([(0, 0) for i in range(1, len(rew))])
             for i in range(1, len(rew)):
-                str = str.join(re.split("[(,)]", rew[i]))
-
+                str = str.join(re.split("[(,) ]", rew[i]))
                 listeoe = [0 for i in range(2)]
                 listeoe[0], listeoe[1] = str.split(" ", 1)
 
