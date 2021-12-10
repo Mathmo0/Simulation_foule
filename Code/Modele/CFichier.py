@@ -104,6 +104,6 @@ class CFichier:
 
 fichier = CFichier('E:\Projets\projets7_simulation\Environnements\Environnement_0')
 
-test = CEnvironnement(fichier)
-#test = CEnvironnement(nom, hauteur, largeur, sorties, list_personnes, list_objets)
+test = CEnvironnement()
+test.CEnvironnementFichier(fichier)
 test.ENVToString()

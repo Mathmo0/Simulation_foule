@@ -24,13 +24,14 @@ class CEnvironnement:
 
         self.tSorties = sorties
 
-    """def __init__(self, fichier):
+    def CEnvironnementFichier(self, fichier):
+        self.super()
         self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.LireFichierEnvironnement()
 
-        self.fSuperficie = self.hauteur * self.largeur
+        self.fSuperficie = self.iHauteur * self.iLargeur
 
-        self.iNbPersonnes = len(self.listePersonnes)
-        self.iNbObstacles = len(self.listePersonnes)"""
+        self.iNbPersonnes = len(self.lListePersonnes)
+        self.iNbObstacles = len(self.lListePersonnes)
 
 
 
@@ -104,5 +105,5 @@ class CEnvironnement:
 
 print("Lancement de la classe")
 
-"""list_sorties = np.array([(3, 4), (2, 4)])
+"""list_sorties = np.array([(3, 4), (2, 4)])"""
 
