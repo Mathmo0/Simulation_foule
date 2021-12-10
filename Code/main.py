@@ -8,9 +8,6 @@ monFichier = CFichier(chemin+"oui")
 
 list = []
 
-list = monFichier.LireFichier()
+list = monFichier.LireFichierPositions()
 
 print(list)
-arraylist = np.asarray(list)
-plt.pcolor(arraylist)
-plt.show()
