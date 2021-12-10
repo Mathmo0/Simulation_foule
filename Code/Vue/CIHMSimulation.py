@@ -1,5 +1,7 @@
 from tkinter import *
-import CEnvironnement
+import numpy as np
+from Modele import CEnvironnement
+from Modele import CPersonne
 
 class CIHMSimulation:
 
@@ -33,6 +35,12 @@ class CIHMSimulation:
 
         canvas = Canvas(window, width = WIDTH, height = HEIGHT, bg = 'snow')
 
+richard = CPersonne(np.array([0,0]))
+
+list_sorties = np.array([(3, 4), (2, 4)])
+
+
+test2 = CEnvironnement("Chambre", 34, 20, list_sorties, list_personnes, list_objets)
 
 Sim = CIHMSimulation()
 Sim.lancerSimulation()
