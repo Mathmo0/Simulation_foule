@@ -53,7 +53,7 @@ class CFichier:
 
         """
         # variables
-        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([(0, 0)]), np.array([(0, 0)]), np.array([(0, 0)])
+        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([0, 0]), np.array([0, 0]), np.array([0, 0])
 
         # ouverture du fichier
         with open(self.sNomFichier, newline='') as csvfile:
@@ -75,7 +75,7 @@ class CFichier:
                 # recuperer la liste des sorties
                 elif (row[0] == 'Sortie(s)'):
                     str = ""
-                    sorties = np.array([(0, 0) for i in range(1, len(row))])
+                    sorties = np.array([[0, 0] for i in range(1, len(row))])
                     k = 0
                     for i in range(1, len(row)):
                         if(row[i] != ''):
@@ -87,7 +87,7 @@ class CFichier:
                             listtemp[0] = int(listtemp[0])
                             listtemp[1] = int(listtemp[1])
 
-                            tupletemp = (int(listtemp[0]), int(listtemp[1]))
+                            tupletemp = np.array([listtemp[0], listtemp[1]])
 
                             sorties[i - k - 1] = tupletemp
                             str = ""
@@ -110,7 +110,7 @@ class CFichier:
                             listtemp[0] = int(listtemp[0])
                             listtemp[1] = int(listtemp[1])
 
-                            tupletemp = (int(listtemp[0]), int(listtemp[1]))
+                            tupletemp = np.array([listtemp[0], listtemp[1]])
 
                             list_coord[i - k - 1] = tupletemp
                             str = ""
@@ -120,6 +120,11 @@ class CFichier:
                     list_personnes = [CPersonne(coord) for coord in list_coord]
 
                 # recuperer la liste des obstacles
+                elif(row[0] == 'Liste coordonnees d\'obstacles'):
+                    str = ""
+                    list_coord = np.array([(0, 0) for i in range(1, len(row))])
+                    k = 0
+
 
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
@@ -129,3 +134,6 @@ fichier = CFichier("../../environnements/Environnement_0")
 test = CEnvironnement()
 test.CEnvironnementFichier(fichier)
 test.ENVToString()
+
+for i in test.getListePersonnes():
+    print(i.getListCoordonnees())
