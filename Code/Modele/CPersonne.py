@@ -116,11 +116,11 @@ class CPersonne:
 
     def marcher(self):
         self.canvas.delete(self.image)
-        self.image = COpetation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
+        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
 
     def CalculerForceRepulsion(self):
         return 0
-
+        """
         @return: rien
         """
         #recupere la valuer actuelle de la force la force de repulsion
@@ -142,8 +142,10 @@ class CPersonne:
         """
         valeurTotaleForceRepulsionObstacle = self.vPERForceRepulsionObstacle.gettertForceRepulsion()
 
-        for obstacle in self.lPERlistObstacleProximite :
-            valeurTotaleForceRepulsionObstacle+= CFRepulsion.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),)
+        #for obstacle in self.lPERlistObstacleProximite :
+
+            #TODO : regler ce pb
+            #valeurTotaleForceRepulsionObstacle+= CFRepulsion.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),)
 
     def CalculerForceAcceleration(self):
         """
@@ -160,7 +162,7 @@ class CPersonne:
         @return: rien
         """
 
-        Force = self.vPERForceAcceleration.FACgetForceAcceleration() +self.vPERForceRepulsionPersonne.gettertForceRepulsion()+self.vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.vPERForceAttraction.get()
+        Force = self.vPERForceAcceleration.FACgetForceAcceleration() +self.vPERForceRepulsionPersonne.gettertForceRepulsion()+self.vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.vPERForceAttraction.get() # pas encore fait
         nouvellecoord = self.RecupererDerniereCoordonne()+Force
         self.ajouterCoordonnees(nouvellecoord)
 

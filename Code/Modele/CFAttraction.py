@@ -3,7 +3,7 @@ from Code.Modele.CForce import CForce
 
 class CFAttraction(CForce) :
 
-    def __init__(self,ValeurForceAttraction) :
-        self.ValeurForceAttraction = np.array([0,0])
+    def __init__(self,ValeurForceAttraction = np.array([0,0])) :
+        self.ValeurForceAttraction = ValeurForceAttraction
 
 

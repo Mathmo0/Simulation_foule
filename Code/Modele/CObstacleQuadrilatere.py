@@ -1,4 +1,4 @@
-from Modele.CObstacle import CObstacle
+from Code.Modele.CObstacle import CObstacle
 
 import numpy as np
 

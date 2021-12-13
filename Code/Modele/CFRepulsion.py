@@ -1,11 +1,14 @@
+import numpy as np
+
 from Code.Modele.CForce import CForce,tau
 from Code.Modele.COperation import COperation
 
 from numpy import linalg as la
+import numpy as np
 
 class CFRepulsion(CForce) :
 
-    def __init__(self, tForceRepulsion):
+    def __init__(self, tForceRepulsion = np.array([0,0])):
         self.tForceRepulsion = tForceRepulsion
 
     def gettertForceRepulsion(self):

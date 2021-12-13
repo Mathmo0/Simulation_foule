@@ -124,7 +124,7 @@ class CFichier:
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
-fichier = CFichier('D:\Projets\projets7_simulation\Environnements\Environnement_0')
+fichier = CFichier("../../environnements/Environnement_0")
 
 test = CEnvironnement()
 test.CEnvironnementFichier(fichier)
