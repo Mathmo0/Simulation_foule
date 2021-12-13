@@ -116,11 +116,10 @@ class CPersonne:
 
     def marcher(self):
         self.canvas.delete(self.image)
-        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
+        self.image = COpetation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
 
-    def CalculerForceRepulsionPersonne(self):
-        """
-        Permet de calculer la force de repulsion applique sur le pieton par tous les autre pieton qui sont dans la liste lPERlistPersonneProximite
+    def CalculerForceRepulsion(self):
+        return 0
 
         @return: rien
         """
