@@ -2,12 +2,8 @@ from Code.Modele.CFichier import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-chemin = "C:/Users/Hicham/Desktop/"
-
-monFichier = CFichier(chemin+"oui")
-
-list = []
-
-list = monFichier.LireFichierPositions()
-
-print(list)
+"""Environnements.e1.ENVToString()
+Environnements.e2.ENVToString()
+Environnements.e3.ENVToString()
+Environnements.e4.ENVToString()"""
+Environnements.Environnement(1).ENVToString()
