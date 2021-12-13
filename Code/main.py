@@ -1,4 +1,4 @@
-from Modele.CFichier import *
+from Code.Modele.CFichier import *
 import numpy as np
 import matplotlib.pyplot as plt
 

@@ -144,7 +144,7 @@ class CPersonne:
         valeurTotaleForceRepulsionObstacle = self.vPERForceRepulsionObstacle.gettertForceRepulsion()
 
         for obstacle in self.lPERlistObstacleProximite :
-            valeurTotaleForceRepulsionObstacle+= CFRepulsion.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),)
+            valeurTotaleForceRepulsionObstacle+= CFRepulsion.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],)
 
     def CalculerForceAcceleration(self):
         """
