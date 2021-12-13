@@ -1,5 +1,5 @@
 import numpy as np
-from Code.Modele.COperation import COpetation
+from Code.Modele.COperation import COperation
 from Code.Modele.CForce import CForce
 list1 = [10, 15]
 list2 = [1, 5]
@@ -37,7 +37,7 @@ for i in range(0, 10):
 Position = np.array([1, 3])
 PositionDeltaT = np.array([4, 9])
 PositionB = np.array([5, 5])
-#resultat = COpetation.Nabla(Position, PositionDeltaT, PositionB)
+#resultat = COperation.Nabla(Position, PositionDeltaT, PositionB)
 force = CForce()
 resultat =force.UAlphaObstacle(4)
 

@@ -1,7 +1,7 @@
 import numpy as np
 import tkinter
 
-class COpetation:
+class COperation:
 
     '''
 
@@ -57,7 +57,7 @@ class COpetation:
         rAlphaBeta = rAlphaObstacle = Position - PositionB
 
         #coefficient a et b de la fonction trajectoire (f(x) = ax+b) du pieton alpha
-        coef = COpetation.FonctionTrajectoirePieton(Position, PositionDeltaT)
+        coef = COperation.FonctionTrajectoirePieton(Position, PositionDeltaT)
 
         return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 

@@ -1,5 +1,5 @@
-from Modele.CForce import CForce,tau
-from Modele.COperation import COpetation
+from Code.Modele.CForce import CForce,tau
+from Code.Modele.COperation import COperation
 
 from numpy import linalg as la
 

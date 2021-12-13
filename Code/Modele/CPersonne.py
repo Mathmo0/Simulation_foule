@@ -1,10 +1,10 @@
 import numpy as np
 
-from Modele.COperation import COperation
-from Modele.CFRepulsion import CFRepulsion
-from Modele.CFAcceleration import CFAcceleration
-from Modele.CFAttraction import CFAttraction
-from Modele.CForce import CForce,Phi
+from Code.Modele.COperation import COperation
+from Code.Modele.CFRepulsion import CFRepulsion
+from Code.Modele.CFAcceleration import CFAcceleration
+from Code.Modele.CFAttraction import CFAttraction
+from Code.Modele.CForce import CForce,Phi
 
 class CPersonne:
 
