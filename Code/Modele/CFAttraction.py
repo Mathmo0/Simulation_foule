@@ -1,5 +1,5 @@
 import numpy as np
-import CForce
+from Code.Modele.CForce import CForce
 
 class CFAttraction(CForce) :
 

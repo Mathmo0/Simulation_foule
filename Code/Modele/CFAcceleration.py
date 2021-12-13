@@ -1,4 +1,4 @@
-from Modele.CForce import CForce, tau
+from Code.Modele.CForce import CForce, tau
 
 import numpy as np
 import math
