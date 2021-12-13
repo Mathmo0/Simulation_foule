@@ -92,7 +92,7 @@ class CPersonne:
         if (len(self.lPERCoordonees) == 2):
             return self.lPERCoordonees[1]
         else :
-            return self.lPERCoordonees[2]
+            return self.lPERCoordonees[0]
 
     def ajouterCoordonnees(self, coordonnees):
         """
