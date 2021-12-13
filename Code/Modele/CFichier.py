@@ -24,10 +24,14 @@ class CFichier:
         self.sNomFichier = nomFichier
 
     # -------------------Methodes-------------------#
-
-            @return : liste contenant les positions des personnes.
-
+    def LireFichierPosition(self):
         """
+        Fonction permettant de stocker les informations du fichier csv dans une liste
+
+        @return : liste contenant les positions des personnes.
+        """
+
+
         # Creation de la liste des positions
         listPositions = []
 
