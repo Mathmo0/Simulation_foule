@@ -4,6 +4,7 @@ import numpy as np
 
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CPersonne import CPersonne
+from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 
 
 class CFichier:
@@ -45,6 +46,36 @@ class CFichier:
 
         return listPositions
 
+    def ParserListeCSV(self, row):
+        """
+        Recupere la ligne d'un fichier CSV et la parse en format liste
+
+        :param row:
+        :return: liste
+        """
+        str = ""  #Variable temp pour recuper et parser
+        list_coord = np.array([(0, 0) for i in range(1, len(row))])
+        k = 0 #Variable pour gerer le decalage si case vide entre case renmplie
+        for i in range(1, len(row)):
+            if (row[i] != ''):
+                str = str.join(re.split("[(,)]", row[i]))
+
+                listtemp = [0 for i in range(2)]
+                listtemp[0], listtemp[1] = str.split(" ", 1)
+
+                listtemp[0] = int(listtemp[0])
+                listtemp[1] = int(listtemp[1])
+
+                tupletemp = (int(listtemp[0]), int(listtemp[1]))
+
+                list_coord[i - k - 1] = tupletemp
+                str = ""
+            else:
+                list_coord = np.array([list_coord[i] for i in range(0, len(list_coord) - 1)])
+                k += 1
+
+        return list_coord
+
     def LireFichierEnvironnement(self):
         """
             fonction pour construire un objet CEnvironnement a partir d'un fichier csv
@@ -54,6 +85,8 @@ class CFichier:
         """
         # variables
         nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([(0, 0)]), np.array([(0, 0)]), np.array([(0, 0)])
+        list_coord_objstacles = np.array([(0, 0)])
+        liste_dimensions_obstacles = np.array([(0, 0)])
 
         # ouverture du fichier
         with open(self.sNomFichier, newline='') as csvfile:
@@ -74,53 +107,26 @@ class CFichier:
 
                 # recuperer la liste des sorties
                 elif (row[0] == 'Sortie(s)'):
-                    str = ""
-                    sorties = np.array([(0, 0) for i in range(1, len(row))])
-                    k = 0
-                    for i in range(1, len(row)):
-                        if(row[i] != ''):
-                            str = str.join(re.split("[(,)]", row[i]))
-
-                            listtemp = [0 for i in range(2)]
-                            listtemp[0], listtemp[1] = str.split(" ", 1)
-
-                            listtemp[0] = int(listtemp[0])
-                            listtemp[1] = int(listtemp[1])
-
-                            tupletemp = (int(listtemp[0]), int(listtemp[1]))
-
-                            sorties[i - k - 1] = tupletemp
-                            str = ""
-                        else:
-                            sorties = np.array([sorties[i] for i in range(0, len(sorties) - 1)])
-                            k += 1
+                    sorties = self.ParserListeCSV(row)
 
                 # recuperer la liste des personnes
                 elif (row[0] == 'Liste de personnes'):
-                    str = ""
-                    list_coord = np.array([(0, 0) for i in range(1, len(row))])
-                    k = 0
-                    for i in range(1, len(row)):
-                        if(row[i] != ''):
-                            str = str.join(re.split("[(,)]", row[i]))
-
-                            listtemp = [0 for i in range(2)]
-                            listtemp[0], listtemp[1] = str.split(" ", 1)
-
-                            listtemp[0] = int(listtemp[0])
-                            listtemp[1] = int(listtemp[1])
-
-                            tupletemp = (int(listtemp[0]), int(listtemp[1]))
-
-                            list_coord[i - k - 1] = tupletemp
-                            str = ""
-                        else:
-                            list_coord = np.array([list_coord[i] for i in range(0, len(list_coord) - 1)])
-                            k += 1
+                    list_coord = self.ParserListeCSV(row)
                     list_personnes = [CPersonne(coord) for coord in list_coord]
 
                 # recuperer la liste des obstacles
+                elif (row[0] == 'Liste coordonnées d\'obstacles'):
+                    list_coord_objstacles = self.ParserListeCSV(row)
 
+                # recuperer la liste des dimensions d'obstacles
+                elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
+                    liste_dimensions_obstacles = self.ParserListeCSV(row)
+
+            list_obstacles = [CObstacleQuadrilatere(0,0,coord) for coord in list_coord_objstacles]
+            #for obs in list_obstacles:
+            for i in range(min(len(list_coord_objstacles), len(liste_dimensions_obstacles))):
+                list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
+                list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
