@@ -20,8 +20,8 @@ environnement1 = CEnvironnement("Bureau", 100, 100, np.array([10,50]), listPerso
 
 listPersonnes2 = environnement1.getListePersonnes()
 
-for element in listPersonnes2:
-    element.ajouterDirection(environnement1.getSorties())
+for i in range (len(listPersonnes2)):
+    listPersonnes2[i].ajouterDirection(environnement1.getSorties())
 
 listPersonnesSorties = [False for i in range (len(listPersonnes2))]
 Fini = False
