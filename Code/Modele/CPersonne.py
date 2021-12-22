@@ -89,9 +89,9 @@ class CPersonne:
 
     def RecupererDerniereCoordonne(self):
         """
-        Permet de recupere la cordonnee actuelle du pieton
+        Permet de recuperer la coordonnee actuelle du pieton
 
-        @return: cordonnee actuelle du pieton
+        @return: coordonnee actuelle du pieton
         """
         if (len(self.lPERCoordonees) == 2):
             return self.lPERCoordonees[1]
