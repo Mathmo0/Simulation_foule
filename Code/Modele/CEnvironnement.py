@@ -8,7 +8,7 @@ class CEnvironnement:
     """
 
     # -------------------Constructeur-------------------#
-    def __init__(self, nom="", hauteur=1, largeur=1, sorties= np.array([(0, 0)]), listePersonnes = np.array([CPersonne()]), listeObstacles = np.array([CObstacleQuadrilatere()])):
+    def __init__(self, nom="", hauteur=1, largeur=1, sorties= np.array([(0, 0)]), listePersonnes = [CPersonne()], listeObstacles = [CObstacleQuadrilatere()]):
         self.sNom = nom
 
         self.iHauteur = hauteur
