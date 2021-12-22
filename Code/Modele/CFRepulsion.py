@@ -39,8 +39,9 @@ class CFRepulsion(CForce) :
         @param vRkBeta : destination du piéton Beta
         @param vitesseBeta : vitesse du piéton beta
         @return: valeur de l'effet de repulsion
+
         """
-        nablarAlphaB = COpetation.Nabla(Ralpha, RalphaDeltaT, Rbeta)
+        nablarAlphaB = COperation.Nabla(Ralpha, RalphaDeltaT, Rbeta)
         bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
         V = self.VAlphaBeta(bEffet)
 
@@ -56,9 +57,9 @@ class CFRepulsion(CForce) :
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
-        NablaFRO = COpetation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
+        NablaFRO = COperation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
-        UFRO = COpetation.UAlphaObstacle(NormeVecteurRAlphaObstacle)
+        UFRO = COperation.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
         return NablaFRO * UFRO
 
@@ -69,7 +70,7 @@ class CFRepulsion(CForce) :
         @param vRkAlpha : destination du pieton alpha
         @param Ralpha : position du piéton alpha à l'instant t
         @param RalphaDeltaT : position du piéton à l'instant t-DeltaT
-        @param Rbeta : position du piéotn beta à l'instant t
+        @param Rbeta : position du piéton beta à l'instant t
         @param vRkBeta : destination du piéton Beta
         @param vitesseBeta : vitesse du piéton beta
         @return: valeur de la force de repulsion applique par le pieton Beta sur le pieton Alpha

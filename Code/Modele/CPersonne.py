@@ -5,6 +5,7 @@ from Code.Modele.CFRepulsion import CFRepulsion
 from Code.Modele.CFAcceleration import CFAcceleration
 from Code.Modele.CFAttraction import CFAttraction
 from Code.Modele.CForce import CForce,Phi
+from Code.Modele.CObstacle import CObstacle
 
 class CPersonne:
 
@@ -16,8 +17,8 @@ class CPersonne:
         self.fPERPression = pression
         self.lPERDirection = []
         self.lPERCoordonees = [coordonne] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
-        self.lPERlistPersonneProximite = []
-        self.lPERlistObstacleProximite = []
+        self.lPERlistPersonneProximite = [CPersonne]
+        self.lPERlistObstacleProximite = [CObstacle]
         self.vPERForceRepulsionPersonne = ForceRepulsion
         self.vPERForceRepulsionObstacle = ForceObstacle
         self.vPERForceAttraction = ForceAttraction
@@ -83,6 +84,9 @@ class CPersonne:
 
 #------------------------Methodes------------------------
 
+    def RecupererDirectionActuelle(self):
+        return self.lPERDirection[0]
+
     def RecupererDerniereCoordonne(self):
         """
         Permet de recupere la cordonnee actuelle du pieton
@@ -119,17 +123,18 @@ class CPersonne:
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
 
     def CalculerForceRepulsion(self):
-        return 0
         """
+        Permet de calculer la force de repulsion totale excercé par toute les personne qui sont dans lPERlistPersonneProximite
+
         @return: rien
         """
+
         #recupere la valuer actuelle de la force la force de repulsion
         valeurTotaleForceRepulsion = self.vPERForceRepulsionPersonne.gettertForceRepulsion()
 
         #calcul de nouvelle force de repulsion
         for personne in self.lPERlistPersonneProximite :
-
-            valeurTotaleForceRepulsion += personne.FREForceRepulsionPersonne()
+            valeurTotaleForceRepulsion += self.vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.lPERDirection[0],self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],personne.RecupererDerniereCoordonne(),personne.RecupererDirectionActuelle(),personne.getVitesse())
 
         self.vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
 
@@ -142,11 +147,10 @@ class CPersonne:
         """
         valeurTotaleForceRepulsionObstacle = self.vPERForceRepulsionObstacle.gettertForceRepulsion()
 
-        #for obstacle in self.lPERlistObstacleProximite :
+        for obstacle in self.lPERlistObstacleProximite :
+            valeurTotaleForceRepulsionObstacle+= self.vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],o)
 
-            #TODO : regler ce pb
-            #valeurTotaleForceRepulsionObstacle+= CFRepulsion.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),)
-
+        self.vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
     def CalculerForceAcceleration(self):
         """
         Permet de calculer la force d'acceleration
