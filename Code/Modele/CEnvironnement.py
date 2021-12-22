@@ -98,6 +98,9 @@ class CEnvironnement:
             "Nombre d'obstacles : {}\n" 
             "Liste de sorties : {}\n"
                 .format(self.getNom(), self.getSuperficie(), self.getHauteur(), self.getLargeur(), self.getNbPersonnes(), self.getNbObstacles(), self.getSorties()))
+        print("\nListe des obstacles :")
+        for obs in self.getListeObstacles():
+            obs.OBSToString()
 
 
 
