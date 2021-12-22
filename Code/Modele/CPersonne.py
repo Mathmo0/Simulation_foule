@@ -9,14 +9,14 @@ from Code.Modele.CObstacle import CObstacle
 
 class CPersonne:
 
-    def __init__(self,coordonne = np.array([0,0]),vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
+    def __init__(self,coordonnees = np.array([0,0]), direction = [], vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
 
         self.vPERVitesse = np.array([0,0])
         self.fPERVitesse = vitesse
         self.fPERPression = pression
-        self.lPERDirection = []
-        self.lPERCoordonees = [coordonne] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
+        self.lPERDirection = direction
+        self.lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
         self.lPERlistPersonneProximite = [CPersonne]
         self.lPERlistObstacleProximite = [CObstacle]
         self.vPERForceRepulsionPersonne = ForceRepulsion
@@ -151,13 +151,14 @@ class CPersonne:
             valeurTotaleForceRepulsionObstacle+= self.vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],o)
 
         self.vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
+
     def CalculerForceAcceleration(self):
         """
         Permet de calculer la force d'acceleration
 
         @return: rien
         """
-        self.vPERForceAcceleration.FACForceDacceleration(self.vPERVitesse,1.34,self.lPERDirection[0],self.lPERCoordonees[1])
+        self.vPERForceAcceleration.FACForceDacceleration(self.vPERVitesse,1.34,self.lPERDirection[0],self.RecupererDerniereCoordonne())
 
     def CalculerNouvellePosition(self):
         """
@@ -170,5 +171,25 @@ class CPersonne:
         nouvellecoord = self.RecupererDerniereCoordonne()+Force
         self.ajouterCoordonnees(nouvellecoord)
 
+    def sorti(self):
+        """
+        Permet de savoir si la personne est sortie ou non
+
+        @return: booleen
+        """
+        coordonneeSortie = self.lPERDirection[0]
+        coordonneePieton = self.RecupererDerniereCoordonne()
+
+        #On verifie si le pieton est aux alentours de la sortie.
+        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 0.5)
+
+        #Si oui, on retire les coordonnees de la sortie de sa memoire.
+        if IsGone:
+            self.lPERDirection.pop(0)
+
+        if len(self.lPERDirection) == 0:
+            return True
+        else:
+            return False
 
 
