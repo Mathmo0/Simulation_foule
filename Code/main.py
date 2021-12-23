@@ -23,7 +23,7 @@ listPersonnes2 = environnement1.getListePersonnes()
 for personne in listPersonnes2 :
     personne.ajouterDirection(environnement1.getSorties())
 
-listPersonnesSorties = [False for i in range (len(listPersonnes2))]
+listPersonnesSorties = [True for i in range (len(listPersonnes2))]
 Fini = False
 
 listPositions = []
@@ -46,8 +46,8 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
             personne.CalculerNouvellePosition()
             #On verifie si la personne est sortie ou non.
             if personne.sorti() == True:
-                listPersonnesSorties[listPersonnes2.index(personne)] = True
-                if any(listPersonnesSorties):
+                listPersonnesSorties[listPersonnes2.index(personne)] = False
+                if not any(listPersonnesSorties):
                     Fini = True
 
 
