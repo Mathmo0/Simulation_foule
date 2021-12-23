@@ -20,8 +20,8 @@ environnement1 = CEnvironnement("Bureau", 100, 100, np.array([10,50]), listPerso
 
 listPersonnes2 = environnement1.getListePersonnes()
 
-for i in range (len(listPersonnes2)):
-    listPersonnes2[i].ajouterDirection(environnement1.getSorties())
+for personne in listPersonnes2 :
+    personne.ajouterDirection(environnement1.getSorties())
 
 listPersonnesSorties = [False for i in range (len(listPersonnes2))]
 Fini = False
@@ -45,7 +45,7 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
             personne.CalculerForceAcceleration()
             personne.CalculerNouvellePosition()
             #On verifie si la personne est sortie ou non.
-            if personne.sorti():
+            if personne.sorti() == True:
                 listPersonnesSorties[listPersonnes2.index(personne)] = True
                 if any(listPersonnesSorties):
                     Fini = True

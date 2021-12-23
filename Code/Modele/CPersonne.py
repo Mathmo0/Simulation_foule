@@ -9,13 +9,13 @@ from Code.Modele.CObstacle import CObstacle
 
 class CPersonne:
 
-    def __init__(self,coordonnees = np.array([0,0]), direction = [], vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
+    def __init__(self,coordonnees = np.array([0,0]), vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
 
         self.vPERVitesse = np.array([0,0])
         self.fPERVitesse = vitesse
         self.fPERPression = pression
-        self.lPERDirection = direction
+        self.__lPERDirection = []
         self.lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
         self.lPERlistPersonneProximite = [CPersonne]
         self.lPERlistObstacleProximite = [CObstacle]
@@ -67,7 +67,7 @@ class CPersonne:
         self.fPERPression = pression
 
     def setListDirection(self, direction):
-        self.lPERDirection = direction
+        self.__lPERDirection = direction
 
     def setListCoordonnees(self, coordonnees):
         #TODO : exeption si taille de la liste > 2
@@ -85,7 +85,7 @@ class CPersonne:
 #------------------------Methodes------------------------
 
     def RecupererDirectionActuelle(self):
-        return self.lPERDirection[0]
+        return self.__lPERDirection[0]
 
     def RecupererDerniereCoordonne(self):
         """
@@ -116,7 +116,7 @@ class CPersonne:
         self.lPERlistPersonneProximite.append(Personne)
 
     def ajouterDirection(self, direction):
-        self.lPERDirection.append(direction)
+        self.__lPERDirection.append(direction)
 
     def marcher(self):
         self.canvas.delete(self.image)
@@ -134,7 +134,7 @@ class CPersonne:
 
         #calcul de nouvelle force de repulsion
         for personne in self.lPERlistPersonneProximite :
-            valeurTotaleForceRepulsion += self.vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.lPERDirection[0],self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],personne.RecupererDerniereCoordonne(),personne.RecupererDirectionActuelle(),personne.getVitesse())
+            valeurTotaleForceRepulsion += self.vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
 
         self.vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
 
@@ -147,10 +147,10 @@ class CPersonne:
         """
         valeurTotaleForceRepulsionObstacle = self.vPERForceRepulsionObstacle.gettertForceRepulsion()
 
-        for obstacle in self.lPERlistObstacleProximite :
-            valeurTotaleForceRepulsionObstacle+= self.vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],o)
+        #for obstacle in self.lPERlistObstacleProximite :
+        #    valeurTotaleForceRepulsionObstacle+= self.vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],o)
 
-        self.vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
+        #self.vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 
     def CalculerForceAcceleration(self):
         """
@@ -158,7 +158,9 @@ class CPersonne:
 
         @return: rien
         """
-        self.vPERForceAcceleration.FACForceDacceleration(self.vPERVitesse,1.34,self.lPERDirection[0],self.RecupererDerniereCoordonne())
+        eALpha = self.__lPERDirection[0]
+        RAlpha = self.RecupererDerniereCoordonne()
+        self.vPERForceAcceleration.FACForceDacceleration(self.vPERVitesse,1.34,eALpha,RAlpha)
 
     def CalculerNouvellePosition(self):
         """
@@ -177,17 +179,17 @@ class CPersonne:
 
         @return: booleen
         """
-        coordonneeSortie = self.lPERDirection[0]
+        coordonneeSortie = self.__lPERDirection[0]
         coordonneePieton = self.RecupererDerniereCoordonne()
 
         #On verifie si le pieton est aux alentours de la sortie.
-        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 0.5)
+        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 0.15)
 
         #Si oui, on retire les coordonnees de la sortie de sa memoire.
         if IsGone:
-            self.lPERDirection.pop(0)
+            self.__lPERDirection.pop(0)
 
-        if len(self.lPERDirection) == 0:
+        if len(self.__lPERDirection) == 0:
             return True
         else:
             return False

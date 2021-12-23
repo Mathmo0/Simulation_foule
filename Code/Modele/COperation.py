@@ -17,7 +17,7 @@ class COperation:
     @staticmethod
     def DetectionCercle(CentreCercle0, CentreCercle1, Point0, Point1, rayon):
 
-        DIstance = (Point0 - CentreCercle0) ** 2 + (Point1 - CentreCercle1 ** 2)
+        DIstance = (Point0 - CentreCercle0) ** 2 + (Point1 - CentreCercle1) ** 2
         r2 = (rayon ** 2)
         if (DIstance <= r2):
             return True
