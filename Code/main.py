@@ -8,6 +8,15 @@ import matplotlib.pyplot as plt
 Mathis = CPersonne(np.array([10, 79]))
 Maxime = CPersonne(np.array([8, 26]))
 Hicham = CPersonne(np.array([78, 45]))
+Bernard = CPersonne(np.array([120, 79]))
+Louis = CPersonne(np.array([46, 26]))
+moi = CPersonne(np.array([29, 45]))
+lui = CPersonne(np.array([2, 79]))
+il = CPersonne(np.array([89, 26]))
+elle = CPersonne(np.array([160, 45]))
+on = CPersonne(np.array([10, 5]))
+nous = CPersonne(np.array([8, 5]))
+vous = CPersonne(np.array([78, 150]))
 
 listPersonnes = []
 
@@ -15,8 +24,16 @@ listPersonnes = []
 listPersonnes.append(Mathis)
 listPersonnes.append(Maxime)
 listPersonnes.append(Hicham)
+listPersonnes.append(Bernard)
+listPersonnes.append(Louis)
+listPersonnes.append(lui)
+listPersonnes.append(il)
+listPersonnes.append(elle)
+listPersonnes.append(on)
+listPersonnes.append(nous)
+listPersonnes.append(vous)
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([10,50]), listPersonnes)
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([2000,2000]), listPersonnes)
 
 listPersonnes2 = environnement1.getListePersonnes()
 

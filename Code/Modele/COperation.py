@@ -61,7 +61,8 @@ class COperation:
 
         return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 
-    def create_circle(cls, x, y, r, canvas, color):
+    @staticmethod
+    def create_circle(x, y, r, canvas, color):
         """
         Cette focntion permet de créer un cercle dans un canvas
 
