@@ -20,7 +20,7 @@ class CEnvironnement:
         self.lListeObstacles = listeObstacles
 
         self.iNbPersonnes = len(listePersonnes)
-        self.iNbObstacles = len(listePersonnes)
+        self.iNbObstacles = len(listeObstacles)
 
         self.tSorties = sorties
 
@@ -30,7 +30,7 @@ class CEnvironnement:
         self.fSuperficie = self.iHauteur * self.iLargeur
 
         self.iNbPersonnes = len(self.lListePersonnes)
-        self.iNbObstacles = len(self.lListePersonnes)
+        self.iNbObstacles = len(self.lListeObstacles)
 
 
     # -------------------Getters-------------------#
