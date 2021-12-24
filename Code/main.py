@@ -33,7 +33,7 @@ listPersonnes.append(on)
 listPersonnes.append(nous)
 listPersonnes.append(vous)
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([2000,2000]), listPersonnes)
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([1000,1000]), listPersonnes)
 
 listPersonnes2 = environnement1.getListePersonnes()
 
