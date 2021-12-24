@@ -1,5 +1,5 @@
 import numpy as np
-from Code.Modele
+from Code.Modele.CPersonne import CPersonne
 from Code.Modele.COperation import COperation
 from Code.Modele.CForce import CForce
 list1 = [10, 15]

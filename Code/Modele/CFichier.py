@@ -56,6 +56,7 @@ class CFichier:
         str = ""  #Variable temp pour recuper et parser
         list_coord = np.array([(0, 0) for i in range(1, len(row))])
         k = 0 #Variable pour gerer le decalage si case vide entre case renmplie
+
         for i in range(1, len(row)):
             if (row[i] != ''):
                 str = str.join(re.split("[(,)]", row[i]))
@@ -122,16 +123,16 @@ class CFichier:
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
                     liste_dimensions_obstacles = self.ParserListeCSV(row)
 
-            list_obstacles = [CObstacleQuadrilatere(0,0,coord) for coord in list_coord_objstacles]
-            #for obs in list_obstacles:
+            #Construction de la liste des obstacles
+            list_obstacles = [CObstacleQuadrilatere(0,0,coord) for coord in list_coord_objstacles] #initilisation de la liste
             for i in range(min(len(list_coord_objstacles), len(liste_dimensions_obstacles))):
                 list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
-fichier = CFichier("../../environnements/Environnement_0")
+"""fichier = CFichier("../../environnements/Environnement_0")
 
 test = CEnvironnement()
 test.CEnvironnementFichier(fichier)
-test.ENVToString()
+test.ENVToString()"""
