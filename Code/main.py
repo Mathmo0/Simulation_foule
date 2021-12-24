@@ -59,13 +59,14 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
 
         #calcul des nouvelles coordonnees
         for personne in listPersonnes2:
-            personne.CalculerForceAcceleration()
-            personne.CalculerNouvellePosition()
-            #On verifie si la personne est sortie ou non.
-            if personne.sorti() == True:
-                listPersonnesSorties[listPersonnes2.index(personne)] = False
-                if not any(listPersonnesSorties):
-                    Fini = True
+            if listPersonnesSorties[listPersonnes2.index(personne)] == True :
+                personne.CalculerForceAcceleration()
+                personne.CalculerNouvellePosition()
+                #On verifie si la personne est sortie ou non.
+                if personne.sorti() == True:
+                    listPersonnesSorties[listPersonnes2.index(personne)] = False
+                    if not any(listPersonnesSorties):
+                        Fini = True
 
 
 
