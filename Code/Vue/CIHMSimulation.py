@@ -45,7 +45,7 @@ for i in range(0, len(listPositions)):
         personnes[j].setY(listPositions[i][j + index + 1])
         personnes[j].bouger()
         index += 1
-    time.sleep(0.01)
+    time.sleep(0.1)
 
 
 #Lancement

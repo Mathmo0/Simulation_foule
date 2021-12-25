@@ -78,7 +78,7 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                     if listPersonnes2.index(personne) != listPersonnes2.index(personneProx) :
                         coordper = personne.RecupererDerniereCoordonne()
                         coordperprox = personneProx.RecupererDerniereCoordonne()
-                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],1.34) == True) and (listPersonnesSorties[listPersonnes2.index(personneProx)] == True) :
+                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],5) == True) and (listPersonnesSorties[listPersonnes2.index(personneProx)] == True) :
                             personne.ajouterPersonne(personneProx)
 
                 personne.CalculerForceRepulsion()
