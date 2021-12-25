@@ -2,13 +2,13 @@ from Code.Modele.COperation import COperation
 
 class CPersonneVue:
 
-    def __init__(self, canvas, x, y, rayon):
+    def __init__(self, canvas, x, y, rayon, color):
         self.canvas = canvas
-        self.image = COperation.create_circle(x, y, rayon, canvas, 'blue')
+        self.image = COperation.create_circle(x, y, rayon, canvas, color)
         self.x = x
         self.y = y
         self.rayon = rayon
-        self.color = 'blue'
+        self.color = color
 
     def getX(self):
         return self.x

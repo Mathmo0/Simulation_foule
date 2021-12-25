@@ -32,7 +32,7 @@ personnes = []
 #Creation des personnes et initialisation de leurs positions
 index = 0
 for i in range(0, int(nbPersonnes)):
-    personne = CPersonneVue(canvas, listPositions[0][i + index], listPositions[0][i + index + 1], 10)
+    personne = CPersonneVue(canvas, listPositions[0][i + index], listPositions[0][i + index + 1], 10, 'red')
     personnes.append(personne)
     index += 1
 
@@ -45,7 +45,7 @@ for i in range(0, len(listPositions)):
         personnes[j].setY(listPositions[i][j + index + 1])
         personnes[j].bouger()
         index += 1
-    time.sleep(0.01)
+    time.sleep(0.1)
 
 
 #Lancement

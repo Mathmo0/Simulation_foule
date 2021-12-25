@@ -9,7 +9,7 @@ from Code.Modele.CObstacle import CObstacle
 
 class CPersonne:
 
-    def __init__(self,coordonnees = np.array([0,0]), vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
+    def __init__(self,recursif = False,coordonnees = np.array([0,0]),vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
 
         self.vPERVitesse = np.array([0,0])
@@ -17,7 +17,11 @@ class CPersonne:
         self.fPERPression = pression
         self.__lPERDirection = []
         self.lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
-        self.lPERlistPersonneProximite = [CPersonne]
+        if recursif == False :
+            self.lPERlistPersonneProximite = [CPersonne(True)]
+        else :
+            self.lPERlistPersonneProximite = []
+
         self.lPERlistObstacleProximite = [CObstacle]
         self.vPERForceRepulsionPersonne = ForceRepulsion
         self.vPERForceRepulsionObstacle = ForceObstacle
@@ -118,6 +122,9 @@ class CPersonne:
     def ajouterDirection(self, direction):
         self.__lPERDirection.append(direction)
 
+    def ClearPersonneProximite(self):
+        self.lPERlistPersonneProximite.clear()
+
     def marcher(self):
         self.canvas.delete(self.image)
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
@@ -134,6 +141,7 @@ class CPersonne:
 
         #calcul de nouvelle force de repulsion
         for personne in self.lPERlistPersonneProximite :
+            #TODO : Exception aucune direction
             valeurTotaleForceRepulsion += self.vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
 
         self.vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
