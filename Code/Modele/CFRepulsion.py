@@ -8,7 +8,7 @@ import numpy as np
 
 class CFRepulsion(CForce) :
 
-    def __init__(self, tForceRepulsion = np.array([0,0])):
+    def __init__(self, tForceRepulsion = np.array([0.0,0.0])):
         self.tForceRepulsion = tForceRepulsion
 
     def gettertForceRepulsion(self):
