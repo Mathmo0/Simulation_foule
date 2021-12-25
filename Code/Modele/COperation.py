@@ -37,7 +37,13 @@ class COperation:
         :return coef : coefficient de la fonction linéaire ax+b
 
         '''
-        a = (Position[1] - PositionDeltaT[1]) / (Position[0] - PositionDeltaT[0])  # coef directeur
+
+        Denominateur = (Position[0] - PositionDeltaT[0])
+        if Denominateur == 0 :
+            a = 0
+        else:
+            a = (Position[1] - PositionDeltaT[1]) / (Position[0] - PositionDeltaT[0])  # coef directeur
+
         b = Position[1] - Position[0] * a  # ordonne à l'origine
         coef = np.array([a, b]) #coefficients de la fonction linéaire
         return coef
