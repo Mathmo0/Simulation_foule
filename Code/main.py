@@ -6,6 +6,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
+t = 0
 Mathis = CPersonne(False,np.array([10, 79]))
 Maxime = CPersonne(False,np.array([8, 26]))
 Hicham = CPersonne(False,np.array([78, 45]))
@@ -75,25 +76,28 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
 
                     #pour pas qu'on ajoute elle-même dans la liste et les personnes sorti
 
-                    if listPersonnes2.index(personne) != listPersonnes2.index(personneProx) :
+                    if listPersonnes2.index(personne) != listPersonnes2.index(personneProx) and (listPersonnesSorties[listPersonnes2.index(personneProx)] == True) :
                         coordper = personne.RecupererDerniereCoordonne()
                         coordperprox = personneProx.RecupererDerniereCoordonne()
-                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],5) == True) and (listPersonnesSorties[listPersonnes2.index(personneProx)] == True) :
+                        print(personne.fPERVitesse)
+                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],100) == True) :
                             personne.ajouterPersonne(personneProx)
-
+                print('__________ooooo : ',len(personne.lPERlistPersonneProximite))
                 personne.CalculerForceRepulsion()
-
+                print("____ : ",personne.vPERForceRepulsionPersonne.tForceRepulsion)
                 #Force de Repulsion par un obstacle :
 
                 #Nouvelle Position:
 
-                personne.CalculerNouvellePosition()
+                personne.CalculerNouvellePosition(t)
 
                 #On verifie si la personne est sortie ou non.
                 if personne.sorti() == True:
                     listPersonnesSorties[listPersonnes2.index(personne)] = False
                     if not any(listPersonnesSorties):
                         Fini = True
+
+        t+=DeltaT
 
 
 

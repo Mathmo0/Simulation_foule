@@ -125,6 +125,18 @@ class CPersonne:
     def ClearPersonneProximite(self):
         self.lPERlistPersonneProximite.clear()
 
+    def CalculVecteurVitesse(self,t):
+        force = CForce()
+        self.vPERVitesse = force.VecteurVitesse(self.lPERCoordonees[0],self.RecupererDerniereCoordonne(),t,)
+        self.CalculVitesse()
+
+    def CalculVitesse(self):
+        force = CForce()
+        self.fPERVitesse = np.linalg.norm(self.vPERVitesse)
+        Vmax = force.VitesseAlphaMax(1.34)
+        if self.fPERVitesse > Vmax :
+            self.vPERVitesse = Vmax
+
     def marcher(self):
         self.canvas.delete(self.image)
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
@@ -137,7 +149,7 @@ class CPersonne:
         """
 
         #recupere la valuer actuelle de la force la force de repulsion
-        valeurTotaleForceRepulsion = self.vPERForceRepulsionPersonne.gettertForceRepulsion()
+        valeurTotaleForceRepulsion = np.array([0.0,0.0])#self.vPERForceRepulsionPersonne.gettertForceRepulsion() ne pas decommenter provoque bug de la peste
 
         #calcul de nouvelle force de repulsion
         for personne in self.lPERlistPersonneProximite :
@@ -170,7 +182,7 @@ class CPersonne:
         RAlpha = self.RecupererDerniereCoordonne()
         self.vPERForceAcceleration.FACForceDacceleration(self.vPERVitesse,1.34,eALpha,RAlpha)
 
-    def CalculerNouvellePosition(self):
+    def CalculerNouvellePosition(self,t):
         """
         Permet calculer la nouvelle position du pieton une fois toute les forces calcule et l'ajoute a la liste de coordonnees lPERCoordonees
 
@@ -179,6 +191,7 @@ class CPersonne:
         Force = self.vPERForceAcceleration.FACgetForceAcceleration() +self.vPERForceRepulsionPersonne.gettertForceRepulsion()+self.vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.vPERForceAttraction.get() # pas encore fait
         nouvellecoord = self.RecupererDerniereCoordonne()+Force
         self.ajouterCoordonnees(nouvellecoord)
+        self.CalculVecteurVitesse(t)
 
 
     def sorti(self):
