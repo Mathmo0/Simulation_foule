@@ -16,6 +16,8 @@ current = 0
 backward = False
 forward = False
 
+multiplicateur = float(input("Entrez un multiplicateur"))
+
 window = Tk()
 
 WIDTH = 500
@@ -40,6 +42,7 @@ personnes = []
 
 def lancerSimulation(event):
     global current
+    global multiplicateur
     for personne in personnes:
         personne.disparaitre()
     personnes.clear()
@@ -62,7 +65,7 @@ def lancerSimulation(event):
             personnes[j].setY(listPositions[current][j + index + 1])
             personnes[j].bouger()
             index += 1
-        time.sleep(0.01)
+        time.sleep(0.05/multiplicateur)
 
 def iterate_back(event):
     global backward
@@ -84,6 +87,17 @@ def iterate_back(event):
 def iterate_front(event):
     global forward
     forward = True
+    global current
+    window.update()
+    if (current + 1 < len(listPositions)):
+        current += 1
+        index = 0
+        for j in range(0, len(personnes)):
+            personnes[j].setX(listPositions[current][j + index])
+            personnes[j].setY(listPositions[current][j + index + 1])
+            personnes[j].bouger()
+            index += 1
+        time.sleep(0.01)
 
 def stop_iterate_back(event):
     global backward
@@ -97,12 +111,12 @@ def stop_iterate_front(event):
 
 
 
-bouton_back = Button(window, text="GO BACK")
+bouton_back = Button(window, text='GO BACK')
 bouton_back.pack(side=BOTTOM)
 bouton_back.bind('<ButtonPress-1>', iterate_back)
 bouton_back.bind('<ButtonRelease-1>', stop_iterate_back)
 
-bouton_front = Button(window, text="GO FORWARD")
+bouton_front = Button(window, text='GO FORWARD')
 bouton_front.pack(side=RIGHT)
 bouton_front.bind('<ButtonPress-1>', iterate_front)
 bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
