@@ -17,8 +17,6 @@ lui = CPersonne(False,np.array([2, 79]))
 il = CPersonne(False,np.array([89, 26]))
 elle = CPersonne(False,np.array([160, 45]))
 on = CPersonne(False,np.array([10, 5]))
-nous = CPersonne(False,np.array([700, 800]))
-vous = CPersonne(False,np.array([1000, 1000]))
 
 listPersonnes = []
 
@@ -32,10 +30,8 @@ listPersonnes.append(lui)
 listPersonnes.append(il)
 listPersonnes.append(elle)
 listPersonnes.append(on)
-listPersonnes.append(nous)
-listPersonnes.append(vous)
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([600,600]), listPersonnes)
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes)
 
 listPersonnes2 = environnement1.getListePersonnes()
 
