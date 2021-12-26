@@ -11,12 +11,21 @@ import numpy as np
 -----------------------  Creation de la fenetre ------------------------------
 """
 window = Tk()
+window.title("Simulation de foule à échelle microscopique")
+window.geometry("1080x1080")
+window.iconbitmap("../../Images/logo_polytech.ico")
+window.config()
+
+labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40))
+labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15))
+labelTitle.pack()
+labelSubTitle.pack()
 
 WIDTH = 1000
 HEIGHT = 1000
 
-canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow')
-canvas.pack()
+canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
+canvas.pack(expand=YES)
 
 """
 ------------------------- Recuperation des coordonees -------------------------
