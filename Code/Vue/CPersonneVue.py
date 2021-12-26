@@ -25,3 +25,6 @@ class CPersonneVue:
     def bouger(self):
         self.canvas.delete(self.image)
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
+
+    def disparaitre(self):
+        self.canvas.delete(self.image)
