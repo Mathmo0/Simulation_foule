@@ -3,7 +3,8 @@ from Code.Modele.CPersonne import CPersonne
 from Code.Modele.COperation import COperation
 from Code.Modele.CForce import CForce
 from sympy.solvers import solve
-from sympy import Symbol, sqrt, linsolve
+from sympy import Symbol, sqrt, linsolve, diff
+from sympy.vector import CoordSys3D
 
 x = Symbol('x')
 y = Symbol('y')
@@ -11,6 +12,13 @@ z = Symbol('z')
 t = Symbol('t')
 oui = solve([sqrt((3-x)**2 + (7.5-y)**2)+sqrt((x-7)**2 +(y-15)**2)-8.5,sqrt((x-1)**2 + (y-10)**2)+sqrt((5-x)**2 +(10-y)**2)-4],[x,y])
 print(oui)
+
+coord = np.array([5,4])
+R = CoordSys3D('R')
+v = coord[0]*R.x + coord[1]*R.y
+
+print(diff(v,R.x))
+
 
 list1 = [10, 15]
 list2 = [1, 5]

@@ -4,6 +4,7 @@ import math
 from numpy import linalg as la
 
 # constante :
+
 c = 0.5
 tau = 0.5  # s
 SqrtTeta = 0.26  # m/s

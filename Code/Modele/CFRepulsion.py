@@ -49,11 +49,11 @@ class CFRepulsion(CForce) :
 
     def FREForceDeRepulsionObstacle(self,Ralpha, RalphaDeltaT, RObstacle):
         """
-        Cette fonction permet de calculer La force de replsion exercer sur un pieton par un obstacle
+        Cette fonction permet de calculer La force de repulsion exercer sur un pieton par un obstacle
 
         @param Ralpha: position du piéton alpha à l'instant t
         @param RalphaDeltaT: position du piéton à l'instant t-DeltaT
-        @param RObstacle: pposition de l'obstacle
+        @param RObstacle: position de l'obstacle
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
@@ -77,7 +77,7 @@ class CFRepulsion(CForce) :
 
         """
         eAlphaFRP = self.eAlpha(vRkAlpha, Ralpha)
-        EffetrepulsionRFP = self.FREEffetDeRepulsion(Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta)
+        EffetrepulsionRFP = self.FREEffetDeRepulsion(Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta) *(10**10)
 
         self.tForceRepulsion = self.w(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
 
