@@ -22,7 +22,7 @@ class CPersonneVue:
     def setY(self, y):
         self.y = y
         
-    def bouger(self):
+    def move(self):
         self.canvas.delete(self.image)
         self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
 
