@@ -57,10 +57,12 @@ class CForce :
         @param vRalpha : position du piéton alpha
         @return: vecteur destination
         """
-
+        # TODO : Exception
         vdistance = vRkAlpha - vRalpha
-
-        return vdistance / la.norm(vdistance)
+        if(la.norm(vdistance) != 0) :
+            return vdistance / la.norm(vdistance)
+        else :
+            return np.array([0.0,0.0])
 
     def b(self,Ralpha, Rbeta, vitesseBeta, vRkBeta):
         """

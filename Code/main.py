@@ -7,36 +7,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 t = 0
-Mathis = CPersonne(False,np.array([10, 79]))
-Maxime = CPersonne(False,np.array([8, 26]))
-Hicham = CPersonne(False,np.array([78, 45]))
-Bernard = CPersonne(False,np.array([120, 79]))
-Louis = CPersonne(False,np.array([46, 26]))
-moi = CPersonne(False,np.array([29, 45]))
-lui = CPersonne(False,np.array([2, 79]))
-il = CPersonne(False,np.array([89, 26]))
-elle = CPersonne(False,np.array([160, 45]))
-on = CPersonne(False,np.array([10, 5]))
+Mathis = CPersonne(False,np.array([100, 500]))
+Maxime = CPersonne(False,np.array([500, 100]))
+#Hicham = CPersonne(False,np.array([78, 45]))
+Maxime.ajouterDirection(np.array([100,500]))
+Mathis.ajouterDirection(np.array([500,100]))
 
 listPersonnes = []
 
 
 listPersonnes.append(Mathis)
 listPersonnes.append(Maxime)
-listPersonnes.append(Hicham)
-listPersonnes.append(Bernard)
-listPersonnes.append(Louis)
-listPersonnes.append(lui)
-listPersonnes.append(il)
-listPersonnes.append(elle)
-listPersonnes.append(on)
+#listPersonnes.append(Hicham)
+
+
+#Maxime.ajouterDirection(np.array([10,50]))
 
 environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes)
 
 listPersonnes2 = environnement1.getListePersonnes()
 
-for personne in listPersonnes2 :
-    personne.ajouterDirection(environnement1.getSorties())
+#for personne in listPersonnes2 :
+#    personne.ajouterDirection(environnement1.getSorties())
 
 listPersonnesSorties = [True for i in range (len(listPersonnes2))]
 Fini = False
@@ -76,11 +68,13 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                         coordper = personne.RecupererDerniereCoordonne()
                         coordperprox = personneProx.RecupererDerniereCoordonne()
                         print(personne.fPERVitesse)
-                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],100) == True) :
+                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],1.34) == True) :
                             personne.ajouterPersonne(personneProx)
                 print('__________ooooo : ',len(personne.lPERlistPersonneProximite))
+                print('__________iiiii : ', personne.RecupererDerniereCoordonne())
                 personne.CalculerForceRepulsion()
                 print("____ : ",personne.vPERForceRepulsionPersonne.tForceRepulsion)
+                print('\n-------------autre------------\n')
                 #Force de Repulsion par un obstacle :
 
                 #Nouvelle Position:
