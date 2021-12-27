@@ -16,7 +16,18 @@ current = 0
 backward = False
 forward = False
 
+multiplicateur = float(input("Entrez un multiplicateur"))
+
 window = Tk()
+window.title("Simulation de foule à échelle microscopique")
+window.geometry("1080x1080")
+window.iconbitmap("../../Images/logo_polytech.ico")
+window.config()
+
+labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40))
+labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15))
+labelTitle.pack()
+labelSubTitle.pack()
 
 WIDTH = 500
 HEIGHT = 500
@@ -24,8 +35,8 @@ HEIGHT = 500
 main_frame= Frame(window)
 main_frame.pack(fill=BOTH, expand=1)
 
-canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow')
-canvas.pack()
+canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
+canvas.pack(expand=YES)
 
 """
 ------------------------- Recuperation des coordonees -------------------------
@@ -40,6 +51,7 @@ personnes = []
 
 def lancerSimulation(event):
     global current
+    global multiplicateur
     for personne in personnes:
         personne.disparaitre()
     personnes.clear()
@@ -62,14 +74,14 @@ def lancerSimulation(event):
             personnes[j].setY(listPositions[current][j + index + 1])
             personnes[j].bouger()
             index += 1
-        time.sleep(0.01)
+        time.sleep(0.05/multiplicateur)
 
 def iterate_back(event):
     global backward
     backward = True
     global current
-    window.update()
-    if (current - 1 >= 0):
+    while(current - 1 >= 0 and (backward == True)):
+        window.update()
         current -= 1
         index = 0
         for j in range(0, len(personnes)):
@@ -79,15 +91,28 @@ def iterate_back(event):
             index += 1
         time.sleep(0.01)
 
-
-
+"""
+Fonction permettant d'avancer d'une iteration dans la simulation
+"""
 def iterate_front(event):
     global forward
     forward = True
+    global current
+    while(current + 1 < len(listPositions) and (forward == True)):
+        window.update()
+        current += 1
+        index = 0
+        for j in range(0, len(personnes)):
+            personnes[j].setX(listPositions[current][j + index])
+            personnes[j].setY(listPositions[current][j + index + 1])
+            personnes[j].bouger()
+            index += 1
+        time.sleep(0.01)
 
 def stop_iterate_back(event):
     global backward
     backward = False
+
 
 def stop_iterate_front(event):
     global forward
@@ -95,14 +120,12 @@ def stop_iterate_front(event):
 
 
 
-
-
-bouton_back = Button(window, text="GO BACK")
+bouton_back = Button(window, text='<<<')
 bouton_back.pack(side=BOTTOM)
 bouton_back.bind('<ButtonPress-1>', iterate_back)
 bouton_back.bind('<ButtonRelease-1>', stop_iterate_back)
 
-bouton_front = Button(window, text="GO FORWARD")
+bouton_front = Button(window, text='>>>')
 bouton_front.pack(side=RIGHT)
 bouton_front.bind('<ButtonPress-1>', iterate_front)
 bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
