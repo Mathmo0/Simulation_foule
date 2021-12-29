@@ -12,63 +12,122 @@ class CPersonne:
     def __init__(self,recursif = False,coordonnees = np.array([0,0]),vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
 
-        self.vPERVitesse = np.array([0,0])
-        self.fPERVitesse = vitesse
-        self.fPERPression = pression
+        self.__vPERVitesse = np.array([0, 0])
+        self.__fPERVitesse = vitesse
+        self.__fPERPression = pression
         self.__lPERDirection = []
-        self.lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
+        self.__lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
         if recursif == False :
-            self.lPERlistPersonneProximite = [CPersonne(True)]
+            self.__lPERlistPersonneProximite = [CPersonne(True)]
         else :
-            self.lPERlistPersonneProximite = []
+            self.__lPERlistPersonneProximite = []
 
-        self.lPERlistObstacleProximite = [CObstacle]
-        self.vPERForceRepulsionPersonne = ForceRepulsion
-        self.vPERForceRepulsionObstacle = ForceObstacle
-        self.vPERForceAttraction = ForceAttraction
-        self.vPERForceAcceleration = ForceAccelaration
-        self.fPERRayon = rayon
-        self.fPERChampsDeVision = chpsVision
+        self.__lPERlistObstacleProximite = [CObstacle]
+        self.__vPERForceRepulsionPersonne = ForceRepulsion
+        self.__vPERForceRepulsionObstacle = ForceObstacle
+        self.__vPERForceAttraction = ForceAttraction
+        self.__vPERForceAcceleration = ForceAccelaration
+        self.__fPERRayon = rayon
+        self.__fPERChampsDeVision = chpsVision
 
 #------------------------Getter------------------------
 
     def getVitesse(self):
         """
-        getter pour l'attribut fPERVitesse
+        getter pour l'attribut __fPERVitesse
 
-        @return: fPERVitesse
+        @return: __fPERVitesse
         """
-        return self.fPERVitesse
+        return self.__fPERVitesse
+
+    def getVecteurVitesse(self):
+        """
+        getter pour l'attribut __vPERVitesse
+        @return:
+        """
+        return self.__vPERVitesse
 
     def getPression(self):
         """
-        getter pour l'attribut fPERPression
-        @return: fPERPression
+        getter pour l'attribut __fPERPression
+        @return: __fPERPression
         """
-        return self.fPERPression
+        return self.__fPERPression
 
     def getListDirection(self) :
 
-        return self.lDirection
+        return self.__lDirection
 
     def getListCoordonnees(self):
-        return self.lPERCoordonees
+        return self.__lPERCoordonees
+
+    def getListPersonneProx(self):
+        """
+        getter pour l'attribut __lPERlistPersonneProximite
+
+        @return: __lPERlistPersonneProximite
+        """
+        return self.__lPERlistPersonneProximite
+
+    def getlistObstacle(self):
+        """
+        getter pour l'attribut __lPERlistObstacleProximite
+
+        @return: __lPERlistObstacleProximite
+        """
+        return self.__lPERlistObstacleProximite
+
+    def getForceRepulsionPersonne(self):
+        """
+        getter pour l'attribut __vPERForceRepulsionPersonne
+        @return: __vPERForceRepulsionPersonne
+        """
+        return self.__vPERForceRepulsionPersonne
+
+    def getForceRepulsionObstacle(self):
+        """
+        getter pour l'attribut __vPERForceRepulsionObstacle
+        @return: __vPERForceRepulsionObstacle
+        """
+        return self.__vPERForceRepulsionObstacle
+
+    def getForceAttraction(self):
+        """
+        getter pour l'attribut __vPERForceAttraction
+        @return: __vPERForceAttraction
+        """
+        return self.__vPERForceAttraction
+
+    def getForceAcceleration(self):
+        """
+        getter pour l'attribut __vPERForceAcceleration
+        @return: __vPERForceAcceleration
+        """
+        return self.__vPERForceAcceleration
 
     def getRayon(self):
-        return self.fPERRayon
+        """
+        getter pour l'attribut __fPERRayon
+        @return: __fPERRayon
+        """
+        return self.__fPERRayon
 
     def getChampsDeVision(self):
-        return self.fPERChampsDeVision
+        """
+        getter pour l'attribut __fPERChampsDeVision
+        @return: __fPERChampsDeVision
+        """
+        return self.__fPERChampsDeVision
 
 #------------------------Setter------------------------
 
     def setVitesse(self, vitesse):
         #TODO : exception si vitesse négatif ??
-        self.fPERVitesse = vitesse
+        self.__fPERVitesse = vitesse
 
     def setPression(self, pression):
         #TODO : exception si pression négative ??
-        self.fPERPression = pression
+        self.__fPERPression = pression
 
     def setListDirection(self, direction):
         self.__lPERDirection = direction
@@ -76,15 +135,15 @@ class CPersonne:
     def setListCoordonnees(self, coordonnees):
         #TODO : exeption si taille de la liste > 2
 
-        self.lPERCoordonees = coordonnees
+        self.__lPERCoordonees = coordonnees
 
     def setRayon(self, rayon):
         #TODO : exception si rayon < 0
-        self.fPERRayon = rayon
+        self.__fPERRayon = rayon
 
     def setChampsDeVision(self, chpsVision):
         #TODO : exception si champ de vision négatif
-        self.fPERChampsDeVision = chpsVision
+        self.__fPERChampsDeVision = chpsVision
 
 #------------------------Methodes------------------------
 
@@ -97,45 +156,51 @@ class CPersonne:
 
         @return: coordonnee actuelle du pieton
         """
-        if (len(self.lPERCoordonees) == 2):
-            return self.lPERCoordonees[1]
+        if (len(self.__lPERCoordonees) == 2):
+            return self.__lPERCoordonees[1]
         else :
-            return self.lPERCoordonees[0]
+            return self.__lPERCoordonees[0]
 
     def ajouterCoordonnees(self, coordonnees):
         """
-        Permet d'ajouter une coordonnee dans la liste lPERCoordonees
+        Permet d'ajouter une coordonnee dans la liste __lPERCoordonees
 
         @param coordonnees: coordonnee du pieton qu'on veut ajouter
         @return: rien
         """
 
-        if(len(self.lPERCoordonees) == 2) :
-            self.lPERCoordonees.pop(0)
-            self.lPERCoordonees.append(coordonnees)
+        if(len(self.__lPERCoordonees) == 2) :
+            self.__lPERCoordonees.pop(0)
+            self.__lPERCoordonees.append(coordonnees)
         else :
-            self.lPERCoordonees.append(coordonnees)
+            self.__lPERCoordonees.append(coordonnees)
 
     def ajouterPersonne(self,Personne):
-        self.lPERlistPersonneProximite.append(Personne)
+        self.__lPERlistPersonneProximite.append(Personne)
 
     def ajouterDirection(self, direction):
         self.__lPERDirection.append(direction)
 
+    def ajouterObstacle(self,obstacle):
+        self.__lPERlistObstacleProximite.append(obstacle)
+
     def ClearPersonneProximite(self):
-        self.lPERlistPersonneProximite.clear()
+        self.__lPERlistPersonneProximite.clear()
+
+    def ClearlistObstacleProx(self):
+        self.__lPERlistObstacleProximite.clear()
 
     def CalculVecteurVitesse(self,t):
         force = CForce()
-        self.vPERVitesse = force.VecteurVitesse(self.lPERCoordonees[0],self.RecupererDerniereCoordonne(),t,)
+        self.__vPERVitesse = force.VecteurVitesse(self.__lPERCoordonees[0], self.RecupererDerniereCoordonne(), t, )
         self.CalculVitesse()
 
     def CalculVitesse(self):
         force = CForce()
-        self.fPERVitesse = np.linalg.norm(self.vPERVitesse)
+        self.__fPERVitesse = np.linalg.norm(self.__vPERVitesse)
         Vmax = force.VitesseAlphaMax(1.34)
-        if self.fPERVitesse > Vmax :
-            self.vPERVitesse = Vmax
+        if self.__fPERVitesse > Vmax :
+            self.__vPERVitesse = Vmax
 
     def marcher(self):
         self.canvas.delete(self.image)
@@ -143,34 +208,36 @@ class CPersonne:
 
     def CalculerForceRepulsion(self):
         """
-        Permet de calculer la force de repulsion totale excercé par toute les personne qui sont dans lPERlistPersonneProximite
+        Permet de calculer la force de repulsion totale excercé par toute les personne qui sont dans __lPERlistPersonneProximite
 
         @return: rien
         """
 
         #recupere la valuer actuelle de la force la force de repulsion
-        valeurTotaleForceRepulsion = np.array([0.0,0.0])#self.vPERForceRepulsionPersonne.gettertForceRepulsion() ne pas decommenter provoque bug de la peste
+        valeurTotaleForceRepulsion = np.array([0.0,0.0])#self.__vPERForceRepulsionPersonne.gettertForceRepulsion() ne pas decommenter provoque bug de la peste
 
         #calcul de nouvelle force de repulsion
-        for personne in self.lPERlistPersonneProximite :
+        for personne in self.__lPERlistPersonneProximite :
             #TODO : Exception aucune direction
-            valeurTotaleForceRepulsion += self.vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
+            valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
 
-        self.vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
+        self.__vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
 
 
     def CalculerForceRepulsionObstacle(self):
         """
-        Permet de calculer la force de repulsion applique sur le pieton par tous les obstacles qui sont dans la liste lPERlistObstacleProximite
+        Permet de calculer la force de repulsion applique sur le pieton par tous les obstacles qui sont dans la liste __lPERlistObstacleProximite
 
         @return: rien
         """
-        valeurTotaleForceRepulsionObstacle = self.vPERForceRepulsionObstacle.gettertForceRepulsion()
+        sommet = np.array([0,0])
+        valeurTotaleForceRepulsionObstacle = np.array([0,0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
 
-        #for obstacle in self.lPERlistObstacleProximite :
-        #    valeurTotaleForceRepulsionObstacle+= self.vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(),self.lPERCoordonees[0],o)
+        for obstacle in self.__lPERlistObstacleProximite :
+            sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacle(self.RecupererDerniereCoordonne(), obstacle)
+            valeurTotaleForceRepulsionObstacle+= self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
 
-        #self.vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
+        self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 
     def CalculerForceAcceleration(self):
         """
@@ -180,15 +247,15 @@ class CPersonne:
         """
         eALpha = self.__lPERDirection[0]
         RAlpha = self.RecupererDerniereCoordonne()
-        self.vPERForceAcceleration.FACForceDacceleration(self.vPERVitesse,1.34,eALpha,RAlpha)
+        self.__vPERForceAcceleration.FACForceDacceleration(self.__vPERVitesse, 1.34, eALpha, RAlpha)
 
     def CalculerNouvellePosition(self,t):
         """
-        Permet calculer la nouvelle position du pieton une fois toute les forces calcule et l'ajoute a la liste de coordonnees lPERCoordonees
+        Permet calculer la nouvelle position du pieton une fois toute les forces calcule et l'ajoute a la liste de coordonnees __lPERCoordonees
 
         @return: rien
         """
-        Force = self.vPERForceAcceleration.FACgetForceAcceleration() +self.vPERForceRepulsionPersonne.gettertForceRepulsion()+self.vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.vPERForceAttraction.get() # pas encore fait
+        Force = self.__vPERForceAcceleration.FACgetForceAcceleration() + self.__vPERForceRepulsionPersonne.gettertForceRepulsion() + self.__vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.__vPERForceAttraction.get() # pas encore fait
         nouvellecoord = self.RecupererDerniereCoordonne()+Force
         self.ajouterCoordonnees(nouvellecoord)
         self.CalculVecteurVitesse(t)
