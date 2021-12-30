@@ -16,6 +16,7 @@ import numpy as np
 current = 0
 backward = False
 forward = False
+backgroundColor = "#7fb3d5"
 
 #multiplicateur = float(input("Entrez un multiplicateur"))
 
@@ -23,50 +24,79 @@ window = Tk()
 window['background']='light gray'
 #window.wm_attributes("-transparentcolor", 'grey')
 window.title("Simulation de foule à échelle microscopique")
-window.resizable(0, 0)
+#window.resizable(0, 0)
 window.geometry("1080x1080")
+window.minsize(1080, 1080)
 window.iconbitmap("../../Images/logo_polytech.ico")
 window.config()
+
 
 """
 -----------------------  Titre  ------------------------------
 """
 labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40), bg='light grey')
 labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15), bg='light grey')
-labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=3, sticky='S')
-labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=3, sticky='S')
+labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=8, sticky='NS')
+labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=8, sticky='NS')
 
+background = Label(window, width=window.winfo_width(), bg=backgroundColor)
+background.grid(column=0, row=2, columnspan=7)
 """
 -----------------------  Boutons  ------------------------------
 """
-#frame = Frame(window, bg='white')
+#Button : Fichier
+window.columnconfigure(0, minsize=0, weight=1)
 buttonFichier = Button(window, text="Fichier", font=("Arial", 10), bg='White', fg='Black')
-#buttonFichier
-buttonFichier.grid(column=0, row=2, ipadx=5, pady=5, sticky='E')
-#frame.pack()
-#frame.grid(column=0, row=0, ipadx=5, pady=5, sticky='W' + 'N')
+buttonFichier.grid(column=0, row=2, sticky='W')
 
+#Button : ?
+window.columnconfigure(1, minsize=0, weight=1)
 buttonInfos = Button(window, text="?", font=("Arial", 10), bg='White', fg='Black')
-buttonInfos.grid(column=1, row=2, ipadx=5, pady=5, sticky='W')
+buttonInfos.grid(column=0, row=2, sticky='E')
+
 
 """
 -----------------------  Zones de saisies  ------------------------------
 """
-labelForceAtract = Label(window, text="Force d'attraction (en %):")
-labelForceAtract.grid(column=2, row=2, ipadx=5, pady=5, sticky='w')
+#Force attraction
+window.columnconfigure(2, minsize=0, weight=1)
+labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
+labelForceAtract.grid(column=1, row=2, sticky='E')
+window.columnconfigure(3, minsize=0, weight=1)
 ForceAtract = Entry(window, width=3)
-ForceAtract.grid(column=3, row=2, ipadx=5, pady=5, sticky='E')
+ForceAtract.grid(column=2, row=2, sticky='W')
 
-WIDTH = 500
-HEIGHT = 500
+#Force répulsion
+window.columnconfigure(4, minsize=0, weight=1)
+labelForceRepuls = Label(window, text="Force de répulsion (en %):", bg=backgroundColor)
+labelForceRepuls.grid(column=3, row=2, sticky='E')
+window.columnconfigure(5, minsize=0, weight=1)
+ForceRepuls = Entry(window, width=3)
+ForceRepuls.grid(column=4, row=2, sticky='W')
+
+#Force accélération
+window.columnconfigure(6, minsize=0, weight=1)
+labelForceAcc = Label(window, text="Force d'accélération (en %):", bg=backgroundColor)
+labelForceAcc.grid(column=5, row=2, sticky='E')
+window.columnconfigure(7, minsize=0, weight=1)
+ForceAcc = Entry(window, width=3)
+ForceAcc.grid(column=6, row=2, sticky='W')
+
+
+"""
+-----------------------  Zone de simulation  ------------------------------
+"""
+WIDTH = 800
+HEIGHT = 800
 
 main_frame= Frame(window)
 #main_frame.pack(fill=BOTH, expand=1)
-main_frame.grid(column=0, row=3, ipadx=5, columnspan=3, pady=5)
+main_frame.grid(column=1, row=3, columnspan=5)
 
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
-canvas.grid(column=0, row=3, ipadx=5, columnspan=3, pady=5)
+canvas.grid(column=1, row=3, columnspan=5)
+
 
 """
 ------------------------- Recuperation des coordonees -------------------------
@@ -149,22 +179,21 @@ def stop_iterate_front(event):
     forward = False
 
 
-
+"""
+-----------------------  Lancement et navigation dans la simulation  ------------------------------
+"""
 bouton_back = Button(window, text='<<<')
-#bouton_back.pack(side=BOTTOM)
-bouton_back.grid(column=0, row=5, ipadx=5, pady=5, sticky='E')
+bouton_back.grid(column=3, row=5, sticky='W')
 bouton_back.bind('<ButtonPress-1>', iterate_back)
 bouton_back.bind('<ButtonRelease-1>', stop_iterate_back)
 
 bouton_front = Button(window, text='>>>')
-#bouton_front.pack(side=RIGHT)
-bouton_front.grid(column=2, row=5, ipadx=5, pady=5, sticky='W')
+bouton_front.grid(column=3, row=5, sticky='E')
 bouton_front.bind('<ButtonPress-1>', iterate_front)
 bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 
 bouton_lancement = Button(window, text='LANCER')
-#bouton_lancement.pack(side=RIGHT)
-bouton_lancement.grid(column=1, row=5, ipadx=5, pady=5)
+bouton_lancement.grid(column=3, row=5, sticky='NS')
 bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
 
 
