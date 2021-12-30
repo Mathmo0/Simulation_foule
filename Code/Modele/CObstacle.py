@@ -15,7 +15,7 @@ class CObstacle :
     def getSuperficie(self):
         return self.iSuperficie
 
-    def getCoordoneesSommet(self):
+    def getCoordonneesSommet(self):
         return self.tCoordonneesSommet
 
 
