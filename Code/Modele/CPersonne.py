@@ -234,8 +234,9 @@ class CPersonne:
         valeurTotaleForceRepulsionObstacle = np.array([0,0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
 
         for obstacle in self.__lPERlistObstacleProximite :
-            sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacle(self.RecupererDerniereCoordonne(), obstacle)
-            valeurTotaleForceRepulsionObstacle+= self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
+            if(len(self.__lPERlistObstacleProximite) != 0) :
+                sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacle(self.RecupererDerniereCoordonne(), obstacle)
+                valeurTotaleForceRepulsionObstacle+= self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
 
         self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 

@@ -67,13 +67,13 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                     if listPersonnes2.index(personne) != listPersonnes2.index(personneProx) and (listPersonnesSorties[listPersonnes2.index(personneProx)] == True) :
                         coordper = personne.RecupererDerniereCoordonne()
                         coordperprox = personneProx.RecupererDerniereCoordonne()
-                        print(personne.__fPERVitesse)
+                        #print(personne.__fPERVitesse)
                         if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],1.34) == True) :
                             personne.ajouterPersonne(personneProx)
-                print('__________ooooo : ', len(personne.__lPERlistPersonneProximite))
+                #print('__________ooooo : ', len(personne.__lPERlistPersonneProximite))
                 print('__________iiiii : ', personne.RecupererDerniereCoordonne())
                 personne.CalculerForceRepulsion()
-                print("____ : ", personne.__vPERForceRepulsionPersonne.tForceRepulsion)
+                #print("____ : ", personne.__vPERForceRepulsionPersonne.tForceRepulsion)
                 print('\n-------------autre------------\n')
 
                 #Force de Repulsion par un obstacle :
