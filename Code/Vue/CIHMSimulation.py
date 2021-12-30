@@ -18,6 +18,7 @@ current = 0
 backward = False
 forward = False
 backgroundColor = "#7fb3d5"
+multiplicateur = 0
 
 #multiplicateur = float(input("Entrez un multiplicateur"))
 
@@ -48,12 +49,18 @@ background.grid(column=0, row=2, columnspan=7)
 mainMenu = Menu(window)
 fileMenuFichier = Menu(mainMenu)
 listeEnvironnement = os.listdir('../../environnements/')
-for env in listeEnvironnement:
+"""for env in listeEnvironnement:
     fileMenuFichier.add_command(label=env)
-mainMenu.add_cascade(label="Fichier", menu=fileMenuFichier)
+fileMenuFichier.add_separator()
+fileMenuFichier.add_command(label="Vide")
+mainMenu.add_cascade(label="Environnements", menu=fileMenuFichier)"""
 mainMenu.add_cascade(label="?")
 mainMenu.add_cascade(label="à propos")
 
+variable = StringVar(window)
+variable.set(listeEnvironnement[0])
+opt = OptionMenu(window, variable, *listeEnvironnement)
+opt.grid(column=0, row=2, sticky='E')
 
 """
 -----------------------  Zones de saisies  ------------------------------
@@ -197,6 +204,13 @@ bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 bouton_lancement = Button(window, text='LANCER')
 bouton_lancement.grid(column=3, row=5, sticky='NS')
 bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
+
+#Force vitesse
+labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
+labelmultiplicateur.grid(column=4, row=5, sticky='E')
+window.columnconfigure(5, minsize=0, weight=1)
+multiplicateur = Entry(window, width=3)
+multiplicateur.grid(column=5, row=5, sticky='W')
 
 #Lancement
 window.config(menu=mainMenu)
