@@ -4,6 +4,8 @@ import os
 from Code.Modele.CPersonne import CPersonne
 from Code.Vue.CPersonneVue import CPersonneVue
 from tkinter import *
+from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
+from Code.Vue.CObstacleQuadrilatereVue import CObstacleQuadrilatereVue
 from Code.Modele.CFichier import CFichier
 from threading import Thread
 from Code.Modele.CEnvironnement import CEnvironnement
@@ -83,6 +85,7 @@ ForceAcc = Entry(window, width=3)
 ForceAcc.grid(column=5, row=2, sticky='W')
 
 
+
 """
 -----------------------  Zone de simulation  ------------------------------
 """
@@ -96,7 +99,8 @@ main_frame.grid(column=1, row=3, columnspan=4, pady=10)
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
 canvas.grid(column=1, row=3, columnspan=4, pady=10)
-
+table = CObstacleQuadrilatere(10, 400, [300, 300])
+vueTable = CObstacleQuadrilatereVue(canvas, table)
 
 """
 ------------------------- Recuperation des coordonees -------------------------
@@ -109,6 +113,8 @@ nbPersonnes = len(listPositions[0])/2
 print(listPositions)
 personnes = []
 
+
+
 """
 Fonction permettant d'actualiser la position des personnes.
 """
@@ -119,7 +125,6 @@ def mouvement():
         personnes[j].setY(listPositions[current][j + index + 1])
         personnes[j].move()
         index += 1
-    time.sleep(0.01)
 
 """
 Fonction permettant de lancer la simulation.
@@ -144,7 +149,7 @@ def lancerSimulation(event):
     for current in range(0, len(listPositions)):
         window.update()
         mouvement()
-
+    time.sleep(0.01)
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
 """
