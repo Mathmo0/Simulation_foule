@@ -1,3 +1,4 @@
+from Code.Modele.CFichier import CFichier
 from Code.Modele.CPersonne import CPersonne
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.COperation import COperation
@@ -23,8 +24,11 @@ listPersonnes.append(Maxime)
 
 #Maxime.ajouterDirection(np.array([10,50]))
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes)
+#environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes)
+fichier = CFichier("../environnements/Environnement_0")
 
+environnement1 = CEnvironnement()
+environnement1.CEnvironnementFichier(fichier)
 listPersonnes2 = environnement1.getListePersonnes()
 listObstacle = environnement1.getListeObstacles()
 #for personne in listPersonnes2 :

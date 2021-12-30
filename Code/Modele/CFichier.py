@@ -85,7 +85,7 @@ class CFichier:
 
         """
         # variables
-        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([(0, 0)]), np.array([(0, 0)]), np.array([(0, 0)])
+        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([(0, 0)]), [], np.array([(0, 0)])
         list_coord_objstacles = np.array([(0, 0)])
         liste_dimensions_obstacles = np.array([(0, 0)])
 
@@ -128,6 +128,10 @@ class CFichier:
             for i in range(min(len(list_coord_objstacles), len(liste_dimensions_obstacles))):
                 list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
+
+            #Ajout des directions aux personnes
+            for personne in list_personnes:
+                personne.ajouterDirection(sorties)
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
