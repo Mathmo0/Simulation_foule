@@ -112,14 +112,14 @@ personnes = []
 """
 Fonction permettant d'actualiser la position des personnes.
 """
-def mouvement(multi):
+def mouvement():
     index = 0
     for j in range(0, len(personnes)):
         personnes[j].setX(listPositions[current][j + index])
         personnes[j].setY(listPositions[current][j + index + 1])
         personnes[j].move()
         index += 1
-    time.sleep(0.05 / multiplicateur)
+    time.sleep(0.01)
 
 """
 Fonction permettant de lancer la simulation.
@@ -143,7 +143,7 @@ def lancerSimulation(event):
     current = 0
     for current in range(0, len(listPositions)):
         window.update()
-        mouvement(multiplicateur)
+        mouvement()
 
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
@@ -155,7 +155,7 @@ def iterate_back(event):
     while(current - 1 >= 0 and (backward == True)):
         window.update()
         current -= 1
-        mouvement(10)
+        mouvement()
 
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
@@ -167,7 +167,7 @@ def iterate_front(event):
     while(current + 1 < len(listPositions) and (forward == True)):
         window.update()
         current += 1
-        mouvement(10)
+        mouvement()
 
 def stop_iterate_back(event):
     global backward
