@@ -1,4 +1,5 @@
 import time
+import os
 
 from Code.Modele.CPersonne import CPersonne
 from Code.Vue.CPersonneVue import CPersonneVue
@@ -28,7 +29,7 @@ window.title("Simulation de foule à échelle microscopique")
 window.geometry("1080x1080")
 window.minsize(1080, 1080)
 window.iconbitmap("../../Images/logo_polytech.ico")
-window.config()
+#window.config()
 
 
 """
@@ -36,51 +37,50 @@ window.config()
 """
 labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40), bg='light grey')
 labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15), bg='light grey')
-labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=8, sticky='NS')
-labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=8, sticky='NS')
+labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=6, sticky='NS')
+labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=6, sticky='NS')
 
 background = Label(window, width=window.winfo_width(), bg=backgroundColor)
 background.grid(column=0, row=2, columnspan=7)
 """
------------------------  Boutons  ------------------------------
+-----------------------  Menu  ------------------------------
 """
-#Button : Fichier
-window.columnconfigure(0, minsize=0, weight=1)
-buttonFichier = Button(window, text="Fichier", font=("Arial", 10), bg='White', fg='Black')
-buttonFichier.grid(column=0, row=2, sticky='W')
-
-#Button : ?
-window.columnconfigure(1, minsize=0, weight=1)
-buttonInfos = Button(window, text="?", font=("Arial", 10), bg='White', fg='Black')
-buttonInfos.grid(column=0, row=2, sticky='E')
+mainMenu = Menu(window)
+fileMenuFichier = Menu(mainMenu)
+listeEnvironnement = os.listdir('../../environnements/')
+for env in listeEnvironnement:
+    fileMenuFichier.add_command(label=env)
+mainMenu.add_cascade(label="Fichier", menu=fileMenuFichier)
+mainMenu.add_cascade(label="?")
+mainMenu.add_cascade(label="à propos")
 
 
 """
 -----------------------  Zones de saisies  ------------------------------
 """
 #Force attraction
-window.columnconfigure(2, minsize=0, weight=1)
+window.columnconfigure(0, minsize=0, weight=0)
 labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
-labelForceAtract.grid(column=1, row=2, sticky='E')
-window.columnconfigure(3, minsize=0, weight=1)
+labelForceAtract.grid(column=0, row=2, sticky='E')
+window.columnconfigure(1, minsize=0, weight=0)
 ForceAtract = Entry(window, width=3)
-ForceAtract.grid(column=2, row=2, sticky='W')
+ForceAtract.grid(column=1, row=2, sticky='W')
 
 #Force répulsion
-window.columnconfigure(4, minsize=0, weight=1)
+window.columnconfigure(2, minsize=0, weight=1)
 labelForceRepuls = Label(window, text="Force de répulsion (en %):", bg=backgroundColor)
-labelForceRepuls.grid(column=3, row=2, sticky='E')
-window.columnconfigure(5, minsize=0, weight=1)
+labelForceRepuls.grid(column=2, row=2, sticky='E')
+window.columnconfigure(3, minsize=0, weight=1)
 ForceRepuls = Entry(window, width=3)
-ForceRepuls.grid(column=4, row=2, sticky='W')
+ForceRepuls.grid(column=3, row=2, sticky='W')
 
 #Force accélération
-window.columnconfigure(6, minsize=0, weight=1)
+window.columnconfigure(4, minsize=0, weight=1)
 labelForceAcc = Label(window, text="Force d'accélération (en %):", bg=backgroundColor)
-labelForceAcc.grid(column=5, row=2, sticky='E')
-window.columnconfigure(7, minsize=0, weight=1)
+labelForceAcc.grid(column=4, row=2, sticky='E')
+window.columnconfigure(5, minsize=0, weight=1)
 ForceAcc = Entry(window, width=3)
-ForceAcc.grid(column=6, row=2, sticky='W')
+ForceAcc.grid(column=5, row=2, sticky='W')
 
 
 """
@@ -91,11 +91,11 @@ HEIGHT = 800
 
 main_frame= Frame(window)
 #main_frame.pack(fill=BOTH, expand=1)
-main_frame.grid(column=1, row=3, columnspan=5)
+main_frame.grid(column=1, row=3, columnspan=4, pady=10)
 
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
-canvas.grid(column=1, row=3, columnspan=5)
+canvas.grid(column=1, row=3, columnspan=4, pady=10)
 
 
 """
@@ -178,6 +178,8 @@ def stop_iterate_front(event):
     global forward
     forward = False
 
+def menu_fichier(event):
+    listeEnvironnement = os.listdir('../../environnements/')
 
 """
 -----------------------  Lancement et navigation dans la simulation  ------------------------------
@@ -196,7 +198,6 @@ bouton_lancement = Button(window, text='LANCER')
 bouton_lancement.grid(column=3, row=5, sticky='NS')
 bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
 
-
-
 #Lancement
+window.config(menu=mainMenu)
 window.mainloop()
