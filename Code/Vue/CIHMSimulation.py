@@ -1,4 +1,5 @@
 import time
+
 from Code.Modele.CPersonne import CPersonne
 from Code.Vue.CPersonneVue import CPersonneVue
 from tkinter import *
@@ -16,27 +17,56 @@ current = 0
 backward = False
 forward = False
 
-multiplicateur = float(input("Entrez un multiplicateur"))
+#multiplicateur = float(input("Entrez un multiplicateur"))
 
 window = Tk()
+window['background']='light gray'
+#window.wm_attributes("-transparentcolor", 'grey')
 window.title("Simulation de foule à échelle microscopique")
+window.resizable(0, 0)
 window.geometry("1080x1080")
 window.iconbitmap("../../Images/logo_polytech.ico")
 window.config()
 
-labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40))
-labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15))
-labelTitle.pack()
-labelSubTitle.pack()
+"""
+-----------------------  Titre  ------------------------------
+"""
+labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40), bg='light grey')
+labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15), bg='light grey')
+labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=3, sticky='S')
+labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=3, sticky='S')
+
+"""
+-----------------------  Boutons  ------------------------------
+"""
+#frame = Frame(window, bg='white')
+buttonFichier = Button(window, text="Fichier", font=("Arial", 10), bg='White', fg='Black')
+#buttonFichier
+buttonFichier.grid(column=0, row=2, ipadx=5, pady=5, sticky='E')
+#frame.pack()
+#frame.grid(column=0, row=0, ipadx=5, pady=5, sticky='W' + 'N')
+
+buttonInfos = Button(window, text="?", font=("Arial", 10), bg='White', fg='Black')
+buttonInfos.grid(column=1, row=2, ipadx=5, pady=5, sticky='W')
+
+"""
+-----------------------  Zones de saisies  ------------------------------
+"""
+labelForceAtract = Label(window, text="Force d'attraction (en %):")
+labelForceAtract.grid(column=2, row=2, ipadx=5, pady=5, sticky='w')
+ForceAtract = Entry(window, width=3)
+ForceAtract.grid(column=3, row=2, ipadx=5, pady=5, sticky='E')
 
 WIDTH = 500
 HEIGHT = 500
 
 main_frame= Frame(window)
-main_frame.pack(fill=BOTH, expand=1)
+#main_frame.pack(fill=BOTH, expand=1)
+main_frame.grid(column=0, row=3, ipadx=5, columnspan=3, pady=5)
 
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
-canvas.pack(expand=YES)
+#canvas.pack(expand=YES)
+canvas.grid(column=0, row=3, ipadx=5, columnspan=3, pady=5)
 
 """
 ------------------------- Recuperation des coordonees -------------------------
@@ -121,17 +151,20 @@ def stop_iterate_front(event):
 
 
 bouton_back = Button(window, text='<<<')
-bouton_back.pack(side=BOTTOM)
+#bouton_back.pack(side=BOTTOM)
+bouton_back.grid(column=0, row=5, ipadx=5, pady=5, sticky='E')
 bouton_back.bind('<ButtonPress-1>', iterate_back)
 bouton_back.bind('<ButtonRelease-1>', stop_iterate_back)
 
 bouton_front = Button(window, text='>>>')
-bouton_front.pack(side=RIGHT)
+#bouton_front.pack(side=RIGHT)
+bouton_front.grid(column=2, row=5, ipadx=5, pady=5, sticky='W')
 bouton_front.bind('<ButtonPress-1>', iterate_front)
 bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 
 bouton_lancement = Button(window, text='LANCER')
-bouton_lancement.pack(side=RIGHT)
+#bouton_lancement.pack(side=RIGHT)
+bouton_lancement.grid(column=1, row=5, ipadx=5, pady=5)
 bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
 
 
