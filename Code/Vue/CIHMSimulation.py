@@ -130,7 +130,7 @@ def mouvement(multi):
         personnes[j].setY(listPositions[current][j + index + 1])
         personnes[j].move()
         index += 1
-    time.sleep(0.1/multi)
+    time.sleep(0.05/multi)
 
 """
 Fonction permettant de lancer la simulation.
@@ -229,21 +229,6 @@ variable.set(listeVitesse[2])
 opt = OptionMenu(window, variable, *listeVitesse)
 opt.grid(column=4, row=5, sticky='W')
 
-style = ttk.Style()
-style.theme_use('classic')
-style.configure("Vertical.TScrollbar", background="green", bordercolor="red", arrowcolor="white")
-
-scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=canvas.yview)
-scrollbar.pack(side=LEFT, fill=Y)
-
-canvas.configure(xscrollcommand=scrollbar.set)
-canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-
-#Creation d'un autre Frame dans le canvas
-secondFrame = Frame(canvas)
-
-#Ajout de la nouvelle frame à une fenetre du canvas
-canvas.create_window((0,0), window=secondFrame, anchor="nw")
 
 #Lancement
 window.config(menu=mainMenu)
