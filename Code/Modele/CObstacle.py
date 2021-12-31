@@ -8,7 +8,7 @@ class CObstacle :
     # -------------------Constructeur-------------------#
     def __init__(self, coordonneesSommet = np.array([0,0])):
         self.iSuperficie = 0
-        self.tCoordonneesSommet = coordonneesSommet
+        self.tCoordonneesSommet = [coordonneesSommet]
 
 
     # -------------------Getters-------------------#
@@ -28,4 +28,4 @@ class CObstacle :
     def OBSToString(self):
         print("Coordonnees : {}\n"
               "Superficie : {}\n"
-              .format(self.getCoordoneesSommet(), self.getSuperficie()))
+              .format(self.getCoordonneesSommet(), self.getSuperficie()))

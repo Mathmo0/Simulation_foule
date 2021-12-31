@@ -54,7 +54,7 @@ class CFichier:
         :return: liste
         """
         str = ""  #Variable temp pour recuper et parser
-        list_coord = np.array([np.array([0,0]) for i in range(1, len(row))])
+        list_coord = [np.array([0,0]) for i in range(1, len(row))]
         k = 0 #Variable pour gerer le decalage si case vide entre case renmplie
 
         for i in range(1, len(row)):
@@ -72,7 +72,7 @@ class CFichier:
                 list_coord[i - k - 1] = tupletemp
                 str = ""
             else:
-                list_coord = np.array([list_coord[i] for i in range(0, len(list_coord) - 1)])
+                list_coord = [list_coord[i] for i in range(0, len(list_coord) - 1)]
                 k += 1
 
         return list_coord
@@ -85,7 +85,7 @@ class CFichier:
 
         """
         # variables
-        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([(0, 0)]), [], np.array([(0, 0)])
+        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([np.array([0,0])]), [], []
         list_coord_objstacles = np.array([(0, 0)])
         liste_dimensions_obstacles = np.array([(0, 0)])
 
@@ -117,15 +117,16 @@ class CFichier:
 
                 # recuperer la liste des obstacles
                 elif (row[0] == 'Liste coordonnées d\'obstacles'):
-                    list_coord_objstacles = self.ParserListeCSV(row)
+                    list_coord_obstacles = self.ParserListeCSV(row)
 
                 # recuperer la liste des dimensions d'obstacles
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
                     liste_dimensions_obstacles = self.ParserListeCSV(row)
 
             #Construction de la liste des obstacles
-            list_obstacles = [CObstacleQuadrilatere(0,0,coord) for coord in list_coord_objstacles] #initilisation de la liste
-            for i in range(min(len(list_coord_objstacles), len(liste_dimensions_obstacles))):
+            print(list_coord_obstacles)
+            list_obstacles = [CObstacleQuadrilatere(0,0,coordO) for coordO in list_coord_obstacles] #initilisation de la liste
+            for i in range(min(len(list_coord_obstacles), len(liste_dimensions_obstacles))):
                 list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
 

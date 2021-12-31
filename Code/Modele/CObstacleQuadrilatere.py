@@ -42,7 +42,13 @@ class CObstacleQuadrilatere(CObstacle):
               "Largeur : {}\n"
               .format(self.getCoordonneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
 
-
+    def calculerCoordonnees(self):
+        coinTopRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1]])
+        coinBottomLeft = np.array([self.tCoordonneesSommet[0][0], self.tCoordonneesSommet[0][1] - self.iHauteur])
+        coinBottomRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1] - self.iHauteur])
+        self.tCoordonneesSommet.append(coinTopRight)
+        self.tCoordonneesSommet.append(coinBottomLeft)
+        self.tCoordonneesSommet.append(coinBottomRight)
 """list_sorties = np.array([(3, 4), (2, 4)])
 carreONE = CObstacleQuadrilatere(12, 12, list_sorties)
 carreONE.OBSToString()"""

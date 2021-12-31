@@ -60,7 +60,7 @@ class CFRepulsion(CForce) :
         """
         NablaFRO = COperation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
-        UFRO = COperation.UAlphaObstacle(NormeVecteurRAlphaObstacle)
+        UFRO = self.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
         return NablaFRO * UFRO
 
@@ -84,7 +84,7 @@ class CFRepulsion(CForce) :
 
         return self.tForceRepulsion
 
-    def FREDeterminerSommetObstacle(self,coordPieton,obstacle = CObstacle()):
+    def FREDeterminerSommetObstacle(self,coordPieton, obstacle:CObstacle):
         """
         Cette fontion permet de lequel des sommets d'un obstacle est utilise pour calculer la force de repulsion entre un personne et un obstacle
         @param coordPieton: coordonnes du pieton sur lequel est applique la force de repulsion Personne-Obstacle

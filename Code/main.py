@@ -1,4 +1,5 @@
 from Code.Modele.CFichier import CFichier
+from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 from Code.Modele.CPersonne import CPersonne
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.COperation import COperation
@@ -8,27 +9,31 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 t = 0
-Mathis = CPersonne(False,np.array([100, 500]))
+Mathis = CPersonne(False,np.array([600, 400]))
 Maxime = CPersonne(False,np.array([500, 100]))
-#Hicham = CPersonne(False,np.array([78, 45]))
-Maxime.ajouterDirection(np.array([100,500]))
-Mathis.ajouterDirection(np.array([500,100]))
+Hicham = CPersonne(False,np.array([78, 45]))
+#Maxime.ajouterDirection(np.array([100,500]))
+#Mathis.ajouterDirection(np.array([500,100]))
 
 listPersonnes = []
 
 
 listPersonnes.append(Mathis)
 listPersonnes.append(Maxime)
-#listPersonnes.append(Hicham)
+listPersonnes.append(Hicham)
 
+table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
+table.calculerCoordonnees()
+
+listObstacles = [table]
 
 #Maxime.ajouterDirection(np.array([10,50]))
 
-#environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes)
-fichier = CFichier("../environnements/Environnement_0")
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes, listObstacles)
+#fichier = CFichier("../environnements/Environnement_0")
 
-environnement1 = CEnvironnement()
-environnement1.CEnvironnementFichier(fichier)
+#environnement1 = CEnvironnement()
+#environnement1.CEnvironnementFichier(fichier)
 listPersonnes2 = environnement1.getListePersonnes()
 listObstacle = environnement1.getListeObstacles()
 for personne in listPersonnes2 :
