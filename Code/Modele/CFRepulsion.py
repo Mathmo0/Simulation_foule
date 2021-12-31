@@ -92,7 +92,8 @@ class CFRepulsion(CForce) :
         @return: coordonnees du sommet qui va etre utilisée pour appliquer la force de repulsion Personne-Obstacle
 
         """
-        listsommet = obstacle.getCoordoneesSommet()
+        listsommet = obstacle.getCoordonneesSommet()
+        print(listsommet)
         sommetRetenu = np.array([0,0])
         distance = 99999999999
 

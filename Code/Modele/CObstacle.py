@@ -6,7 +6,7 @@ class CObstacle :
     """
 
     # -------------------Constructeur-------------------#
-    def __init__(self, coordonneesSommet = np.array([(0, 0)])):
+    def __init__(self, coordonneesSommet = np.array([0,0])):
         self.iSuperficie = 0
         self.tCoordonneesSommet = coordonneesSommet
 
