@@ -22,7 +22,7 @@ class CPersonne:
         else :
             self.__lPERlistPersonneProximite = []
 
-        self.__lPERlistObstacleProximite = [CObstacle]
+        self.__lPERlistObstacleProximite = [CObstacle()]
         self.__vPERForceRepulsionPersonne = ForceRepulsion
         self.__vPERForceRepulsionObstacle = ForceObstacle
         self.__vPERForceAttraction = ForceAttraction
@@ -231,12 +231,12 @@ class CPersonne:
         @return: rien
         """
         sommet = np.array([0,0])
-        valeurTotaleForceRepulsionObstacle = np.array([0,0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
+        valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
 
         for obstacle in self.__lPERlistObstacleProximite :
             if(len(self.__lPERlistObstacleProximite) != 0) :
                 sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacle(self.RecupererDerniereCoordonne(), obstacle)
-                valeurTotaleForceRepulsionObstacle+= self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
+                valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
 
         self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 

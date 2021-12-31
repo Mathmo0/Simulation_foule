@@ -8,7 +8,7 @@ class CObstacleQuadrilatere(CObstacle):
     """
 
     # -------------------Constructeur-------------------#
-    def __init__(self, hauteur = 0, largeur = 0, coordonneesSommets = np.array([(0, 0)])):
+    def __init__(self, hauteur = 0, largeur = 0, coordonneesSommets = np.array([0,0])):
         super().__init__(coordonneesSommets)
         self.iSuperficie = hauteur * largeur
         self.iHauteur = hauteur

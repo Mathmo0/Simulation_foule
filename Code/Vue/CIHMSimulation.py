@@ -89,15 +89,6 @@ window.columnconfigure(5, minsize=0, weight=1)
 ForceAcc = Entry(window, width=3)
 ForceAcc.grid(column=6, row=2, sticky='W')
 
-#Force vitesse
-labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
-labelmultiplicateur.grid(column=4, row=5, sticky='E')
-window.columnconfigure(5, minsize=0, weight=1)
-multiplicateur = Entry(window, width=3)
-multiplicateur.grid(column=5, row=5, sticky='W')
-
-
-
 """
 -----------------------  Zone de simulation  ------------------------------
 """
@@ -111,7 +102,7 @@ main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20)
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
 canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20)
-table = CObstacleQuadrilatere(10, 400, [300, 300])
+table = CObstacleQuadrilatere(10, 400, [np.array([300,300])])
 vueTable = CObstacleQuadrilatereVue(canvas, table)
 
 """
