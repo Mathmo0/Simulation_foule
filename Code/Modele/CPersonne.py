@@ -55,10 +55,17 @@ class CPersonne:
         return self.__fPERPression
 
     def getListDirection(self) :
-
+        """
+        getter pour l'attribut .__lDirection
+        @return: __lDirection
+        """
         return self.__lDirection
 
     def getListCoordonnees(self):
+        """
+        getter pour l'attribut __lPERCoordonees
+        @return: __lPERCoordonees
+        """
         return self.__lPERCoordonees
 
     def getListPersonneProx(self):
@@ -122,32 +129,66 @@ class CPersonne:
 #------------------------Setter------------------------
 
     def setVitesse(self, vitesse):
+        """
+        setter pour l'attribut __fPERVitesse
+        @param vitesse: nouvelle vitesse qu'on veut affecter au pieton
+        @return: rien
+        """
         #TODO : exception si vitesse négatif ??
         self.__fPERVitesse = vitesse
 
     def setPression(self, pression):
+        """
+        setter pour l'attribut __fPERPression
+        @param pression: nouvelle pression subit par le pieton
+        @return: rien
+        """
         #TODO : exception si pression négative ??
         self.__fPERPression = pression
 
     def setListDirection(self, direction):
+        """
+        setter pour l'attribut __lPERDirection
+        @param direction: nouvelle direction pour le pieton
+        @return: rien
+        """
         self.__lPERDirection = direction
 
     def setListCoordonnees(self, coordonnees):
+        """
+        setter pour l'attribut __lPERCoordonees
+        @param coordonnees: nouvelles corrdonées du pieton
+        @return: rien
+        """
         #TODO : exeption si taille de la liste > 2
 
         self.__lPERCoordonees = coordonnees
 
     def setRayon(self, rayon):
+        """
+        setter pour l'attribut __fPERRayon
+        @param rayon: nouveau rayon
+        @return:  rien
+        """
         #TODO : exception si rayon < 0
         self.__fPERRayon = rayon
 
     def setChampsDeVision(self, chpsVision):
+        """
+        setter pour l'attribut __fPERChampsDeVision
+        @param chpsVision: nouveau champde vision de la personne
+        @return: rien
+        """
         #TODO : exception si champ de vision négatif
         self.__fPERChampsDeVision = chpsVision
 
 #------------------------Methodes------------------------
 
     def RecupererDirectionActuelle(self):
+        """
+        permet de récupérer la direction actuelle du pieton
+        @return: Un np.array qui contient les coordonnées de la direction
+        """
         return self.__lPERDirection[0]
 
     def RecupererDerniereCoordonne(self):
@@ -176,26 +217,57 @@ class CPersonne:
             self.__lPERCoordonees.append(coordonnees)
 
     def ajouterPersonne(self,Personne):
+        """
+        Permet d'ajouter une personne proche du pieton dans la liste __lPERlistPersonneProximite
+        @param Personne: personne proche du pieton
+        @return: rien
+        """
         self.__lPERlistPersonneProximite.append(Personne)
 
     def ajouterDirection(self, direction):
+        """
+        Permet d'ajouter une nouvelle direction pour le pieton dans la liste __lPERDirection
+        @param direction: nouvelle direction que le pieton suivra
+        @return: rien
+        """
         self.__lPERDirection.append(direction)
 
     def ajouterObstacle(self,obstacle):
+        """
+        @param obstacle: permet d'ajouter un obstacle proche au pieton dans la liste __lPERlistObstacleProximite
+        @return: rien
+        """
         self.__lPERlistObstacleProximite.append(obstacle)
 
     def ClearPersonneProximite(self):
+        """
+        Vide la liste __lPERlistPersonneProximite
+        @return: rien
+        """
         self.__lPERlistPersonneProximite.clear()
 
     def ClearlistObstacleProx(self):
+        """
+        Vide la liste __lPERlistObstacleProximite
+        @return: rien
+        """
         self.__lPERlistObstacleProximite.clear()
 
     def CalculVecteurVitesse(self,t):
+        """
+        Permet de Calculer le vecteur vitesse du pieotn à l'instant t
+        @param t: instant t pour lequel on calcul le vecteur vitesse
+        @return:  rien
+        """
         force = CForce()
         self.__vPERVitesse = force.VecteurVitesse(self.__lPERCoordonees[0], self.RecupererDerniereCoordonne(), t, )
         self.CalculVitesse()
 
     def CalculVitesse(self):
+        """
+        Permet de calculer la vitesse du pieton à partir du Vecteur Vitesse
+        @return: rien
+        """
         force = CForce()
         self.__fPERVitesse = np.linalg.norm(self.__vPERVitesse)
         Vmax = force.VitesseAlphaMax(1.34)
