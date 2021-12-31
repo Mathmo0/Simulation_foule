@@ -20,9 +20,8 @@ current = 0
 backward = False
 forward = False
 backgroundColor = "#7fb3d5"
-multiplicateur = 0
+multiplicateur = 1
 
-#multiplicateur = float(input("Entrez un multiplicateur"))
 
 window = Tk()
 window['background']='light gray'
@@ -90,6 +89,13 @@ window.columnconfigure(5, minsize=0, weight=1)
 ForceAcc = Entry(window, width=3)
 ForceAcc.grid(column=6, row=2, sticky='W')
 
+#Force vitesse
+labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
+labelmultiplicateur.grid(column=4, row=5, sticky='E')
+window.columnconfigure(5, minsize=0, weight=1)
+multiplicateur = Entry(window, width=3)
+multiplicateur.grid(column=5, row=5, sticky='W')
+
 
 
 """
@@ -124,13 +130,14 @@ personnes = []
 """
 Fonction permettant d'actualiser la position des personnes.
 """
-def mouvement():
+def mouvement(multi):
     index = 0
     for j in range(0, len(personnes)):
         personnes[j].setX(listPositions[current][j + index])
         personnes[j].setY(listPositions[current][j + index + 1])
         personnes[j].move()
         index += 1
+    time.sleep(0.1/multi)
 
 """
 Fonction permettant de lancer la simulation.
@@ -154,31 +161,32 @@ def lancerSimulation(event):
     current = 0
     for current in range(0, len(listPositions)):
         window.update()
-        mouvement()
-    time.sleep(0.01)
+        mouvement(float(multiplicateur.get()))
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
 """
 def iterate_back(event):
+    global multiplicateur
     global backward
     backward = True
     global current
     while(current - 1 >= 0 and (backward == True)):
         window.update()
         current -= 1
-        mouvement()
+        mouvement(float(multiplicateur.get()))
 
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
 """
 def iterate_front(event):
+    global multiplicateur
     global forward
     forward = True
     global current
     while(current + 1 < len(listPositions) and (forward == True)):
         window.update()
         current += 1
-        mouvement()
+        mouvement(float(multiplicateur.get()))
 
 def stop_iterate_back(event):
     global backward
