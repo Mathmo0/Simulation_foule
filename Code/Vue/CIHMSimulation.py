@@ -1,6 +1,7 @@
 import time
 import os
 
+from tkinter import ttk
 from Code.Modele.CPersonne import CPersonne
 from Code.Vue.CPersonneVue import CPersonneVue
 from tkinter import *
@@ -92,8 +93,8 @@ ForceAcc.grid(column=6, row=2, sticky='W')
 """
 -----------------------  Zone de simulation  ------------------------------
 """
-WIDTH = 800
-HEIGHT = 800
+WIDTH = 600
+HEIGHT = 600
 
 main_frame= Frame(window)
 #main_frame.pack(fill=BOTH, expand=1)
@@ -102,7 +103,8 @@ main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20)
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
 canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20)
-table = CObstacleQuadrilatere(10, 400, [np.array([300,300])])
+table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
+table.calculerCoordonnees()
 vueTable = CObstacleQuadrilatereVue(canvas, table)
 
 """
@@ -132,6 +134,8 @@ def mouvement(multi):
 
 """
 Fonction permettant de lancer la simulation.
+
+return : rien
 """
 def lancerSimulation(event):
     global current
@@ -152,9 +156,11 @@ def lancerSimulation(event):
     current = 0
     for current in range(0, len(listPositions)):
         window.update()
-        mouvement(float(multiplicateur.get()))
+        mouvement(float(multiplicateur))
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
+
+return : rien
 """
 def iterate_back(event):
     global multiplicateur
@@ -164,10 +170,12 @@ def iterate_back(event):
     while(current - 1 >= 0 and (backward == True)):
         window.update()
         current -= 1
-        mouvement(float(multiplicateur.get()))
+        mouvement(float(multiplicateur))
 
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
+
+return : rien
 """
 def iterate_front(event):
     global multiplicateur
@@ -177,7 +185,8 @@ def iterate_front(event):
     while(current + 1 < len(listPositions) and (forward == True)):
         window.update()
         current += 1
-        mouvement(float(multiplicateur.get()))
+        mouvement(float(multiplicateur))
+
 
 def stop_iterate_back(event):
     global backward
@@ -219,6 +228,22 @@ variable = StringVar(window)
 variable.set(listeVitesse[2])
 opt = OptionMenu(window, variable, *listeVitesse)
 opt.grid(column=4, row=5, sticky='W')
+
+style = ttk.Style()
+style.theme_use('classic')
+style.configure("Vertical.TScrollbar", background="green", bordercolor="red", arrowcolor="white")
+
+scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=canvas.yview)
+scrollbar.pack(side=LEFT, fill=Y)
+
+canvas.configure(xscrollcommand=scrollbar.set)
+canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+#Creation d'un autre Frame dans le canvas
+secondFrame = Frame(canvas)
+
+#Ajout de la nouvelle frame à une fenetre du canvas
+canvas.create_window((0,0), window=secondFrame, anchor="nw")
 
 #Lancement
 window.config(menu=mainMenu)

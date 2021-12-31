@@ -4,11 +4,11 @@ from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 
 class CObstacleQuadrilatereVue:
     def __init__(self, canvas, obstacle = CObstacleQuadrilatere()):
-        self.canvas = canvas
-        self.topLeftx = obstacle.getCoordonneesSommet()[0]
-        self.topLefty = obstacle.getCoordonneesSommet()[0]
-        self.bottomRightx = self.topLeftx + obstacle.getLargeur()
-        self.bottomRighty = self.topLefty + obstacle.getHauteur()
-        self.image = canvas.create_rectangle(self.topLeftx, self.topLefty, self.bottomRightx, self.bottomRighty)
+        self.__canvas = canvas
+        self.__topLeftx = obstacle.getCoordonneesSommet()[0][0]
+        self.__topLefty = obstacle.getCoordonneesSommet()[0][1]
+        self.__bottomRightx = obstacle.getCoordonneesSommet()[3][0]
+        self.__bottomRighty = obstacle.getCoordonneesSommet()[3][1]
+        self.__image = canvas.create_rectangle(self.__topLeftx, self.__topLefty, self.__bottomRightx, self.__bottomRighty)
 
 

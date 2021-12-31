@@ -117,16 +117,16 @@ class CFichier:
 
                 # recuperer la liste des obstacles
                 elif (row[0] == 'Liste coordonnées d\'obstacles'):
-                    list_coord_objstacles = self.ParserListeCSV(row)
+                    list_coord_obstacles = self.ParserListeCSV(row)
 
                 # recuperer la liste des dimensions d'obstacles
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
                     liste_dimensions_obstacles = self.ParserListeCSV(row)
 
             #Construction de la liste des obstacles
-            print(list_coord_objstacles)
-            list_obstacles = [CObstacleQuadrilatere(0,0,coordO) for coordO in list_coord_objstacles] #initilisation de la liste
-            for i in range(min(len(list_coord_objstacles), len(liste_dimensions_obstacles))):
+            print(list_coord_obstacles)
+            list_obstacles = [CObstacleQuadrilatere(0,0,coordO) for coordO in list_coord_obstacles] #initilisation de la liste
+            for i in range(min(len(list_coord_obstacles), len(liste_dimensions_obstacles))):
                 list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
 
