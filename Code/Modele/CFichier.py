@@ -54,7 +54,7 @@ class CFichier:
         :return: liste
         """
         str = ""  #Variable temp pour recuper et parser
-        list_coord = np.array([(0, 0) for i in range(1, len(row))])
+        list_coord = np.array([np.array([0,0]) for i in range(1, len(row))])
         k = 0 #Variable pour gerer le decalage si case vide entre case renmplie
 
         for i in range(1, len(row)):
@@ -67,7 +67,7 @@ class CFichier:
                 listtemp[0] = int(listtemp[0])
                 listtemp[1] = int(listtemp[1])
 
-                tupletemp = (int(listtemp[0]), int(listtemp[1]))
+                tupletemp = np.array([listtemp[0], listtemp[1]])#(int(listtemp[0]), int(listtemp[1]))
 
                 list_coord[i - k - 1] = tupletemp
                 str = ""
@@ -128,10 +128,6 @@ class CFichier:
             for i in range(min(len(list_coord_objstacles), len(liste_dimensions_obstacles))):
                 list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
-
-            #Ajout des directions aux personnes
-            for personne in list_personnes:
-                personne.ajouterDirection(sorties)
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
