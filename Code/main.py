@@ -31,8 +31,8 @@ environnement1 = CEnvironnement()
 environnement1.CEnvironnementFichier(fichier)
 listPersonnes2 = environnement1.getListePersonnes()
 listObstacle = environnement1.getListeObstacles()
-#for personne in listPersonnes2 :
-#    personne.ajouterDirection(environnement1.getSorties())
+for personne in listPersonnes2 :
+   personne.ajouterDirection(environnement1.getSorties())
 
 listPersonnesSorties = [True for i in range (len(listPersonnes2))]
 Fini = False

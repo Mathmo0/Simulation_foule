@@ -39,7 +39,7 @@ class CObstacleQuadrilatere(CObstacle):
               "Superficie : {}\n"
               "Hauteur : {}\n"
               "Largeur : {}\n"
-              .format(self.getCoordoneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
+              .format(self.getCoordonneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
 
 
 """list_sorties = np.array([(3, 4), (2, 4)])

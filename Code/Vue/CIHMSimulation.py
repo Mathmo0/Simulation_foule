@@ -50,17 +50,16 @@ background.grid(column=0, row=2, columnspan=7)
 """
 mainMenu = Menu(window)
 fileMenuFichier = Menu(mainMenu)
-listeEnvironnement = os.listdir('../../environnements/')
-"""for env in listeEnvironnement:
-    fileMenuFichier.add_command(label=env)
-fileMenuFichier.add_separator()
-fileMenuFichier.add_command(label="Vide")
-mainMenu.add_cascade(label="Environnements", menu=fileMenuFichier)"""
 mainMenu.add_cascade(label="?")
 mainMenu.add_cascade(label="à propos")
 
+"""
+-----------------------  Choix Fichier  ------------------------------
+"""
+listeEnvironnement = os.listdir('../../environnements/')
+listeEnvironnement.append("Vide")
 variable = StringVar(window)
-variable.set(listeEnvironnement[0])
+variable.set(listeEnvironnement[len(listeEnvironnement) - 1])
 opt = OptionMenu(window, variable, *listeEnvironnement)
 opt.grid(column=0, row=2, sticky='E')
 
@@ -70,26 +69,26 @@ opt.grid(column=0, row=2, sticky='E')
 #Force attraction
 window.columnconfigure(0, minsize=0, weight=0)
 labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
-labelForceAtract.grid(column=0, row=2, sticky='E')
+labelForceAtract.grid(column=1, row=2, sticky='E')
 window.columnconfigure(1, minsize=0, weight=0)
 ForceAtract = Entry(window, width=3)
-ForceAtract.grid(column=1, row=2, sticky='W')
+ForceAtract.grid(column=2, row=2, sticky='W')
 
 #Force répulsion
 window.columnconfigure(2, minsize=0, weight=1)
 labelForceRepuls = Label(window, text="Force de répulsion (en %):", bg=backgroundColor)
-labelForceRepuls.grid(column=2, row=2, sticky='E')
+labelForceRepuls.grid(column=3, row=2, sticky='E')
 window.columnconfigure(3, minsize=0, weight=1)
 ForceRepuls = Entry(window, width=3)
-ForceRepuls.grid(column=3, row=2, sticky='W')
+ForceRepuls.grid(column=4, row=2, sticky='W')
 
 #Force accélération
 window.columnconfigure(4, minsize=0, weight=1)
 labelForceAcc = Label(window, text="Force d'accélération (en %):", bg=backgroundColor)
-labelForceAcc.grid(column=4, row=2, sticky='E')
+labelForceAcc.grid(column=5, row=2, sticky='E')
 window.columnconfigure(5, minsize=0, weight=1)
 ForceAcc = Entry(window, width=3)
-ForceAcc.grid(column=5, row=2, sticky='W')
+ForceAcc.grid(column=6, row=2, sticky='W')
 
 
 
@@ -101,11 +100,11 @@ HEIGHT = 800
 
 main_frame= Frame(window)
 #main_frame.pack(fill=BOTH, expand=1)
-main_frame.grid(column=1, row=3, columnspan=4, pady=10)
+main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20)
 
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
-canvas.grid(column=1, row=3, columnspan=4, pady=10)
+canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20)
 table = CObstacleQuadrilatere(10, 400, [300, 300])
 vueTable = CObstacleQuadrilatereVue(canvas, table)
 
@@ -196,26 +195,31 @@ def menu_fichier(event):
 """
 -----------------------  Lancement et navigation dans la simulation  ------------------------------
 """
+
+window.columnconfigure(3, minsize=0, weight=0)
 bouton_back = Button(window, text='<<<')
-bouton_back.grid(column=3, row=5, sticky='W')
+bouton_back.grid(column=3, row=6, sticky='W')
 bouton_back.bind('<ButtonPress-1>', iterate_back)
 bouton_back.bind('<ButtonRelease-1>', stop_iterate_back)
 
 bouton_front = Button(window, text='>>>')
-bouton_front.grid(column=3, row=5, sticky='E')
+bouton_front.grid(column=3, row=6, sticky='E')
 bouton_front.bind('<ButtonPress-1>', iterate_front)
 bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 
 bouton_lancement = Button(window, text='LANCER')
-bouton_lancement.grid(column=3, row=5, sticky='NS')
+bouton_lancement.grid(column=3, row=6, sticky='NS')
 bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
 
 #Force vitesse
 labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
-labelmultiplicateur.grid(column=4, row=5, sticky='E')
+labelmultiplicateur.grid(column=3, row=5, sticky='E', pady=10)
 window.columnconfigure(5, minsize=0, weight=1)
-multiplicateur = Entry(window, width=3)
-multiplicateur.grid(column=5, row=5, sticky='W')
+listeVitesse = [0.25, 0.5, 1, 1.5, 2]
+variable = StringVar(window)
+variable.set(listeVitesse[2])
+opt = OptionMenu(window, variable, *listeVitesse)
+opt.grid(column=4, row=5, sticky='W')
 
 #Lancement
 window.config(menu=mainMenu)
