@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 
 from Code.Modele.COperation import COperation
@@ -22,7 +24,7 @@ class CPersonne:
         else :
             self.__lPERlistPersonneProximite = []
 
-        self.__lPERlistObstacleProximite = [CObstacle()]
+        self.__lPERlistObstacleProximite: List[CObstacle] = []
         self.__vPERForceRepulsionPersonne = ForceRepulsion
         self.__vPERForceRepulsionObstacle = ForceObstacle
         self.__vPERForceAttraction = ForceAttraction
@@ -302,7 +304,7 @@ class CPersonne:
 
         @return: rien
         """
-        sommet = np.array([0,0])
+        #sommet = np.array([0,0])
         valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
 
         for obstacle in self.__lPERlistObstacleProximite :

@@ -103,13 +103,19 @@ main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20)
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
 canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20)
+
 table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
 table.calculerCoordonnees()
 vueTable = CObstacleQuadrilatereVue(canvas, table)
 
+table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
+table2.calculerCoordonnees()
+vueTable2 = CObstacleQuadrilatereVue(canvas, table2)
+
 """
 ------------------------- Recuperation des coordonees -------------------------
 """
+
 monFichier = CFichier("../../FichierSimulation/FichierPositions")
 listPositions = monFichier.LireFichierPosition()
 
@@ -138,25 +144,31 @@ Fonction permettant de lancer la simulation.
 return : rien
 """
 def lancerSimulation(event):
-    global current
-    global multiplicateur
-    for personne in personnes:
-        personne.disparaitre()
-    personnes.clear()
-    window.update()
-    current = 0
-    #Creation des personnes et initialisation de leurs positions
-    index = 0
-    for current in range(0, int(nbPersonnes)):
-        personne = CPersonneVue(canvas, listPositions[0][current + index], listPositions[0][current + index + 1], 10, 'red')
-        personnes.append(personne)
-        index += 1
-
-    #Mouvement
-    current = 0
-    for current in range(0, len(listPositions)):
+    if not (bouton_lancement['state'] == DISABLED):
+        bouton_lancement.config(state=DISABLED)
+        bouton_front.config(state=DISABLED)
+        global current
+        global multiplicateur
+        for personne in personnes:
+            personne.disparaitre()
+        personnes.clear()
         window.update()
-        mouvement(float(multiplicateur))
+        current = 0
+        #Creation des personnes et initialisation de leurs positions
+        index = 0
+        for current in range(0, int(nbPersonnes)):
+            personne = CPersonneVue(canvas, listPositions[0][current + index], listPositions[0][current + index + 1], 10, 'red')
+            personnes.append(personne)
+            index += 1
+
+        #Mouvement
+        current = 0
+        for current in range(0, len(listPositions)):
+            window.update()
+            mouvement(10)
+        bouton_lancement.config(state=NORMAL)
+        bouton_back.config(state=NORMAL)
+        bouton_front.config(state=NORMAL)
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
 
@@ -170,7 +182,7 @@ def iterate_back(event):
     while(current - 1 >= 0 and (backward == True)):
         window.update()
         current -= 1
-        mouvement(float(multiplicateur))
+        mouvement(10)
 
 """
 Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
@@ -185,7 +197,7 @@ def iterate_front(event):
     while(current + 1 < len(listPositions) and (forward == True)):
         window.update()
         current += 1
-        mouvement(float(multiplicateur))
+        mouvement(10)
 
 
 def stop_iterate_back(event):
@@ -217,7 +229,7 @@ bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 
 bouton_lancement = Button(window, text='LANCER')
 bouton_lancement.grid(column=3, row=6, sticky='NS')
-bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
+bouton_lancement.bind('<ButtonPress>', lancerSimulation)
 
 #Force vitesse
 labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')

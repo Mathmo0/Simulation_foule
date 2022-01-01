@@ -9,9 +9,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 t = 0
-Mathis = CPersonne(False,np.array([600, 400]))
-Maxime = CPersonne(False,np.array([500, 100]))
-Hicham = CPersonne(False,np.array([78, 45]))
+Mathis = CPersonne(False,np.array([299, 280]))
+#Maxime = CPersonne(False,np.array([251, 300]))
+#Hicham = CPersonne(False,np.array([252, 300]))
 #Maxime.ajouterDirection(np.array([100,500]))
 #Mathis.ajouterDirection(np.array([500,100]))
 
@@ -19,23 +19,27 @@ listPersonnes = []
 
 
 listPersonnes.append(Mathis)
-listPersonnes.append(Maxime)
-listPersonnes.append(Hicham)
+#listPersonnes.append(Maxime)
+#listPersonnes.append(Hicham)
 
 table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
 table.calculerCoordonnees()
 
-listObstacles = [table]
+table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
+table2.calculerCoordonnees()
+
+listObstacles = [table, table2]
 
 #Maxime.ajouterDirection(np.array([10,50]))
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([50,50]), listPersonnes, listObstacles)
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([500,500]), listPersonnes, listObstacles)
 #fichier = CFichier("../environnements/Environnement_0")
 
 #environnement1 = CEnvironnement()
 #environnement1.CEnvironnementFichier(fichier)
 listPersonnes2 = environnement1.getListePersonnes()
 listObstacle = environnement1.getListeObstacles()
+print(listObstacle)
 for personne in listPersonnes2 :
    personne.ajouterDirection(environnement1.getSorties())
 
@@ -77,12 +81,12 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                         coordper = personne.RecupererDerniereCoordonne()
                         coordperprox = personneProx.RecupererDerniereCoordonne()
                         #print(personne.__fPERVitesse)
-                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],1.34) == True) :
+                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],10) == True) :
                             personne.ajouterPersonne(personneProx)
                 #print('__________ooooo : ', len(personne.__lPERlistPersonneProximite))
                 print('__________iiiii : ', personne.RecupererDerniereCoordonne())
                 personne.CalculerForceRepulsion()
-                #print("____ : ", personne.__vPERForceRepulsionPersonne.tForceRepulsion)
+                print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
                 print('\n-------------autre------------\n')
 
                 #Force de Repulsion par un obstacle :
@@ -90,10 +94,11 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                    coordPieton = personne.RecupererDerniereCoordonne()
                    sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacle(coordPieton,obstacle)
                    print("sommet = ",sommet)
-                   if(COperation.DetectionCercle(sommet[0],sommet[1],coordPieton[0],coordPieton[1],1) == True) :
+                   if(COperation.DetectionCercle(sommet[0],sommet[1],coordPieton[0],coordPieton[1],100) == True) :
                        personne.ajouterObstacle(obstacle)
 
                 personne.CalculerForceRepulsionObstacle()
+                print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                 #Nouvelle Position:
 
                 personne.CalculerNouvellePosition(t)

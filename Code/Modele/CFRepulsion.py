@@ -42,7 +42,7 @@ class CFRepulsion(CForce) :
         @return: valeur de l'effet de repulsion
 
         """
-        nablarAlphaB = COperation.Nabla(Ralpha, RalphaDeltaT, Rbeta)
+        nablarAlphaB = COperation.Nabla(Ralpha, Rbeta, Rbeta)
         bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
         V = self.VAlphaBeta(bEffet)
 
@@ -58,7 +58,7 @@ class CFRepulsion(CForce) :
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
-        NablaFRO = COperation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
+        NablaFRO = COperation.Nabla(Ralpha, RObstacle, RObstacle)
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
         UFRO = self.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
@@ -78,7 +78,7 @@ class CFRepulsion(CForce) :
 
         """
         eAlphaFRP = self.eAlpha(vRkAlpha, Ralpha)
-        EffetrepulsionRFP = self.FREEffetDeRepulsion(Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta) *(10**10)
+        EffetrepulsionRFP = self.FREEffetDeRepulsion(Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta)
 
         self.tForceRepulsion = self.w(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
 
@@ -93,7 +93,6 @@ class CFRepulsion(CForce) :
 
         """
         listsommet = obstacle.getCoordonneesSommet()
-        print(listsommet)
         sommetRetenu = np.array([0,0])
         distance = 99999999999
 
@@ -102,7 +101,7 @@ class CFRepulsion(CForce) :
             distancePO = la.norm(coordPieton-sommet)
             if(distancePO < distance) :
                 sommetRetenu = sommet
-
+                distance = distancePO
         return sommetRetenu
 
 
