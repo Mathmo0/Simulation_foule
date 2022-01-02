@@ -13,118 +13,18 @@ from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CForce import DeltaT
 import csv
 import numpy as np
-"""
------------------------  Creation de la fenetre ------------------------------
-"""
 
-current = 0
-backward = False
-forward = False
-backgroundColor = "#7fb3d5"
-multiplicateur = 1
+#----------------------------------------- Methodes --------------------------------------------------------------------
+def A_Propos():
+    aPropos = Toplevel(window)
+    aPropos.resizable(0, 0)
+    LabelAPropos = Label(aPropos, text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.", font=("Arial", 20), bg='light grey')
+    LabelAPropos.grid(column=0, row=0)
 
-
-window = Tk()
-window['background']='light gray'
-#window.wm_attributes("-transparentcolor", 'grey')
-window.title("Simulation de foule à échelle microscopique")
-#window.resizable(0, 0)
-window.geometry("1080x1080")
-window.minsize(1080, 1080)
-window.iconbitmap("../../Images/logo_polytech.ico")
-#window.config()
-
-
-"""
------------------------  Titre  ------------------------------
-"""
-labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40), bg='light grey')
-labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15), bg='light grey')
-labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=6, sticky='NS')
-labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=6, sticky='NS')
-
-background = Label(window, width=window.winfo_width(), bg=backgroundColor)
-background.grid(column=0, row=2, columnspan=7)
-"""
------------------------  Menu  ------------------------------
-"""
-mainMenu = Menu(window)
-fileMenuFichier = Menu(mainMenu)
-mainMenu.add_cascade(label="?")
-mainMenu.add_cascade(label="à propos")
-
-"""
------------------------  Choix Fichier  ------------------------------
-"""
-listeEnvironnement = os.listdir('../../environnements/')
-listeEnvironnement.append("Vide")
-variable = StringVar(window)
-variable.set(listeEnvironnement[len(listeEnvironnement) - 1])
-opt = OptionMenu(window, variable, *listeEnvironnement)
-opt.grid(column=0, row=2, sticky='E')
-
-"""
------------------------  Zones de saisies  ------------------------------
-"""
-#Force attraction
-window.columnconfigure(0, minsize=0, weight=0)
-labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
-labelForceAtract.grid(column=1, row=2, sticky='E')
-window.columnconfigure(1, minsize=0, weight=0)
-ForceAtract = Entry(window, width=3)
-ForceAtract.grid(column=2, row=2, sticky='W')
-
-#Force répulsion
-window.columnconfigure(2, minsize=0, weight=1)
-labelForceRepuls = Label(window, text="Force de répulsion (en %):", bg=backgroundColor)
-labelForceRepuls.grid(column=3, row=2, sticky='E')
-window.columnconfigure(3, minsize=0, weight=1)
-ForceRepuls = Entry(window, width=3)
-ForceRepuls.grid(column=4, row=2, sticky='W')
-
-#Force accélération
-window.columnconfigure(4, minsize=0, weight=1)
-labelForceAcc = Label(window, text="Force d'accélération (en %):", bg=backgroundColor)
-labelForceAcc.grid(column=5, row=2, sticky='E')
-window.columnconfigure(5, minsize=0, weight=1)
-ForceAcc = Entry(window, width=3)
-ForceAcc.grid(column=6, row=2, sticky='W')
-
-"""
------------------------  Zone de simulation  ------------------------------
-"""
-WIDTH = 600
-HEIGHT = 600
-
-main_frame= Frame(window)
-#main_frame.pack(fill=BOTH, expand=1)
-main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20)
-
-canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
-#canvas.pack(expand=YES)
-canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20)
-
-table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
-table.calculerCoordonnees()
-vueTable = CObstacleQuadrilatereVue(canvas, table)
-
-table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
-table2.calculerCoordonnees()
-vueTable2 = CObstacleQuadrilatereVue(canvas, table2)
-
-"""
-------------------------- Recuperation des coordonees -------------------------
-"""
-
-monFichier = CFichier("../../FichierSimulation/FichierPositions")
-listPositions = monFichier.LireFichierPosition()
-
-#On obtient le nombre de personnes grace aux colonnes du fichier csv
-nbPersonnes = len(listPositions[0])/2
-print(listPositions)
-personnes = []
-
-
+def Choix_Environnement(var):
+    print(variable.get())
+    """lb = Label(window, text={variable.get()})
+    lb.grid(collumn=0, row=7)"""
 
 """
 Fonction permettant d'actualiser la position des personnes.
@@ -211,11 +111,129 @@ def stop_iterate_front(event):
 
 def menu_fichier(event):
     listeEnvironnement = os.listdir('../../environnements/')
+#-----------------------------------------------------------------------------------------------------------------------
+
+
+"""
+-----------------------  Creation de la fenetre ------------------------------
+"""
+current = 0
+backward = False
+forward = False
+backgroundColor = "#7fb3d5"
+multiplicateur = 1
+
+
+window = Tk()
+window['background']='light gray'
+#window.wm_attributes("-transparentcolor", 'grey')
+window.title("Simulation de foule à échelle microscopique")
+#window.resizable(0, 0)
+window.geometry("1080x1080")
+window.minsize(1080, 1080)
+window.iconbitmap("../../Images/logo_polytech.ico")
+#window.config()
+
+
+"""
+-----------------------  Titre  ------------------------------
+"""
+labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40), bg='light grey')
+labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15), bg='light grey')
+labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=6, sticky='NS')
+labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=6, sticky='NS')
+
+background = Label(window, width=window.winfo_width(), bg=backgroundColor)
+background.grid(column=0, row=2, columnspan=7)
+"""
+-----------------------  Menu  ------------------------------
+"""
+#TODO afficher les infos correspondantes aux boutons
+mainMenu = Menu(window)
+fileMenuFichier = Menu(mainMenu)
+mainMenu.add_cascade(label="?")
+mainMenu.add_cascade(label="à propos", command=A_Propos)
+
+"""
+-----------------------  Choix Fichier  ------------------------------
+"""
+#TODO rendre fonctionnel le choix de lenvironnement avec une methode
+listeEnvironnement = os.listdir('../../environnements/')
+listeEnvironnement.append('Vide')
+variable = StringVar(window)
+variable.set(listeEnvironnement[len(listeEnvironnement) - 1])
+var = variable
+opt = OptionMenu(window, variable, *listeEnvironnement, command=Choix_Environnement(var))
+opt.grid(column=0, row=2, sticky='E')
+#print(variable.get())
+"""
+-----------------------  Zones de saisies  ------------------------------
+"""
+#TODO récupérer les valeurs dans des variables et en faire qqchose
+#Force attraction
+window.columnconfigure(0, minsize=0, weight=0)
+labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
+labelForceAtract.grid(column=1, row=2, sticky='E')
+window.columnconfigure(1, minsize=0, weight=0)
+ForceAtract = Entry(window, width=3)
+ForceAtract.grid(column=2, row=2, sticky='W')
+
+#Force répulsion
+window.columnconfigure(2, minsize=0, weight=1)
+labelForceRepuls = Label(window, text="Force de répulsion (en %):", bg=backgroundColor)
+labelForceRepuls.grid(column=3, row=2, sticky='E')
+window.columnconfigure(3, minsize=0, weight=1)
+ForceRepuls = Entry(window, width=3)
+ForceRepuls.grid(column=4, row=2, sticky='W')
+
+#Force accélération
+window.columnconfigure(4, minsize=0, weight=1)
+labelForceAcc = Label(window, text="Force d'accélération (en %):", bg=backgroundColor)
+labelForceAcc.grid(column=5, row=2, sticky='E')
+window.columnconfigure(5, minsize=0, weight=1)
+ForceAcc = Entry(window, width=3)
+ForceAcc.grid(column=6, row=2, sticky='W')
+
+"""
+-----------------------  Zone de simulation  ------------------------------
+"""
+WIDTH = 600
+HEIGHT = 600
+
+main_frame= Frame(window)
+#main_frame.pack(fill=BOTH, expand=1)
+main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20, sticky='NS')
+
+canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
+#canvas.pack(expand=YES)
+canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+
+table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
+table.calculerCoordonnees()
+vueTable = CObstacleQuadrilatereVue(canvas, table)
+
+table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
+table2.calculerCoordonnees()
+vueTable2 = CObstacleQuadrilatereVue(canvas, table2)
+
+"""
+------------------------- Recuperation des coordonees -------------------------
+"""
+
+monFichier = CFichier("../../FichierSimulation/FichierPositions")
+listPositions = monFichier.LireFichierPosition()
+
+#On obtient le nombre de personnes grace aux colonnes du fichier csv
+nbPersonnes = len(listPositions[0])/2
+print(listPositions)
+personnes = []
+
+
+
 
 """
 -----------------------  Lancement et navigation dans la simulation  ------------------------------
 """
-
 window.columnconfigure(3, minsize=0, weight=0)
 bouton_back = Button(window, text='<<<')
 bouton_back.grid(column=3, row=6, sticky='W')
