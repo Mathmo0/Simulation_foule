@@ -32,11 +32,9 @@ def A_Propos():
     LabelAPropos = Label(aPropos, text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.", font=("Arial", 20), bg='light grey')
     LabelAPropos.grid(column=0, row=0)
 
-def Choix_Environnement(var):
-    print(var)
-    #print(1)
-    """lb = Label(window, text={variable.get()})
-    lb.grid(collumn=0, row=7)"""
+def Choix_Environnement(variable):
+    print(variable)
+
 
 """
 Fonction permettant d'actualiser la position des personnes.
