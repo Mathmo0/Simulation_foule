@@ -29,8 +29,8 @@ window['background']='light gray'
 #window.wm_attributes("-transparentcolor", 'grey')
 window.title("Simulation de foule à échelle microscopique")
 #window.resizable(0, 0)
-window.geometry("1080x1080")
-window.minsize(1080, 1080)
+window.geometry("800x800")
+window.minsize(800, 800)
 window.iconbitmap("../../Images/logo_polytech.ico")
 #window.config()
 
@@ -93,8 +93,8 @@ ForceAcc.grid(column=6, row=2, sticky='W')
 """
 -----------------------  Zone de simulation  ------------------------------
 """
-WIDTH = 600
-HEIGHT = 600
+WIDTH = 400
+HEIGHT = 400
 
 main_frame= Frame(window)
 #main_frame.pack(fill=BOTH, expand=1)

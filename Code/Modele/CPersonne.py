@@ -11,6 +11,10 @@ class CPersonne:
 
     def __init__(self,recursif = False,coordonnees = np.array([0,0]),vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
         #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
+        assert vitesse >= 0, " La vitesse doit etre positive"
+        assert pression >= 0, "La pression doit etre positive"
+        assert rayon > 0, "La rayon doit etre strictement positive "
+        assert chpsVision > 0, "Le champ de vision doit être strictement positif"
 
         self.__vPERVitesse = np.array([0, 0])
         self.__fPERVitesse = vitesse
@@ -134,7 +138,8 @@ class CPersonne:
         @param vitesse: nouvelle vitesse qu'on veut affecter au pieton
         @return: rien
         """
-        #TODO : exception si vitesse négatif ??
+        assert vitesse >= 0," La vitesse doit etre positive"
+
         self.__fPERVitesse = vitesse
 
     def setPression(self, pression):
@@ -143,7 +148,8 @@ class CPersonne:
         @param pression: nouvelle pression subit par le pieton
         @return: rien
         """
-        #TODO : exception si pression négative ??
+        assert pression >= 0, "La pression doit etre positive"
+
         self.__fPERPression = pression
 
     def setListDirection(self, direction):
@@ -154,7 +160,7 @@ class CPersonne:
         """
         self.__lPERDirection = direction
 
-    def setListCoordonnees(self, coordonnees):
+    def setListCoordonnees(self, listcoordonnees):
         """
         setter pour l'attribut __lPERCoordonees
         @param coordonnees: nouvelles corrdonées du pieton
@@ -162,7 +168,7 @@ class CPersonne:
         """
         #TODO : exeption si taille de la liste > 2
 
-        self.__lPERCoordonees = coordonnees
+        self.__lPERCoordonees = listcoordonnees
 
     def setRayon(self, rayon):
         """
@@ -170,7 +176,8 @@ class CPersonne:
         @param rayon: nouveau rayon
         @return:  rien
         """
-        #TODO : exception si rayon < 0
+        assert rayon > 0 , "La rayon doit etre strictement positive "
+
         self.__fPERRayon = rayon
 
     def setChampsDeVision(self, chpsVision):
@@ -179,7 +186,8 @@ class CPersonne:
         @param chpsVision: nouveau champde vision de la personne
         @return: rien
         """
-        #TODO : exception si champ de vision négatif
+        assert chpsVision > 0,"Le champ de vision doit être strictement positif"
+
         self.__fPERChampsDeVision = chpsVision
 
 #------------------------Methodes------------------------
@@ -291,8 +299,10 @@ class CPersonne:
         #calcul de nouvelle force de repulsion
         for personne in self.__lPERlistPersonneProximite :
             #TODO : Exception aucune direction
-            valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
-
+            try :
+                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
+            except :
+                print("Le pieton n'a aucun direction, on ne peut donc pas calculer la force de repulsion")
         self.__vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
 
 
