@@ -1,8 +1,9 @@
 import time
 import os
 
-#from tkinter import ttk
+from tkinter import ttk
 from Code.Modele.CPersonne import CPersonne
+from Code.Modele.COperation import COperation
 from Code.Vue.CPersonneVue import CPersonneVue
 from tkinter import *
 from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
@@ -28,13 +29,14 @@ class CIHMSimulationClasse:
         self.iForceAttraction = 0
         self.iForceRepulsion = 0
         self.iForceAcceleration = 0
+        self.iTempsDeSimulation = 0
 
         self.CEnvironnement = CEnvironnement()
 
         self.FichierPosition = CFichier("../../FichierSimulation/FichierPositions")
         self.lListePosition = []
         self.lListePersonnes = []
-        self.lListePersonnesSortie = [] #Liste des personnes sortie
+        self.lListePersonnesSorties = [] #Liste des personnes sortie
 
         # ___ Attributs de fenetre ___
         """
@@ -66,7 +68,7 @@ class CIHMSimulationClasse:
         self.lListeEnvironnement.append('Vide')
         self.sEnvironnement = ''
         self.FichierEnvironnement = CFichier()
-        self.ChoixMenu = OptionMenu(0, 0, 0)
+        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement)
         self.Creation_Choix_Fichier()
 
         """
@@ -191,8 +193,72 @@ class CIHMSimulationClasse:
                 personnes.ajouterDirection(self.CEnvironnement.getSorties())
 
             self.lListePersonnesSortie = [True for i in range(self.CEnvironnement.getNbPersonnes())]
-            self.bFinis = False
+            bfini = False
 
+            self.lListePersonnes = self.CEnvironnement.getListePersonnes()
+            header = len(self.lListePersonnes) * ["x", "y"]
+            with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
+                writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
+                writer.writerow(header)
+                while bfini == False:
+                    # ecriture des coordonnees
+                    for personne in self.lListePersonnes:
+                        self.lListePersonnes.append(personne.RecupererDerniereCoordonne()[0])
+                        self.lListePersonnes.append(personne.RecupererDerniereCoordonne()[1])
+
+                    writer.writerow(self.lListePosition)
+                    self.lListePersonnes.clear()
+
+                    # calcul des nouvelles coordonnees
+                    for personne in self.lListePersonnes:
+                        if self.lListePersonnesSorties[self.lListePersonnes.index(personne)] == True:
+
+                            # Force D'acceleration :
+
+                            personne.CalculerForceAcceleration()
+
+                            # Force de Repulsion entre personne :
+
+                            personne.ClearPersonneProximite()
+
+                            # ajout des personnes proche de personne
+                            for personneProx in self.lListePersonnes:
+
+                                # pour pas qu'on ajoute elle-même dans la liste et les personnes sorti
+
+                                if self.lListePersonnes.index(personne) != self.lListePersonnes.index(personneProx) and (
+                                        self.lListePersonnesSorties[self.lListePersonnes.index(personneProx)] == True):
+                                    coordper = personne.RecupererDerniereCoordonne()
+                                    coordperprox = personneProx.RecupererDerniereCoordonne()
+                                    if (COperation.DetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
+                                        personne.ajouterPersonne(personneProx)
+                            print('__________iiiii : ', personne.RecupererDerniereCoordonne())
+                            personne.CalculerForceRepulsion()
+                            print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
+                            print('\n-------------autre------------\n')
+
+                            # Force de Repulsion par un obstacle :
+                            for obstacle in self.CEnvironnement.getListeObstacles():
+                                coordPieton = personne.RecupererDerniereCoordonne()
+                                sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacle(coordPieton,
+                                                                                                          obstacle)
+                                print("sommet = ", sommet)
+                                if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 100) == True):
+                                    personne.ajouterObstacle(obstacle)
+
+                            personne.CalculerForceRepulsionObstacle()
+                            print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                            # Nouvelle Position:
+
+                            personne.CalculerNouvellePosition(self.iTempsDeSimulation)
+
+                            # On verifie si la personne est sortie ou non.
+                            if personne.sorti() == True:
+                                self.lListePersonnesSorties[self.lListePersonnes.index(personne)] = False
+                                if not any(self.lListePersonnesSorties):
+                                    bfini = True
+
+                    self.iTempsDeSimulation += DeltaT
 
 test = CIHMSimulationClasse()
 
