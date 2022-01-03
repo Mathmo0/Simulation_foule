@@ -36,7 +36,7 @@ def mouvement(multi):
         personnes[j].setY(listPositions[current][j + index + 1])
         personnes[j].move()
         index += 1
-    time.sleep(0.05/multi)
+    time.sleep(0.5/multi)
 
 """
 Fonction permettant de lancer la simulation.

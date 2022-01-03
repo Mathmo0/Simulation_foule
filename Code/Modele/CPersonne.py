@@ -33,7 +33,7 @@ class CPersonne:
         self.__vPERForceRepulsionObstacle = ForceObstacle
         self.__vPERForceAttraction = ForceAttraction
         self.__vPERForceAcceleration = ForceAccelaration
-        self.__fPERRayon = rayon
+        self.__fPERRayon = 10# rayon
         self.__fPERChampsDeVision = chpsVision
 
 #------------------------Getter------------------------
@@ -302,7 +302,7 @@ class CPersonne:
         for personne in self.__lPERlistPersonneProximite :
             #TODO : Exception aucune direction
             try :
-                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())
+                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())+self.__fPERRayon
             except :
                 print("Le pieton n'a aucun direction, on ne peut donc pas calculer la force de repulsion")
         self.__vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
