@@ -130,6 +130,9 @@ class CFichier:
                 list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
 
+            for obs in list_obstacles:
+                obs.calculerCoordonnees()
+
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
 """fichier = CFichier("../../environnements/Environnement_0")

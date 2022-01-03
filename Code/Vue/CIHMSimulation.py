@@ -13,10 +13,110 @@ from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CForce import DeltaT
 import csv
 import numpy as np
+
+#----------------------------------------- Methodes --------------------------------------------------------------------
+def A_Propos():
+    aPropos = Toplevel(window)
+    aPropos.resizable(0, 0)
+    LabelAPropos = Label(aPropos, text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.", font=("Arial", 20), bg='light grey')
+    LabelAPropos.grid(column=0, row=0)
+
+def Choix_Environnement(var):
+    print(variable.get())
+    """lb = Label(window, text={variable.get()})
+    lb.grid(collumn=0, row=7)"""
+
+"""
+Fonction permettant d'actualiser la position des personnes.
+"""
+def mouvement(multi):
+    index = 0
+    for j in range(0, len(personnes)):
+        personnes[j].setX(listPositions[current][j + index])
+        personnes[j].setY(listPositions[current][j + index + 1])
+        personnes[j].move()
+        index += 1
+    time.sleep(0.05/multi)
+
+"""
+Fonction permettant de lancer la simulation.
+
+return : rien
+"""
+def lancerSimulation(event):
+    if not (bouton_lancement['state'] == DISABLED):
+        bouton_lancement.config(state=DISABLED)
+        bouton_front.config(state=DISABLED)
+        global current
+        global multiplicateur
+        for personne in personnes:
+            personne.disparaitre()
+        personnes.clear()
+        window.update()
+        current = 0
+        #Creation des personnes et initialisation de leurs positions
+        index = 0
+        for current in range(0, int(nbPersonnes)):
+            personne = CPersonneVue(canvas, listPositions[0][current + index], listPositions[0][current + index + 1], 10, 'red')
+            personnes.append(personne)
+            index += 1
+
+        #Mouvement
+        current = 0
+        for current in range(0, len(listPositions)):
+            window.update()
+            mouvement(10)
+        bouton_lancement.config(state=NORMAL)
+        bouton_back.config(state=NORMAL)
+        bouton_front.config(state=NORMAL)
+"""
+Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
+
+return : rien
+"""
+def iterate_back(event):
+    global multiplicateur
+    global backward
+    backward = True
+    global current
+    while(current - 1 >= 0 and (backward == True)):
+        window.update()
+        current -= 1
+        mouvement(10)
+
+"""
+Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
+
+return : rien
+"""
+def iterate_front(event):
+    global multiplicateur
+    global forward
+    forward = True
+    global current
+    while(current + 1 < len(listPositions) and (forward == True)):
+        window.update()
+        current += 1
+        mouvement(10)
+
+
+def stop_iterate_back(event):
+    global backward
+    backward = False
+
+
+def stop_iterate_front(event):
+    global forward
+    forward = False
+
+def menu_fichier(event):
+    listeEnvironnement = os.listdir('../../environnements/')
+#-----------------------------------------------------------------------------------------------------------------------
+
+
 """
 -----------------------  Creation de la fenetre ------------------------------
 """
-
 current = 0
 backward = False
 forward = False
@@ -48,24 +148,28 @@ background.grid(column=0, row=2, columnspan=7)
 """
 -----------------------  Menu  ------------------------------
 """
+#TODO afficher les infos correspondantes aux boutons
 mainMenu = Menu(window)
 fileMenuFichier = Menu(mainMenu)
 mainMenu.add_cascade(label="?")
-mainMenu.add_cascade(label="à propos")
+mainMenu.add_cascade(label="à propos", command=A_Propos)
 
 """
 -----------------------  Choix Fichier  ------------------------------
 """
+#TODO rendre fonctionnel le choix de lenvironnement avec une methode
 listeEnvironnement = os.listdir('../../environnements/')
-listeEnvironnement.append("Vide")
+listeEnvironnement.append('Vide')
 variable = StringVar(window)
 variable.set(listeEnvironnement[len(listeEnvironnement) - 1])
-opt = OptionMenu(window, variable, *listeEnvironnement)
+var = variable
+opt = OptionMenu(window, variable, *listeEnvironnement, command=Choix_Environnement(var))
 opt.grid(column=0, row=2, sticky='E')
-
+#print(variable.get())
 """
 -----------------------  Zones de saisies  ------------------------------
 """
+#TODO récupérer les valeurs dans des variables et en faire qqchose
 #Force attraction
 window.columnconfigure(0, minsize=0, weight=0)
 labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
@@ -98,18 +202,24 @@ HEIGHT = 400
 
 main_frame= Frame(window)
 #main_frame.pack(fill=BOTH, expand=1)
-main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20)
+main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20, sticky='NS')
 
 canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
 #canvas.pack(expand=YES)
-canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20)
+canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+
 table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
 table.calculerCoordonnees()
 vueTable = CObstacleQuadrilatereVue(canvas, table)
 
+table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
+table2.calculerCoordonnees()
+vueTable2 = CObstacleQuadrilatereVue(canvas, table2)
+
 """
 ------------------------- Recuperation des coordonees -------------------------
 """
+
 monFichier = CFichier("../../FichierSimulation/FichierPositions")
 listPositions = monFichier.LireFichierPosition()
 
@@ -120,90 +230,10 @@ personnes = []
 
 
 
-"""
-Fonction permettant d'actualiser la position des personnes.
-"""
-def mouvement(multi):
-    index = 0
-    for j in range(0, len(personnes)):
-        personnes[j].setX(listPositions[current][j + index])
-        personnes[j].setY(listPositions[current][j + index + 1])
-        personnes[j].move()
-        index += 1
-    time.sleep(0.05/multi)
-
-"""
-Fonction permettant de lancer la simulation.
-
-return : rien
-"""
-def lancerSimulation(event):
-    global current
-    global multiplicateur
-    for personne in personnes:
-        personne.disparaitre()
-    personnes.clear()
-    window.update()
-    current = 0
-    #Creation des personnes et initialisation de leurs positions
-    index = 0
-    for current in range(0, int(nbPersonnes)):
-        personne = CPersonneVue(canvas, listPositions[0][current + index], listPositions[0][current + index + 1], 10, 'red')
-        personnes.append(personne)
-        index += 1
-
-    #Mouvement
-    current = 0
-    for current in range(0, len(listPositions)):
-        window.update()
-        mouvement(float(multiplicateur))
-"""
-Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
-
-return : rien
-"""
-def iterate_back(event):
-    global multiplicateur
-    global backward
-    backward = True
-    global current
-    while(current - 1 >= 0 and (backward == True)):
-        window.update()
-        current -= 1
-        mouvement(float(multiplicateur))
-
-"""
-Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
-
-return : rien
-"""
-def iterate_front(event):
-    global multiplicateur
-    global forward
-    forward = True
-    global current
-    while(current + 1 < len(listPositions) and (forward == True)):
-        window.update()
-        current += 1
-        mouvement(float(multiplicateur))
-
-
-def stop_iterate_back(event):
-    global backward
-    backward = False
-
-
-def stop_iterate_front(event):
-    global forward
-    forward = False
-
-def menu_fichier(event):
-    listeEnvironnement = os.listdir('../../environnements/')
 
 """
 -----------------------  Lancement et navigation dans la simulation  ------------------------------
 """
-
 window.columnconfigure(3, minsize=0, weight=0)
 bouton_back = Button(window, text='<<<')
 bouton_back.grid(column=3, row=6, sticky='W')
@@ -217,7 +247,7 @@ bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 
 bouton_lancement = Button(window, text='LANCER')
 bouton_lancement.grid(column=3, row=6, sticky='NS')
-bouton_lancement.bind('<ButtonPress-1>', lancerSimulation)
+bouton_lancement.bind('<ButtonPress>', lancerSimulation)
 
 #Force vitesse
 labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
