@@ -14,7 +14,18 @@ from Code.Modele.CForce import DeltaT
 import csv
 import numpy as np
 
-#----------------------------------------- Methodes --------------------------------------------------------------------
+"""
+------------------------- Recuperation des coordonees -------------------------
+"""
+monFichier = CFichier("../../FichierSimulation/FichierPositions")
+listPositions = monFichier.LireFichierPosition()
+
+#On obtient le nombre de personnes grace aux colonnes du fichier csv
+nbPersonnes = len(listPositions[0])/2
+print(listPositions)
+personnes = []
+
+#----------------------------------------- Fonctions --------------------------------------------------------------------
 def A_Propos():
     aPropos = Toplevel(window)
     aPropos.resizable(0, 0)
@@ -22,7 +33,8 @@ def A_Propos():
     LabelAPropos.grid(column=0, row=0)
 
 def Choix_Environnement(var):
-    print(variable.get())
+    print(var)
+    #print(1)
     """lb = Label(window, text={variable.get()})
     lb.grid(collumn=0, row=7)"""
 
@@ -113,7 +125,6 @@ def menu_fichier(event):
     listeEnvironnement = os.listdir('../../environnements/')
 #-----------------------------------------------------------------------------------------------------------------------
 
-
 """
 -----------------------  Creation de la fenetre ------------------------------
 """
@@ -162,8 +173,8 @@ listeEnvironnement = os.listdir('../../environnements/')
 listeEnvironnement.append('Vide')
 variable = StringVar(window)
 variable.set(listeEnvironnement[len(listeEnvironnement) - 1])
-var = variable
-opt = OptionMenu(window, variable, *listeEnvironnement, command=Choix_Environnement(var))
+var = str(variable.get())
+opt = OptionMenu(window, variable, *listeEnvironnement, command=Choix_Environnement)
 opt.grid(column=0, row=2, sticky='E')
 #print(variable.get())
 """
@@ -215,21 +226,6 @@ vueTable = CObstacleQuadrilatereVue(canvas, table)
 table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
 table2.calculerCoordonnees()
 vueTable2 = CObstacleQuadrilatereVue(canvas, table2)
-
-"""
-------------------------- Recuperation des coordonees -------------------------
-"""
-
-monFichier = CFichier("../../FichierSimulation/FichierPositions")
-listPositions = monFichier.LireFichierPosition()
-
-#On obtient le nombre de personnes grace aux colonnes du fichier csv
-nbPersonnes = len(listPositions[0])/2
-print(listPositions)
-personnes = []
-
-
-
 
 """
 -----------------------  Lancement et navigation dans la simulation  ------------------------------
