@@ -8,7 +8,7 @@ class CObstacleQuadrilatere(CObstacle):
     """
 
     # -------------------Constructeur-------------------#
-    def __init__(self, hauteur = 0, largeur = 0, coordonneesSommets = np.array([(0, 0)])):
+    def __init__(self, hauteur = 0, largeur = 0, coordonneesSommets = np.array([0, 0])):
         super().__init__(coordonneesSommets)
         self.iSuperficie = hauteur * largeur
         self.iHauteur = hauteur
@@ -17,6 +17,7 @@ class CObstacleQuadrilatere(CObstacle):
 
     # -------------------Getters-------------------#
     def getHauteur(self):
+        self.get
         return self.iHauteur
 
     def getLargeur(self):
@@ -39,9 +40,15 @@ class CObstacleQuadrilatere(CObstacle):
               "Superficie : {}\n"
               "Hauteur : {}\n"
               "Largeur : {}\n"
-              .format(self.getCoordoneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
+              .format(self.getCoordonneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
 
-
+    def calculerCoordonnees(self):
+        coinTopRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1]])
+        coinBottomLeft = np.array([self.tCoordonneesSommet[0][0], self.tCoordonneesSommet[0][1] - self.iHauteur])
+        coinBottomRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1] - self.iHauteur])
+        self.tCoordonneesSommet.append(coinTopRight)
+        self.tCoordonneesSommet.append(coinBottomLeft)
+        self.tCoordonneesSommet.append(coinBottomRight)
 """list_sorties = np.array([(3, 4), (2, 4)])
 carreONE = CObstacleQuadrilatere(12, 12, list_sorties)
 carreONE.OBSToString()"""

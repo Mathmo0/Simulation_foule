@@ -17,7 +17,7 @@ class COperation:
     @staticmethod
     def DetectionCercle(CentreCercle0, CentreCercle1, Point0, Point1, rayon):
 
-        DIstance = (Point0 - CentreCercle0) ** 2 + (Point1 - CentreCercle1 ** 2)
+        DIstance = (Point0 - CentreCercle0) ** 2 + (Point1 - CentreCercle1) ** 2
         r2 = (rayon ** 2)
         if (DIstance <= r2):
             return True
@@ -37,7 +37,13 @@ class COperation:
         :return coef : coefficient de la fonction linéaire ax+b
 
         '''
-        a = (Position[1] - PositionDeltaT[1]) / (Position[0] - PositionDeltaT[0])  # coef directeur
+
+        Denominateur = (Position[0] - PositionDeltaT[0])
+        if Denominateur == 0 :
+            a = 0
+        else:
+            a = (Position[1] - PositionDeltaT[1]) / (Position[0] - PositionDeltaT[0])  # coef directeur
+
         b = Position[1] - Position[0] * a  # ordonne à l'origine
         coef = np.array([a, b]) #coefficients de la fonction linéaire
         return coef
@@ -61,7 +67,8 @@ class COperation:
 
         return np.array([-rAlphaBeta[1] + coef[0] + coef[1], coef[0] * rAlphaBeta[0] - 1 + coef[1]])
 
-    def create_circle(cls, x, y, r, canvas, color):
+    @staticmethod
+    def create_circle(x, y, r, canvas, color):
         """
         Cette focntion permet de créer un cercle dans un canvas
 

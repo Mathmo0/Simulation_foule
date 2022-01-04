@@ -8,7 +8,7 @@ class CEnvironnement:
     """
 
     # -------------------Constructeur-------------------#
-    def __init__(self, nom="", hauteur=1, largeur=1, sorties= np.array([(0, 0)]), listePersonnes = np.array([CPersonne()]), listeObstacles = np.array([CObstacleQuadrilatere()])):
+    def __init__(self, nom="", hauteur=1, largeur=1, sorties= np.array([(0, 0)]), listePersonnes = [CPersonne()], listeObstacles = [CObstacleQuadrilatere()]):
         self.sNom = nom
 
         self.iHauteur = hauteur
@@ -20,7 +20,7 @@ class CEnvironnement:
         self.lListeObstacles = listeObstacles
 
         self.iNbPersonnes = len(listePersonnes)
-        self.iNbObstacles = len(listePersonnes)
+        self.iNbObstacles = len(listeObstacles)
 
         self.tSorties = sorties
 
@@ -30,7 +30,7 @@ class CEnvironnement:
         self.fSuperficie = self.iHauteur * self.iLargeur
 
         self.iNbPersonnes = len(self.lListePersonnes)
-        self.iNbObstacles = len(self.lListePersonnes)
+        self.iNbObstacles = len(self.lListeObstacles)
 
 
     # -------------------Getters-------------------#
@@ -98,6 +98,9 @@ class CEnvironnement:
             "Nombre d'obstacles : {}\n" 
             "Liste de sorties : {}\n"
                 .format(self.getNom(), self.getSuperficie(), self.getHauteur(), self.getLargeur(), self.getNbPersonnes(), self.getNbObstacles(), self.getSorties()))
+        print("\nListe des obstacles :")
+        for obs in self.getListeObstacles():
+            obs.OBSToString()
 
 
 

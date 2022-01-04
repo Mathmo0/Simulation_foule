@@ -2,13 +2,14 @@ import numpy as np
 
 from Code.Modele.CForce import CForce,tau
 from Code.Modele.COperation import COperation
+from Code.Modele.CObstacle import CObstacle
 
 from numpy import linalg as la
 import numpy as np
 
 class CFRepulsion(CForce) :
 
-    def __init__(self, tForceRepulsion = np.array([0,0])):
+    def __init__(self, tForceRepulsion = np.array([0.0,0.0])):
         self.tForceRepulsion = tForceRepulsion
 
     def gettertForceRepulsion(self):
@@ -39,8 +40,9 @@ class CFRepulsion(CForce) :
         @param vRkBeta : destination du piéton Beta
         @param vitesseBeta : vitesse du piéton beta
         @return: valeur de l'effet de repulsion
+
         """
-        nablarAlphaB = COpetation.Nabla(Ralpha, RalphaDeltaT, Rbeta)
+        nablarAlphaB = COperation.Nabla(Ralpha, Rbeta, Rbeta)
         bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
         V = self.VAlphaBeta(bEffet)
 
@@ -48,17 +50,17 @@ class CFRepulsion(CForce) :
 
     def FREForceDeRepulsionObstacle(self,Ralpha, RalphaDeltaT, RObstacle):
         """
-        Cette fonction permet de calculer La force de replsion exercer sur un pieton par un obstacle
+        Cette fonction permet de calculer La force de repulsion exercer sur un pieton par un obstacle
 
         @param Ralpha: position du piéton alpha à l'instant t
         @param RalphaDeltaT: position du piéton à l'instant t-DeltaT
-        @param RObstacle: pposition de l'obstacle
+        @param RObstacle: position de l'obstacle
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
-        NablaFRO = COpetation.Nabla(Ralpha, RalphaDeltaT, RObstacle)
+        NablaFRO = COperation.Nabla(Ralpha, RObstacle, RObstacle)
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
-        UFRO = COpetation.UAlphaObstacle(NormeVecteurRAlphaObstacle)
+        UFRO = self.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
         return NablaFRO * UFRO
 
@@ -69,7 +71,7 @@ class CFRepulsion(CForce) :
         @param vRkAlpha : destination du pieton alpha
         @param Ralpha : position du piéton alpha à l'instant t
         @param RalphaDeltaT : position du piéton à l'instant t-DeltaT
-        @param Rbeta : position du piéotn beta à l'instant t
+        @param Rbeta : position du piéton beta à l'instant t
         @param vRkBeta : destination du piéton Beta
         @param vitesseBeta : vitesse du piéton beta
         @return: valeur de la force de repulsion applique par le pieton Beta sur le pieton Alpha
@@ -81,3 +83,25 @@ class CFRepulsion(CForce) :
         self.tForceRepulsion = self.w(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
 
         return self.tForceRepulsion
+
+    def FREDeterminerSommetObstacle(self,coordPieton, obstacle:CObstacle):
+        """
+        Cette fontion permet de lequel des sommets d'un obstacle est utilise pour calculer la force de repulsion entre un personne et un obstacle
+        @param coordPieton: coordonnes du pieton sur lequel est applique la force de repulsion Personne-Obstacle
+        @param obstacle: obstacle qui va appliquer la force de repulsion Personne-Obstacle
+        @return: coordonnees du sommet qui va etre utilisée pour appliquer la force de repulsion Personne-Obstacle
+
+        """
+        listsommet = obstacle.getCoordonneesSommet()
+        sommetRetenu = np.array([0,0])
+        distance = 99999999999
+
+        for sommet in listsommet :
+
+            distancePO = la.norm(coordPieton-sommet)
+            if(distancePO < distance) :
+                sommetRetenu = sommet
+                distance = distancePO
+        return sommetRetenu
+
+

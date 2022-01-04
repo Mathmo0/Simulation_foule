@@ -4,15 +4,16 @@ import math
 from numpy import linalg as la
 
 # constante :
+
 c = 0.5
 tau = 0.5  # s
 SqrtTeta = 0.26  # m/s
-Sigma = 0.3  # m
-R = 0.2  # m
+Sigma = 1.5  # m
+R = 0.2 # m
 DeltaT = 2  # s
 Phi = 100  # °
-VAlphaBeta0 = 2.1  # m**2
-UAlphaObstacle0 = 10  # (m/s)**2
+VAlphaBeta0 = 1.5 #5  # m**2
+UAlphaObstacle0 = 10 # (m/s)**2
 
 class CForce :
 
@@ -56,10 +57,11 @@ class CForce :
         @param vRalpha : position du piéton alpha
         @return: vecteur destination
         """
-
         vdistance = vRkAlpha - vRalpha
-
-        return vdistance / la.norm(vdistance)
+        if(la.norm(vdistance) != 0) :
+            return vdistance / la.norm(vdistance)
+        else :
+            return np.array([0.0,0.0])
 
     def b(self,Ralpha, Rbeta, vitesseBeta, vRkBeta):
         """
@@ -84,7 +86,6 @@ class CForce :
 
     def w(self,e, f):
         """
-
         @param e : est le vecteur sortie/obstacle
         @param f : est un vecteur force
         @return:
@@ -106,10 +107,10 @@ class CForce :
 
     def UAlphaObstacle(self,NormeVecteurRAlphaObstacle):
         """
-        Cette focntion permet de calculer le potentiel décroissant répulsif et monotique
+        Cette focntion permet de calculer le potentiel décroissant répulsif et monotonique
 
         @param NormeVecteurRAlphaObstacle:
-        @return: valeur du potentiel décroissant répulsif et monotique
+        @return: valeur du potentiel décroissant répulsif et monotonique
         """
         return UAlphaObstacle0 * np.exp(-NormeVecteurRAlphaObstacle / R)
 
