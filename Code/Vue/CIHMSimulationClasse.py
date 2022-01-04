@@ -192,7 +192,7 @@ class CIHMSimulationClasse:
             for personnes in self.CEnvironnement.getListePersonnes():
                 personnes.ajouterDirection(self.CEnvironnement.getSorties())
 
-            self.lListePersonnesSortie = [True for i in range(self.CEnvironnement.getNbPersonnes())]
+            self.lListePersonnesSorties = [True for i in range(self.CEnvironnement.getNbPersonnes())]
             bfini = False
 
             self.lListePersonnes = self.CEnvironnement.getListePersonnes()
@@ -203,11 +203,11 @@ class CIHMSimulationClasse:
                 while bfini == False:
                     # ecriture des coordonnees
                     for personne in self.lListePersonnes:
-                        self.lListePersonnes.append(personne.RecupererDerniereCoordonne()[0])
-                        self.lListePersonnes.append(personne.RecupererDerniereCoordonne()[1])
+                        self.lListePosition.append(personne.RecupererDerniereCoordonne()[0])
+                        self.lListePosition.append(personne.RecupererDerniereCoordonne()[1])
 
                     writer.writerow(self.lListePosition)
-                    self.lListePersonnes.clear()
+                    self.lListePosition.clear()
 
                     # calcul des nouvelles coordonnees
                     for personne in self.lListePersonnes:
@@ -260,6 +260,11 @@ class CIHMSimulationClasse:
 
                     self.iTempsDeSimulation += DeltaT
 
+            #TODO AFFICHER POSITION INITIALES
+            for personnes in self.lListePersonnes:
+                PersonnesVUE = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 10, 'red')
+                self.Window.update()
+
 test = CIHMSimulationClasse()
 
-test.Creation_Zone_Simulation()
+#test.Creation_Zone_Simulation()

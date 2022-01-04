@@ -17,12 +17,15 @@ class CEnvironnement:
         self.fSuperficie = hauteur * largeur
 
         self.lListePersonnes = listePersonnes
+
         self.lListeObstacles = listeObstacles
 
         self.iNbPersonnes = len(listePersonnes)
         self.iNbObstacles = len(listeObstacles)
 
         self.tSorties = sorties
+
+        self.AttribuerSortie()
 
     def CEnvironnementFichier(self, fichier):
         self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.LireFichierEnvironnement()
@@ -32,8 +35,10 @@ class CEnvironnement:
         self.iNbPersonnes = len(self.lListePersonnes)
         self.iNbObstacles = len(self.lListeObstacles)
 
+        self.AttribuerSortie()
 
-    # -------------------Getters-------------------#
+
+    # -------------------Getters------------------- #
     def getNom(self):
         return self.sNom
 
@@ -101,6 +106,11 @@ class CEnvironnement:
         print("\nListe des obstacles :")
         for obs in self.getListeObstacles():
             obs.OBSToString()
+
+    def AttribuerSortie(self):
+        for personnes in self.lListePersonnes:
+            personnes.ajouterDirection(self.tSorties)
+            personnes.PlusCourtChemin()
 
 
 

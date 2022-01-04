@@ -141,5 +141,5 @@ test = CEnvironnement()
 test.CEnvironnementFichier(fichier)
 test.ENVToString()"""
 
-for i in test.getListePersonnes():
-    print(i.getListCoordonnees())
+"""for i in test.getListePersonnes():
+    print(i.getListCoordonnees())"""
