@@ -34,8 +34,9 @@ class CIHMSimulationClasse:
         self.CEnvironnement = CEnvironnement()
 
         self.FichierPosition = CFichier("../../FichierSimulation/FichierPositions")
-        self.lListePosition = []
+        self.lListePositions = []
         self.lListePersonnes = []
+        self.lListePersonnesVue = []
         self.lListePersonnesSorties = [] #Liste des personnes sortie
 
         # ___ Attributs de fenetre ___
@@ -88,6 +89,21 @@ class CIHMSimulationClasse:
         self.CanvasSimulation = Canvas(self.Window)
         self.Creation_Zone_Simulation()
         print(self.sEnvironnement.get())
+
+        """
+        -----------------------  Lancement et navigation dans la simulation  ------------------------------
+        """
+        self.bouton_back = Button()
+        self.bouton_front = Button()
+        self.bouton_lancement = Button()
+
+        self.labelVitesse = Label()
+        self.lListeVitesse = [0.25, 0.5, 1, 1.5, 2]
+        self.fVitesse = 1
+        self.menuVitesse = OptionMenu(self.Window, self.sEnvironnement, *self.lListeVitesse)
+
+        self.Creation_Lancement_Simulation()
+
         self.Window.mainloop()
 
 
@@ -130,6 +146,7 @@ class CIHMSimulationClasse:
         self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement, command=self.Choix_Environnement)
         self.ChoixMenu.grid(column=0, row=2, sticky='E')
 
+    #TODO RENDRE FONCTIONNEL LA SAISIS
     def Creation_Zone_Saisies(self):
         # Force attraction
         self.Window.columnconfigure(0, minsize=0, weight=0)
@@ -168,6 +185,123 @@ class CIHMSimulationClasse:
         for personnes in self.CEnvironnement.getListePersonnes():
             CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 10, 'red')
 
+    def Creation_Lancement_Simulation(self):
+        # Reculer
+        self.Window.columnconfigure(3, minsize=0, weight=0)
+        self.bouton_back = Button(self.Window, text='<<<')
+        self.bouton_back.grid(column=3, row=6, sticky='W')
+        self.bouton_back.bind('<ButtonPress-1>', self.iterate_back)
+        self.bouton_back.bind('<ButtonRelease-1>', self.stop_iterate_back)
+
+        # Avancer
+        self.bouton_front = Button(self.Window, text='>>>')
+        self.bouton_front.grid(column=3, row=6, sticky='E')
+        self.bouton_front.bind('<ButtonPress-1>', self.iterate_front)
+        self.bouton_front.bind('<ButtonRelease-1>', self.stop_iterate_front)
+
+        # Lancement simulation
+        self.bouton_lancement = Button(self.Window, text='LANCER')
+        self.bouton_lancement.grid(column=3, row=6, sticky='NS')
+        self.bouton_lancement.bind('<ButtonPress>', self.lancerSimulation)
+
+        # Force vitesse
+        self.labelVitesse = Label(self.Window, text="Vitesse de lecture : ", bg='light grey')
+        self.labelVitesse.grid(column=3, row=5, sticky='E', pady=10)
+        self.Window.columnconfigure(5, minsize=0, weight=1)
+
+        self.fVitesse = StringVar(self.Window)
+        self.fVitesse.set(self.lListeVitesse[2])
+        self.menuVitesse = OptionMenu(self.Window, self.fVitesse, *self.lListeVitesse)
+        self.menuVitesse.grid(column=4, row=5, sticky='W')
+
+    def mouvement(self):
+        """
+        Fonction permettant d'actualiser la position des personnes.
+
+        @param : multiplicateur qui permet de moduler la vitesse de la simulation
+        @return : rien
+        """
+        index = 0
+        for j in range(0, len(self.lListePersonnesVue)):
+            self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
+            self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
+            self.lListePersonnesVue[j].move()
+            index += 1
+        time.sleep(0.05 / float(self.fVitesse.get()))
+
+    def lancerSimulation(self, event):
+        """
+        Fonction permettant de lancer la simulation.
+
+        @return : rien
+        """
+        for personne in self.lListePersonnesVue:
+            personne.disparaitre()
+
+        self.lListePersonnesVue.clear()
+
+        """
+        ------------------------- Recuperation des coordonees -------------------------
+        """
+        monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
+        self.lListePositions = monFichier.LireFichierPosition()
+
+        # On obtient le nombre de personnes grace aux colonnes du fichier csv
+
+        if not (self.bouton_lancement['state'] == DISABLED):
+            self.bouton_lancement.config(state=DISABLED)
+            self.bouton_front.config(state=DISABLED)
+            #for personne in self.lListePersonnes:
+                #personne.disparaitre()
+            self.lListePersonnes.clear()
+            self.Window.update()
+            self.iCurrent = 0
+            # Creation des personnes et initialisation de leurs positions
+            index = 0
+            for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
+                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index],
+                                        self.lListePositions[0][self.iCurrent + index + 1], 10, 'red')
+                self.lListePersonnesVue.append(personne)
+                index += 1
+
+            # Mouvement
+            self.iCurrent = 0
+            for self.iCurrent in range(0, len(self.lListePositions)):
+                self.Window.update()
+                self.mouvement()
+            self.bouton_lancement.config(state=NORMAL)
+            self.bouton_back.config(state=NORMAL)
+            self.bouton_front.config(state=NORMAL)
+
+    def iterate_back(self, event):
+        """
+        Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
+
+        @return : rien
+        """
+        self.bBackward = True
+        while (self.iCurrent - 1 >= 0 and (self.bBackward == True)):
+            self.Window.update()
+            self.iCurrent -= 1
+            self.mouvement()
+
+    def iterate_front(self, event):
+        """
+        Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
+
+        @return : rien
+        """
+        self.bForward = True
+        while (self.iCurrent + 1 < len(self.lListePositions) and (self.bForward == True)):
+            self.Window.update()
+            self.iCurrent += 1
+            self.mouvement()
+
+    def stop_iterate_back(self, event):
+        backward = False
+
+    def stop_iterate_front(self, event):
+        forward = False
 
     def A_Propos(self):
         self.aPropos = Toplevel(self.Window)
@@ -186,6 +320,7 @@ class CIHMSimulationClasse:
     #TODO rendre fonctionnel le choix de lenvironnement avec une methode
     def Choix_Environnement(self, sEnvironnement):
         print(sEnvironnement)
+        self.Clear()
         if(sEnvironnement != 'Vide'):
             self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
             self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
@@ -196,18 +331,27 @@ class CIHMSimulationClasse:
             bfini = False
 
             self.lListePersonnes = self.CEnvironnement.getListePersonnes()
+
+            #Affichage de la position initiale
+            for personnes in self.lListePersonnes:
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0],
+                                            personnes.getListCoordonnees()[0][1], 10, 'red')
+                self.lListePersonnesVue.append(personne)
+                self.Window.update()
+
             header = len(self.lListePersonnes) * ["x", "y"]
+
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
                 while bfini == False:
                     # ecriture des coordonnees
                     for personne in self.lListePersonnes:
-                        self.lListePosition.append(personne.RecupererDerniereCoordonne()[0])
-                        self.lListePosition.append(personne.RecupererDerniereCoordonne()[1])
+                        self.lListePositions.append(personne.RecupererDerniereCoordonne()[0])
+                        self.lListePositions.append(personne.RecupererDerniereCoordonne()[1])
 
-                    writer.writerow(self.lListePosition)
-                    self.lListePosition.clear()
+                    writer.writerow(self.lListePositions)
+                    self.lListePositions.clear()
 
                     # calcul des nouvelles coordonnees
                     for personne in self.lListePersonnes:
@@ -260,11 +404,26 @@ class CIHMSimulationClasse:
 
                     self.iTempsDeSimulation += DeltaT
 
-            #TODO AFFICHER POSITION INITIALES
-            for personnes in self.lListePersonnes:
-                PersonnesVUE = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 10, 'red')
-                self.Window.update()
+    def Clear(self):
+        # ___ Attributs de navigation ___
+        self.iCurrent = 0
+        self.bBackward = False
+        self.bForward = False
+
+        #self.CEnvironnement = CEnvironnement()
+
+        self.lListePositions.clear()
+        self.lListePersonnes.clear()
+        self.lListePersonnesVue.clear()
+        self.lListePersonnesSorties.clear()
+
+
+
+
+
+
 
 test = CIHMSimulationClasse()
-
+#test.Window.update()
+#test.Window.mainloop()
 #test.Creation_Zone_Simulation()
