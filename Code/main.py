@@ -9,34 +9,51 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 t = 0
-Mathis = CPersonne(False,np.array([0, 0]))
-Maxime = CPersonne(False,np.array([0, 600]))
-Hicham = CPersonne(False,np.array([600, 0]))
-Killian = CPersonne(False,np.array([600,600]))
+Mathis = CPersonne(False,np.array([200, 175]))
+Maxime = CPersonne(False,np.array([400, 400]))
+Hicham = CPersonne(False,np.array([400, 0]))
+Killian = CPersonne(False,np.array([250,280]))
+Bernard = CPersonne(False,np.array([120, 79]))
+Louis = CPersonne(False,np.array([46, 26]))
+moi = CPersonne(False,np.array([29, 45]))
+lui = CPersonne(False,np.array([2, 79]))
+il = CPersonne(False,np.array([89, 26]))
+elle = CPersonne(False,np.array([160, 45]))
+on = CPersonne(False,np.array([10, 5]))
 
-Maxime.ajouterDirection(np.array([600,0]))
-Mathis.ajouterDirection(np.array([600,600]))
-Hicham.ajouterDirection(np.array([0,600]))
-Killian.ajouterDirection(np.array([0,0]))
+'''
+Maxime.ajouterDirection(np.array([0,0]))
+Mathis.ajouterDirection(np.array([200,250]))
+Hicham.ajouterDirection(np.array([0,400]))
+Killian.ajouterDirection(np.array([400,400]))
+'''
 
 listPersonnes = []
 
-
+'''
+listPersonnes.append(Bernard)
+listPersonnes.append(Louis)
+listPersonnes.append(lui)
+listPersonnes.append(il)
+listPersonnes.append(elle)
+listPersonnes.append(on)
 listPersonnes.append(Mathis)
 listPersonnes.append(Maxime)
 listPersonnes.append(Hicham)
+'''
+listPersonnes.append(Killian)
 
 table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
 table.calculerCoordonnees()
 
-table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
+table2 = CObstacleQuadrilatere(100, 100, np.array([150,150]))
 table2.calculerCoordonnees()
 
-listObstacles = [] #[table, table2]
+listObstacles = [table, table2]
 
 #Maxime.ajouterDirection(np.array([10,50]))
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([500,500]), listPersonnes, listObstacles)
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([300,100]), listPersonnes, listObstacles)
 #fichier = CFichier("../environnements/Environnement_0")
 
 #environnement1 = CEnvironnement()
@@ -44,8 +61,8 @@ environnement1 = CEnvironnement("Bureau", 100, 100, np.array([500,500]), listPer
 listPersonnes2 = environnement1.getListePersonnes()
 listObstacle = environnement1.getListeObstacles()
 print(listObstacle)
-#for personne in listPersonnes2 :
-#   personne.ajouterDirection(environnement1.getSorties())
+for personne in listPersonnes2 :
+   personne.ajouterDirection(environnement1.getSorties())
 
 listPersonnesSorties = [True for i in range (len(listPersonnes2))]
 Fini = False
@@ -92,11 +109,14 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 print('\n-------------autre------------\n')
 
                 #Force de Repulsion par un obstacle :
+
+                personne.ClearlistObstacleProx()
+
                 for obstacle in listObstacle :
                    coordPieton = personne.RecupererDerniereCoordonne()
                    sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacle(coordPieton,obstacle)
                    print("sommet = ",sommet)
-                   if(COperation.DetectionCercle(sommet[0],sommet[1],coordPieton[0],coordPieton[1],100) == True) :
+                   if(COperation.DetectionCercle(sommet[0],sommet[1],coordPieton[0],coordPieton[1],10) == True) :
                        personne.ajouterObstacle(obstacle)
 
                 personne.CalculerForceRepulsionObstacle()

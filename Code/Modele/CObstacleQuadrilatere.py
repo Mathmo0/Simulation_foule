@@ -17,7 +17,6 @@ class CObstacleQuadrilatere(CObstacle):
 
     # -------------------Getters-------------------#
     def getHauteur(self):
-        self.get
         return self.iHauteur
 
     def getLargeur(self):

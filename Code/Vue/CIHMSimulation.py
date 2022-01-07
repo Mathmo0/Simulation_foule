@@ -244,6 +244,7 @@ bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 bouton_lancement = Button(window, text='LANCER')
 bouton_lancement.grid(column=3, row=6, sticky='NS')
 bouton_lancement.bind('<ButtonPress>', lancerSimulation)
+window.bind('<space>',lancerSimulation)
 
 #Force vitesse
 labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
