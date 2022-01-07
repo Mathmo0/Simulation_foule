@@ -38,6 +38,7 @@ class CIHMSimulationClasse:
         self.lListePersonnes = []
         self.lListePersonnesVue = []
         self.lListePersonnesSorties = [] #Liste des personnes sortie
+        self.lListeObstaclesVue = []
 
         # ___ Attributs de fenetre ___
         """
@@ -298,10 +299,10 @@ class CIHMSimulationClasse:
             self.mouvement()
 
     def stop_iterate_back(self, event):
-        backward = False
+        self.bBackward = False
 
     def stop_iterate_front(self, event):
-        forward = False
+        self.bForward = False
 
     def A_Propos(self):
         self.aPropos = Toplevel(self.Window)
@@ -334,9 +335,13 @@ class CIHMSimulationClasse:
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0],
-                                            personnes.getListCoordonnees()[0][1], 10, 'red')
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 10, 'red')
                 self.lListePersonnesVue.append(personne)
+                self.Window.update()
+            #TODO : afficher les obstacles
+            for obstacles in self.CEnvironnement.getListeObstacles():
+                obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
+                self.lListeObstaclesVue.append(obstacle)
                 self.Window.update()
 
             header = len(self.lListePersonnes) * ["x", "y"]
@@ -416,6 +421,8 @@ class CIHMSimulationClasse:
         self.lListePersonnes.clear()
         self.lListePersonnesVue.clear()
         self.lListePersonnesSorties.clear()
+
+        self.Creation_Zone_Simulation()
 
 
 
