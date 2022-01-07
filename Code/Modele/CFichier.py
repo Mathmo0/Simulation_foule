@@ -14,7 +14,7 @@ class CFichier:
 
     # -------------------Constructeur-------------------#
     def __init__(self, nomFichier=""):
-        self.sNomFichier = nomFichier + ".csv"
+        self.sNomFichier = nomFichier# + ".csv"
 
     # -------------------Getters-------------------#
     def getNomFichier(self):
@@ -86,7 +86,7 @@ class CFichier:
         """
         # variables
         nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([np.array([0,0])]), [], []
-        list_coord_objstacles = np.array([(0, 0)])
+        list_coord_obstacles = np.array([(0, 0)])
         liste_dimensions_obstacles = np.array([(0, 0)])
 
         # ouverture du fichier
@@ -140,3 +140,6 @@ class CFichier:
 test = CEnvironnement()
 test.CEnvironnementFichier(fichier)
 test.ENVToString()"""
+
+"""for i in test.getListePersonnes():
+    print(i.getListCoordonnees())"""

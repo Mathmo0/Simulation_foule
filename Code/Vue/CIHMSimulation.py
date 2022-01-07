@@ -32,16 +32,18 @@ def A_Propos():
     LabelAPropos = Label(aPropos, text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.", font=("Arial", 20), bg='light grey')
     LabelAPropos.grid(column=0, row=0)
 
-def Choix_Environnement(var):
-    print(var)
-    #print(1)
-    """lb = Label(window, text={variable.get()})
-    lb.grid(collumn=0, row=7)"""
+def Choix_Environnement(variable):
+    print(variable)
 
-"""
-Fonction permettant d'actualiser la position des personnes.
-"""
+
+
 def mouvement(multi):
+    """
+    Fonction permettant d'actualiser la position des personnes.
+
+    @param : multiplicateur qui permet de moduler la vitesse de la simulation
+    @return : rien
+    """
     index = 0
     for j in range(0, len(personnes)):
         personnes[j].setX(listPositions[current][j + index])
@@ -50,12 +52,13 @@ def mouvement(multi):
         index += 1
     time.sleep(0.5/multi)
 
-"""
-Fonction permettant de lancer la simulation.
 
-return : rien
-"""
 def lancerSimulation(event):
+    """
+    Fonction permettant de lancer la simulation.
+
+    @return : rien
+    """
     if not (bouton_lancement['state'] == DISABLED):
         bouton_lancement.config(state=DISABLED)
         bouton_front.config(state=DISABLED)
@@ -81,12 +84,13 @@ def lancerSimulation(event):
         bouton_lancement.config(state=NORMAL)
         bouton_back.config(state=NORMAL)
         bouton_front.config(state=NORMAL)
-"""
-Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
 
-return : rien
-"""
 def iterate_back(event):
+    """
+    Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
+
+    @return : rien
+    """
     global multiplicateur
     global backward
     backward = True
@@ -96,12 +100,12 @@ def iterate_back(event):
         current -= 1
         mouvement(10)
 
-"""
-Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
-
-return : rien
-"""
 def iterate_front(event):
+    """
+    Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
+
+    @return : rien
+    """
     global multiplicateur
     global forward
     forward = True

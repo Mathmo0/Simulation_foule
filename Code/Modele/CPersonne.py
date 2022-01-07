@@ -365,3 +365,12 @@ class CPersonne:
             return False
 
 
+    def PlusCourtChemin(self):
+        distance = 9999999999999999999
+        coord = []
+        for i in range(0, len(self.__lPERDirection)):
+            distanceBIS = np.linalg.norm(self.__lPERCoordonees[0] - self.__lPERDirection[i])
+            if distance > distanceBIS:
+                distance = distanceBIS
+                coord = self.__lPERDirection[i]
+        self.__lPERDirection = coord

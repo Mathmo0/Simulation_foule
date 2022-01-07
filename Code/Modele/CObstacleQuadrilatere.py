@@ -48,6 +48,8 @@ class CObstacleQuadrilatere(CObstacle):
         self.tCoordonneesSommet.append(coinTopRight)
         self.tCoordonneesSommet.append(coinBottomLeft)
         self.tCoordonneesSommet.append(coinBottomRight)
+
+
 """list_sorties = np.array([(3, 4), (2, 4)])
 carreONE = CObstacleQuadrilatere(12, 12, list_sorties)
 carreONE.OBSToString()"""
