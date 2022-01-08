@@ -84,8 +84,8 @@ class CIHMSimulationClasse:
         """
         -----------------------  Zone de simulation  ------------------------------
         """
-        self.iWidth = 600
-        self.iHeight = 600
+        self.iWidth = 400
+        self.iHeight = 400
         self.FrameSimulation = Frame(self.Window)
         self.CanvasSimulation = Canvas(self.Window)
         self.Creation_Zone_Simulation()
@@ -395,7 +395,7 @@ class CIHMSimulationClasse:
                                 if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 100) == True):
                                     personne.ajouterObstacle(obstacle)
 
-                            personne.CalculerForceRepulsionObstacle()
+                            #personne.CalculerForceRepulsionObstacle()
                             print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                             # Nouvelle Position:
 

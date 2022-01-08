@@ -21,7 +21,7 @@ class CPersonne:
         self.__vPERVitesse = np.array([0, 0])
         self.__fPERVitesse = vitesse
         self.__fPERPression = pression
-        self.__lPERDirection = []
+        self.__lPERDirection: List[np.array()] = []
         self.__lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
         if recursif == False :
             self.__lPERlistPersonneProximite = [CPersonne(True)]

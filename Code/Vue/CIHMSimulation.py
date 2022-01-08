@@ -17,13 +17,25 @@ import numpy as np
 """
 ------------------------- Recuperation des coordonees -------------------------
 """
-monFichier = CFichier("../../FichierSimulation/FichierPositions")
+monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
 listPositions = monFichier.LireFichierPosition()
 
 #On obtient le nombre de personnes grace aux colonnes du fichier csv
 nbPersonnes = len(listPositions[0])/2
-print(listPositions)
+print("list position = ",listPositions)
 personnes = []
+
+
+"""
+---------------Carte de Chaleur -------------------------
+"""
+listCarteChaleur = [400][400]
+for uiBoucle1 in range(399) :
+    for uiBoucle2 in range(399) :
+        listCarteChaleur[uiBoucle1][uiBoucle2] = 0
+
+
+
 
 #----------------------------------------- Fonctions --------------------------------------------------------------------
 def A_Propos():

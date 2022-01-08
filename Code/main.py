@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 t = 0
 Mathis = CPersonne(False,np.array([200, 175]))
-Maxime = CPersonne(False,np.array([400, 400]))
+Maxime = CPersonne(False,np.array([40, 40]))
 Hicham = CPersonne(False,np.array([400, 0]))
 Killian = CPersonne(False,np.array([250,280]))
 Bernard = CPersonne(False,np.array([120, 79]))
@@ -30,7 +30,6 @@ Killian.ajouterDirection(np.array([400,400]))
 
 listPersonnes = []
 
-'''
 listPersonnes.append(Bernard)
 listPersonnes.append(Louis)
 listPersonnes.append(lui)
@@ -40,8 +39,21 @@ listPersonnes.append(on)
 listPersonnes.append(Mathis)
 listPersonnes.append(Maxime)
 listPersonnes.append(Hicham)
-'''
 listPersonnes.append(Killian)
+
+'''
+Bernard.ajouterDirection(np.array([400,400]))
+Louis.ajouterDirection(np.array([400,400]))
+lui.ajouterDirection(np.array([400,400]))
+il.ajouterDirection(np.array([400,400]))
+elle.ajouterDirection(np.array([400,400]))
+on.ajouterDirection(np.array([400,400]))
+Mathis.ajouterDirection(np.array([400,400]))
+Maxime.ajouterDirection(np.array([400,400]))
+Hicham.ajouterDirection(np.array([400,400]))
+Killian.ajouterDirection(np.array([400,400]))
+'''
+
 
 table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
 table.calculerCoordonnees()
@@ -49,20 +61,21 @@ table.calculerCoordonnees()
 table2 = CObstacleQuadrilatere(100, 100, np.array([150,150]))
 table2.calculerCoordonnees()
 
-listObstacles = [table, table2]
+listObstacles = [] #[table, table2]
 
 #Maxime.ajouterDirection(np.array([10,50]))
 
-environnement1 = CEnvironnement("Bureau", 100, 100, np.array([300,100]), listPersonnes, listObstacles)
+environnement1 = CEnvironnement("Bureau", 100, 100, np.array([400,400]), listPersonnes, listObstacles)
 #fichier = CFichier("../environnements/Environnement_0")
 
 #environnement1 = CEnvironnement()
 #environnement1.CEnvironnementFichier(fichier)
+
 listPersonnes2 = environnement1.getListePersonnes()
 listObstacle = environnement1.getListeObstacles()
 print(listObstacle)
-for personne in listPersonnes2 :
-   personne.ajouterDirection(environnement1.getSorties())
+#for personne in listPersonnes2 :
+#   personne.ajouterDirection(environnement1.getSorties())
 
 listPersonnesSorties = [True for i in range (len(listPersonnes2))]
 Fini = False
