@@ -37,6 +37,24 @@ class CEnvironnement:
 
         self.AttribuerSortie()
 
+    def CEnvironnementCopie(self, environnement):
+        self.sNom = environnement.sNom
+
+        self.iHauteur = environnement.iHauteur
+        self.iLargeur = environnement.iLargeur
+
+        self.fSuperficie = environnement.iHauteur * environnement.iLargeur
+
+        self.lListePersonnes = environnement.lListePersonnes
+
+        self.lListeObstacles = environnement.lListeObstacles
+
+        self.iNbPersonnes = len(environnement.iNbPersonnes)
+        self.iNbObstacles = len(environnement.iNbObstacles)
+
+        self.tSorties = environnement.tSorties
+
+        self.AttribuerSortie()
 
     # -------------------Getters------------------- #
     def getNom(self):
@@ -111,6 +129,8 @@ class CEnvironnement:
         for personnes in self.lListePersonnes:
             personnes.ajouterDirection(self.tSorties)
             personnes.PlusCourtChemin()
+
+
 
 
 
