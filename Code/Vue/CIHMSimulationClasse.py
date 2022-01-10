@@ -261,7 +261,7 @@ class CIHMSimulationClasse:
             index = 0
             for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
                 personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index],
-                                        self.lListePositions[0][self.iCurrent + index + 1], 10, 'red')
+                                        self.lListePositions[0][self.iCurrent + index + 1], 7, 'red')
                 self.lListePersonnesVue.append(personne)
                 index += 1
 
@@ -323,6 +323,9 @@ class CIHMSimulationClasse:
         print(sEnvironnement)
         self.Clear()
         if(sEnvironnement != 'Vide'):
+            self.bouton_lancement.config(state=DISABLED)
+            self.bouton_front.config(state=DISABLED)
+            self.bouton_back.config(state=DISABLED)
             self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
             self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
             for personnes in self.CEnvironnement.getListePersonnes():
@@ -335,10 +338,11 @@ class CIHMSimulationClasse:
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 10, 'red')
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 7, 'red')
                 self.lListePersonnesVue.append(personne)
                 self.Window.update()
-            #TODO : afficher les obstacles
+
+            #Affichage des obstacles
             for obstacles in self.CEnvironnement.getListeObstacles():
                 obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
                 self.lListeObstaclesVue.append(obstacle)
@@ -408,6 +412,10 @@ class CIHMSimulationClasse:
                                     bfini = True
 
                     self.iTempsDeSimulation += DeltaT
+
+        self.bouton_lancement.config(state=NORMAL)
+        self.bouton_front.config(state=NORMAL)
+        self.bouton_back.config(state=NORMAL)
 
     def Clear(self):
         # ___ Attributs de navigation ___

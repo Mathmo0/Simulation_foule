@@ -284,10 +284,6 @@ class CPersonne:
         if self.__fPERVitesse > Vmax :
             self.__vPERVitesse = Vmax
 
-    def marcher(self):
-        self.canvas.delete(self.image)
-        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
-
     def CalculerForceRepulsion(self):
         """
         Permet de calculer la force de repulsion totale excercé par toute les personne qui sont dans __lPERlistPersonneProximite
@@ -302,7 +298,7 @@ class CPersonne:
         for personne in self.__lPERlistPersonneProximite :
             #TODO : Exception aucune direction
             try :
-                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())-self.__fPERRayon
+                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())+2 * self.__fPERRayon
             except :
                 print("Le pieton n'a aucun direction, on ne peut donc pas calculer la force de repulsion")
 
