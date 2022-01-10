@@ -116,7 +116,7 @@ class CFichier:
                     list_personnes = [CPersonne(False,coord) for coord in list_coord]
 
                 # recuperer la liste des obstacles
-                elif (row[0] == 'Liste coordonnées d\'obstacles'):
+                elif (row[0] == 'Liste coordonnees d\'obstacles'):
                     list_coord_obstacles = self.ParserListeCSV(row)
 
                 # recuperer la liste des dimensions d'obstacles
