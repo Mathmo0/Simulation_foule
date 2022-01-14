@@ -21,7 +21,7 @@ class CPersonne:
         self.__vPERVitesse = np.array([0, 0])
         self.__fPERVitesse = vitesse
         self.__fPERPression = pression
-        self.__lPERDirection = []
+        self.__lPERDirection: List[np.array()] = []
         self.__lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
         if recursif == False :
             self.__lPERlistPersonneProximite = [CPersonne(True)]
@@ -270,7 +270,7 @@ class CPersonne:
         @return:  rien
         """
         force = CForce()
-        self.__vPERVitesse = force.VecteurVitesse(self.__lPERCoordonees[0], self.RecupererDerniereCoordonne(), t, )
+        self.__vPERVitesse = force.VecteurVitesse(self.__lPERCoordonees[0], self.RecupererDerniereCoordonne(), t)
         self.CalculVitesse()
 
     def CalculVitesse(self):
@@ -283,10 +283,6 @@ class CPersonne:
         Vmax = force.VitesseAlphaMax(1.34)
         if self.__fPERVitesse > Vmax :
             self.__vPERVitesse = Vmax
-
-    def marcher(self):
-        self.canvas.delete(self.image)
-        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
 
     def CalculerForceRepulsion(self):
         """
@@ -302,9 +298,10 @@ class CPersonne:
         for personne in self.__lPERlistPersonneProximite :
             #TODO : Exception aucune direction
             try :
-                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())+self.__fPERRayon
+                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse()) - self.__fPERRayon
             except :
                 print("Le pieton n'a aucun direction, on ne peut donc pas calculer la force de repulsion")
+
         self.__vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceRepulsion)
 
 
@@ -314,13 +311,12 @@ class CPersonne:
 
         @return: rien
         """
-        #sommet = np.array([0,0])
+        sommet = np.array([0,0])
         valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
 
         for obstacle in self.__lPERlistObstacleProximite :
-            if(len(self.__lPERlistObstacleProximite) != 0) :
                 sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacle(self.RecupererDerniereCoordonne(), obstacle)
-                valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
+                valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)- self.__fPERRayon
 
         self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 

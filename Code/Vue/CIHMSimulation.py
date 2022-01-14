@@ -17,13 +17,25 @@ import numpy as np
 """
 ------------------------- Recuperation des coordonees -------------------------
 """
-monFichier = CFichier("../../FichierSimulation/FichierPositions")
+monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
 listPositions = monFichier.LireFichierPosition()
 
 #On obtient le nombre de personnes grace aux colonnes du fichier csv
 nbPersonnes = len(listPositions[0])/2
-print(listPositions)
+print("list position = ",listPositions)
 personnes = []
+
+
+"""
+---------------Carte de Chaleur -------------------------
+"""
+listCarteChaleur = [400][400]
+for uiBoucle1 in range(399) :
+    for uiBoucle2 in range(399) :
+        listCarteChaleur[uiBoucle1][uiBoucle2] = 0
+
+
+
 
 #----------------------------------------- Fonctions --------------------------------------------------------------------
 def A_Propos():
@@ -248,6 +260,7 @@ bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
 bouton_lancement = Button(window, text='LANCER')
 bouton_lancement.grid(column=3, row=6, sticky='NS')
 bouton_lancement.bind('<ButtonPress>', lancerSimulation)
+window.bind('<space>',lancerSimulation)
 
 #Force vitesse
 labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')

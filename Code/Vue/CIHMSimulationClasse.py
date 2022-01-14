@@ -38,6 +38,7 @@ class CIHMSimulationClasse:
         self.lListePersonnes = []
         self.lListePersonnesVue = []
         self.lListePersonnesSorties = [] #Liste des personnes sortie
+        self.lListeObstaclesVue = []
 
         # ___ Attributs de fenetre ___
         """
@@ -61,7 +62,7 @@ class CIHMSimulationClasse:
         self.aPropos = Label()
         self.LabelAPropos = Label()
         self.Creation_Menu()
-
+        self.LabelChargement = Label()
         """
         -----------------------  Choix Fichier  ------------------------------
         """
@@ -83,8 +84,8 @@ class CIHMSimulationClasse:
         """
         -----------------------  Zone de simulation  ------------------------------
         """
-        self.iWidth = 600
-        self.iHeight = 600
+        self.iWidth = 400
+        self.iHeight = 400
         self.FrameSimulation = Frame(self.Window)
         self.CanvasSimulation = Canvas(self.Window)
         self.Creation_Zone_Simulation()
@@ -260,7 +261,7 @@ class CIHMSimulationClasse:
             index = 0
             for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
                 personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index],
-                                        self.lListePositions[0][self.iCurrent + index + 1], 10, 'red')
+                                        self.lListePositions[0][self.iCurrent + index + 1], 7, 'red')
                 self.lListePersonnesVue.append(personne)
                 index += 1
 
@@ -298,10 +299,10 @@ class CIHMSimulationClasse:
             self.mouvement()
 
     def stop_iterate_back(self, event):
-        backward = False
+        self.bBackward = False
 
     def stop_iterate_front(self, event):
-        forward = False
+        self.bForward = False
 
     def A_Propos(self):
         self.aPropos = Toplevel(self.Window)
@@ -322,6 +323,11 @@ class CIHMSimulationClasse:
         print(sEnvironnement)
         self.Clear()
         if(sEnvironnement != 'Vide'):
+            self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
+            self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
+            self.bouton_lancement.config(state=DISABLED)
+            self.bouton_front.config(state=DISABLED)
+            self.bouton_back.config(state=DISABLED)
             self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
             self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
             for personnes in self.CEnvironnement.getListePersonnes():
@@ -334,9 +340,14 @@ class CIHMSimulationClasse:
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0],
-                                            personnes.getListCoordonnees()[0][1], 10, 'red')
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 7, 'red')
                 self.lListePersonnesVue.append(personne)
+                self.Window.update()
+
+            #Affichage des obstacles
+            for obstacles in self.CEnvironnement.getListeObstacles():
+                obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
+                self.lListeObstaclesVue.append(obstacle)
                 self.Window.update()
 
             header = len(self.lListePersonnes) * ["x", "y"]
@@ -390,7 +401,7 @@ class CIHMSimulationClasse:
                                 if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 100) == True):
                                     personne.ajouterObstacle(obstacle)
 
-                            personne.CalculerForceRepulsionObstacle()
+                            #personne.CalculerForceRepulsionObstacle()
                             print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                             # Nouvelle Position:
 
@@ -404,6 +415,10 @@ class CIHMSimulationClasse:
 
                     self.iTempsDeSimulation += DeltaT
 
+        self.bouton_lancement.config(state=NORMAL)
+        self.bouton_front.config(state=NORMAL)
+        self.bouton_back.config(state=NORMAL)
+        self.LabelChargement.config(text='')
     def Clear(self):
         # ___ Attributs de navigation ___
         self.iCurrent = 0
@@ -416,6 +431,8 @@ class CIHMSimulationClasse:
         self.lListePersonnes.clear()
         self.lListePersonnesVue.clear()
         self.lListePersonnesSorties.clear()
+
+        self.Creation_Zone_Simulation()
 
 
 
