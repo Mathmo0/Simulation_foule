@@ -62,7 +62,7 @@ class CIHMSimulationClasse:
         self.aPropos = Label()
         self.LabelAPropos = Label()
         self.Creation_Menu()
-
+        self.LabelChargement = Label()
         """
         -----------------------  Choix Fichier  ------------------------------
         """
@@ -323,6 +323,8 @@ class CIHMSimulationClasse:
         print(sEnvironnement)
         self.Clear()
         if(sEnvironnement != 'Vide'):
+            self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
+            self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
             self.bouton_lancement.config(state=DISABLED)
             self.bouton_front.config(state=DISABLED)
             self.bouton_back.config(state=DISABLED)
@@ -416,7 +418,7 @@ class CIHMSimulationClasse:
         self.bouton_lancement.config(state=NORMAL)
         self.bouton_front.config(state=NORMAL)
         self.bouton_back.config(state=NORMAL)
-
+        self.LabelChargement.config(text='')
     def Clear(self):
         # ___ Attributs de navigation ___
         self.iCurrent = 0

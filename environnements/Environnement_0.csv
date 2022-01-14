@@ -5,6 +5,6 @@ Largeur;20;;;;;;
 "			";;;;;;;
 "			";;;;;;;
 Sortie(s);(3, 4);(2, 4);(5 , 6);;;;
-Liste de personnes;(2, 4);(10, 10);(15, 15);(30, 20);(10, 30);(11, 34);(20, 30)
+Liste de personnes;(2, 4);(10, 10);(15, 15);(20, 30);(10, 30);(11, 34);(20, 20)
 Liste coordonnees d'obstacles;(200, 300);;(4, 8);(8, 8);;;
 Liste dimensions d'obstacles (H,L);(160, 45);;(12, 12);;;;
