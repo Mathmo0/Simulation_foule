@@ -356,6 +356,9 @@ class CIHMSimulationClasse:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
                 while bfini == False:
+                    if self.lListePersonnes == []:
+                        bfini = True
+
                     # ecriture des coordonnees
                     for personne in self.lListePersonnes:
                         self.lListePositions.append(personne.RecupererDerniereCoordonne()[0])

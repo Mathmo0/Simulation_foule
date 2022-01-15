@@ -104,7 +104,7 @@ class CFRepulsion(CForce) :
 
         #determination position pieton par rapport a l'obstacle:
 
-        if  coordPieton[1] <= listsommet[2][1] and  coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
+        #if  coordPieton[1] <= listsommet[2][1] and  coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
 
 
 
