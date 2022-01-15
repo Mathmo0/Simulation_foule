@@ -5,6 +5,7 @@ import numpy as np
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CPersonne import CPersonne
 from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
+from Code.Controller.CEnvironnementController import CEnvironnementController
 
 
 class CFichier:
@@ -85,7 +86,7 @@ class CFichier:
 
         """
         # variables
-        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 0, 0, np.array([np.array([0,0])]), [], []
+        nom, hauteur, largeur, sorties, list_personnes, list_obstacles = "", 1, 1, np.array([np.array([0,0])]), [], []
         list_coord_obstacles = np.array([(0, 0)])
         liste_dimensions_obstacles = np.array([(0, 0)])
 
@@ -110,6 +111,7 @@ class CFichier:
                 elif (row[0] == 'Sortie(s)'):
                     sorties = self.ParserListeCSV(row)
                     for sortie in sorties:
+                        CEnvironnementController.ControleInCanvas(sortie[0], sortie[1], hauteur, largeur)
                         sortie[0] = 400 * sortie[0] / largeur
                         sortie[1] = 400 * sortie[1] / hauteur
 
@@ -117,6 +119,7 @@ class CFichier:
                 elif (row[0] == 'Liste de personnes'):
                     list_coord = self.ParserListeCSV(row)
                     for coord in list_coord:
+                        CEnvironnementController.ControleInCanvas(coord[0], coord[1], hauteur, largeur)
                         coord[0] = 400 * coord[0] / largeur
                         coord[1] = 400 * coord[1] / hauteur
                     list_personnes = [CPersonne(False,coord) for coord in list_coord]
@@ -124,16 +127,21 @@ class CFichier:
                 # recuperer la liste des obstacles
                 elif (row[0] == 'Liste coordonnees d\'obstacles'):
                     list_coord_obstacles = self.ParserListeCSV(row)
+                    k = 0
                     for coord in list_coord_obstacles:
-                        coord[0] = 400 * coord[0] / largeur
-                        coord[1] = 400 * coord[1] / hauteur
+                        if CEnvironnementController.ControleObstaclesInCanvas(coord[0], coord[1], hauteur, largeur) == 1:
+                            coord[0] = 400 * coord[0] / largeur
+                            coord[1] = 400 * coord[1] / hauteur
+                        else :
+                            list_coord_obstacles = [list_coord_obstacles[i] for i in range(0, len(list_coord_obstacles) - 1)]
+                            k += 1
 
                 # recuperer la liste des dimensions d'obstacles
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
                     liste_dimensions_obstacles = self.ParserListeCSV(row)
                     for coord in liste_dimensions_obstacles:
-                        coord[0] = 400 * coord[0] / hauteur
-                        coord[1] = 400 * coord[1] / largeur
+                        coord[0] = 400 * abs(coord[0]) / hauteur
+                        coord[1] = 400 * abs(coord[1]) / largeur
 
             #Construction de la liste des obstacles
             print(list_coord_obstacles)
@@ -147,11 +155,4 @@ class CFichier:
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 
-"""fichier = CFichier("../../environnements/Environnement_0")
 
-test = CEnvironnement()
-test.CEnvironnementFichier(fichier)
-test.ENVToString()"""
-
-"""for i in test.getListePersonnes():
-    print(i.getListCoordonnees())"""
