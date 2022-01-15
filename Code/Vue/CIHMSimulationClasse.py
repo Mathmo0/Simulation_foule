@@ -19,7 +19,7 @@ import numpy as np
 class CIHMSimulationClasse:
 
     # -----------------Constructeur-----------------
-    def __init__(self):
+    def __init__(self, height = 400, width = 400):
         # ___ Attributs de navigation ___
         self.iCurrent = 0
         self.bBackward = False
@@ -76,7 +76,7 @@ class CIHMSimulationClasse:
         """
         -----------------------  Zones de saisies  ------------------------------
         """
-        self.labelForceAtract = Label()
+        self.labelForceAttract = Label()
         self.labelForceRepuls = Label()
         self.labelForceAcc = Label()
         self.Creation_Zone_Saisies()
@@ -84,8 +84,8 @@ class CIHMSimulationClasse:
         """
         -----------------------  Zone de simulation  ------------------------------
         """
-        self.iWidth = 400
-        self.iHeight = 400
+        self.iWidth = width
+        self.iHeight = height
         self.FrameSimulation = Frame(self.Window)
         self.CanvasSimulation = Canvas(self.Window)
         self.Creation_Zone_Simulation()
@@ -94,9 +94,9 @@ class CIHMSimulationClasse:
         """
         -----------------------  Lancement et navigation dans la simulation  ------------------------------
         """
-        self.bouton_back = Button()
-        self.bouton_front = Button()
-        self.bouton_lancement = Button()
+        self.__bouton_back = Button()
+        self.__bouton_front = Button()
+        self.__bouton_lancement = Button()
 
         self.labelVitesse = Label()
         self.lListeVitesse = [0.25, 0.5, 1, 1.5, 2]
@@ -151,8 +151,8 @@ class CIHMSimulationClasse:
     def Creation_Zone_Saisies(self):
         # Force attraction
         self.Window.columnconfigure(0, minsize=0, weight=0)
-        self.labelForceAtract = Label(self.Window, text="Force d'attraction (en %):", bg=self.backgroundColor)
-        self.labelForceAtract.grid(column=1, row=2, sticky='E')
+        self.labelForceAttract = Label(self.Window, text="Force d'attraction (en %):", bg=self.backgroundColor)
+        self.labelForceAttract.grid(column=1, row=2, sticky='E')
         self.Window.columnconfigure(1, minsize=0, weight=0)
         self.iForceAttraction = Entry(self.Window, width=3)
         self.iForceAttraction.grid(column=2, row=2, sticky='W')
@@ -189,21 +189,21 @@ class CIHMSimulationClasse:
     def Creation_Lancement_Simulation(self):
         # Reculer
         self.Window.columnconfigure(3, minsize=0, weight=0)
-        self.bouton_back = Button(self.Window, text='<<<')
-        self.bouton_back.grid(column=3, row=6, sticky='W')
-        self.bouton_back.bind('<ButtonPress-1>', self.iterate_back)
-        self.bouton_back.bind('<ButtonRelease-1>', self.stop_iterate_back)
+        self.__bouton_back = Button(self.Window, text='<<<')
+        self.__bouton_back.grid(column=3, row=6, sticky='W')
+        self.__bouton_back.bind('<ButtonPress-1>', self.iterate_back)
+        self.__bouton_back.bind('<ButtonRelease-1>', self.stop_iterate_back)
 
         # Avancer
-        self.bouton_front = Button(self.Window, text='>>>')
-        self.bouton_front.grid(column=3, row=6, sticky='E')
-        self.bouton_front.bind('<ButtonPress-1>', self.iterate_front)
-        self.bouton_front.bind('<ButtonRelease-1>', self.stop_iterate_front)
+        self.__bouton_front = Button(self.Window, text='>>>')
+        self.__bouton_front.grid(column=3, row=6, sticky='E')
+        self.__bouton_front.bind('<ButtonPress-1>', self.iterate_front)
+        self.__bouton_front.bind('<ButtonRelease-1>', self.stop_iterate_front)
 
         # Lancement simulation
-        self.bouton_lancement = Button(self.Window, text='LANCER')
-        self.bouton_lancement.grid(column=3, row=6, sticky='NS')
-        self.bouton_lancement.bind('<ButtonPress>', self.lancerSimulation)
+        self.__bouton_lancement = Button(self.Window, text='LANCER')
+        self.__bouton_lancement.grid(column=3, row=6, sticky='NS')
+        self.__bouton_lancement.bind('<ButtonPress>', self.lancerSimulation)
 
         # Force vitesse
         self.labelVitesse = Label(self.Window, text="Vitesse de lecture : ", bg='light grey')
@@ -249,9 +249,9 @@ class CIHMSimulationClasse:
 
         # On obtient le nombre de personnes grace aux colonnes du fichier csv
 
-        if not (self.bouton_lancement['state'] == DISABLED):
-            self.bouton_lancement.config(state=DISABLED)
-            self.bouton_front.config(state=DISABLED)
+        if not (self.__bouton_lancement['state'] == DISABLED):
+            self.__bouton_lancement.config(state=DISABLED)
+            self.__bouton_front.config(state=DISABLED)
             #for personne in self.lListePersonnes:
                 #personne.disparaitre()
             self.lListePersonnes.clear()
@@ -261,7 +261,7 @@ class CIHMSimulationClasse:
             index = 0
             for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
                 personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index],
-                                        self.lListePositions[0][self.iCurrent + index + 1], 7, 'red')
+                                        self.lListePositions[0][self.iCurrent + index + 1], 3, 'red')
                 self.lListePersonnesVue.append(personne)
                 index += 1
 
@@ -270,9 +270,9 @@ class CIHMSimulationClasse:
             for self.iCurrent in range(0, len(self.lListePositions)):
                 self.Window.update()
                 self.mouvement()
-            self.bouton_lancement.config(state=NORMAL)
-            self.bouton_back.config(state=NORMAL)
-            self.bouton_front.config(state=NORMAL)
+            self.__bouton_lancement.config(state=NORMAL)
+            self.__bouton_back.config(state=NORMAL)
+            self.__bouton_front.config(state=NORMAL)
 
     def iterate_back(self, event):
         """
@@ -325,9 +325,9 @@ class CIHMSimulationClasse:
         if(sEnvironnement != 'Vide'):
             self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
             self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
-            self.bouton_lancement.config(state=DISABLED)
-            self.bouton_front.config(state=DISABLED)
-            self.bouton_back.config(state=DISABLED)
+            self.__bouton_lancement.config(state=DISABLED)
+            self.__bouton_front.config(state=DISABLED)
+            self.__bouton_back.config(state=DISABLED)
             self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
             self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
             for personnes in self.CEnvironnement.getListePersonnes():
@@ -340,7 +340,7 @@ class CIHMSimulationClasse:
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 7, 'red')
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 3, 'red')
                 self.lListePersonnesVue.append(personne)
                 self.Window.update()
 
@@ -414,11 +414,16 @@ class CIHMSimulationClasse:
                                     bfini = True
 
                     self.iTempsDeSimulation += DeltaT
+        else:
+            self.__bouton_lancement.config(state=DISABLED)
+            self.__bouton_front.config(state=DISABLED)
+            self.__bouton_back.config(state=DISABLED)
 
-        self.bouton_lancement.config(state=NORMAL)
-        self.bouton_front.config(state=NORMAL)
-        self.bouton_back.config(state=NORMAL)
+        self.__bouton_lancement.config(state=NORMAL)
+        self.__bouton_front.config(state=NORMAL)
+        self.__bouton_back.config(state=NORMAL)
         self.LabelChargement.config(text='')
+
     def Clear(self):
         # ___ Attributs de navigation ___
         self.iCurrent = 0

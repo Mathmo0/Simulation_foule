@@ -109,6 +109,9 @@ class CFichier:
                 # recuperer la liste des sorties
                 elif (row[0] == 'Sortie(s)'):
                     sorties = self.ParserListeCSV(row)
+                    for sortie in sorties:
+                        sortie[0] = 400 * sortie[0] / largeur
+                        sortie[1] = 400 * sortie[1] / hauteur
 
                 # recuperer la liste des personnes
                 elif (row[0] == 'Liste de personnes'):
@@ -128,6 +131,9 @@ class CFichier:
                 # recuperer la liste des dimensions d'obstacles
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
                     liste_dimensions_obstacles = self.ParserListeCSV(row)
+                    for coord in liste_dimensions_obstacles:
+                        coord[0] = 400 * coord[0] / hauteur
+                        coord[1] = 400 * coord[1] / largeur
 
             #Construction de la liste des obstacles
             print(list_coord_obstacles)
