@@ -179,12 +179,6 @@ class CIHMSimulationClasse:
         self.CanvasSimulation = Canvas(self.Window, width=self.iWidth, height=self.iHeight, bg='snow', bd=1, relief=RIDGE)
         self.CanvasSimulation.grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
 
-        for obstacles in self.CEnvironnement.getListeObstacles():
-            obstacles.calculerCoordonnees()
-            CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
-
-        for personnes in self.CEnvironnement.getListePersonnes():
-            CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 10, 'red')
 
     def Creation_Lancement_Simulation(self):
         # Reculer
@@ -439,6 +433,7 @@ class CIHMSimulationClasse:
         self.lListePositions.clear()
         self.lListePersonnes.clear()
         self.lListePersonnesVue.clear()
+        self.lListeObstaclesVue.clear()
         self.lListePersonnesSorties.clear()
 
         self.Creation_Zone_Simulation()
