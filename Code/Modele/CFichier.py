@@ -113,11 +113,17 @@ class CFichier:
                 # recuperer la liste des personnes
                 elif (row[0] == 'Liste de personnes'):
                     list_coord = self.ParserListeCSV(row)
+                    for coord in list_coord:
+                        coord[0] = 400 * coord[0] / largeur
+                        coord[1] = 400 * coord[1] / hauteur
                     list_personnes = [CPersonne(False,coord) for coord in list_coord]
 
                 # recuperer la liste des obstacles
-                elif (row[0] == 'Liste coordonnées d\'obstacles'):
+                elif (row[0] == 'Liste coordonnees d\'obstacles'):
                     list_coord_obstacles = self.ParserListeCSV(row)
+                    for coord in list_coord_obstacles:
+                        coord[0] = 400 * coord[0] / largeur
+                        coord[1] = 400 * coord[1] / hauteur
 
                 # recuperer la liste des dimensions d'obstacles
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
