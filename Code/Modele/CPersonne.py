@@ -62,10 +62,10 @@ class CPersonne:
 
     def getListDirection(self) :
         """
-        getter pour l'attribut .__lDirection
+        getter pour l'attribut .__lPERDirection
         @return: __lDirection
         """
-        return self.__lDirection
+        return self.__lPERDirection
 
     def getListCoordonnees(self):
         """
@@ -335,6 +335,7 @@ class CPersonne:
         @return: rien
         """
         Force = self.__vPERForceAcceleration.FACgetForceAcceleration() + self.__vPERForceRepulsionPersonne.gettertForceRepulsion() + self.__vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.__vPERForceAttraction.get() # pas encore fait
+        self.__fPERPression = Force
         nouvellecoord = self.RecupererDerniereCoordonne()+Force
         self.ajouterCoordonnees(nouvellecoord)
         self.CalculVecteurVitesse(t)

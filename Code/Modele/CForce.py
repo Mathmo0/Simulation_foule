@@ -14,6 +14,7 @@ DeltaT = 2  # s
 Phi = 100  # °
 VAlphaBeta0 = 1.5 #5  # m**2
 UAlphaObstacle0 = 10 # (m/s)**2
+cst = 10
 
 class CForce :
 
