@@ -104,9 +104,30 @@ class CFRepulsion(CForce) :
 
         #determination position pieton par rapport a l'obstacle:
 
+        # cote gauche de l'obstacle:
         if  coordPieton[1] <= listsommet[2][1] and  coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
 
+        # coin top left:
+        elif coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
+            sommetRetenu = listsommet[0]
+        # en haut de l'obstacle:
+        elif coordPieton[1] >= listsommet[0][1] and listsommet[0][0] <= coordPieton[0] <= listsommet[1][0]:
 
+        # coin topRight
+        elif coordPieton[1] >= listsommet[0][1] and coordPieton[0] >= listsommet[1][0]:
+            sommetRetenu = listsommet[1]
+        # a droite de l'obstacle:
+        elif listsommet[3][1] <= coordPieton[1] <= listsommet[0][1] and coordPieton[0] >= listsommet[3][0]:
+
+        # coin bottom Right:
+        elif coordPieton[1] <= listsommet[3][1] and coordPieton[0] >= listsommet[3][0]:
+            sommetRetenu = listsommet[3]
+        # en bas :
+        elif listsommet[2][0] <= coordPieton[0] <= listsommet[3][0] and coordPieton[1] <= listsommet[3][1]:
+
+        # coin bottomLeft:
+        elif coordPieton[1] <= listsommet[2][1] and coordPieton[0] <= listsommet[2][0]:
+            sommetRetenu = listsommet[2]
 
         for sommet in listsommet :
 
