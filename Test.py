@@ -50,16 +50,10 @@ listPositions = monFichier.LireFichierPosition()
 listCarteChaleur = np.zeros((400,400))
 print(listCarteChaleur)
 for uiBoucle1 in range(len(listPositions)) :
-    #print(listPositions[uiBoucle1])
-    #print(listPositions[uiBoucle1][0])
-    #print(listPositions[uiBoucle1][1])
-    #if(listPositions[uiBoucle1][1] > 0 and listPositions[uiBoucle1][1] < 400 and listPositions[uiBoucle1][0] > 0 and listPositions[uiBoucle1][0] < 400) :
+
     px1 = (listPositions[uiBoucle1][0]*400)/500 # ici 400 = widh et 500 largeur de l'environnement
     px2 = (listPositions[uiBoucle1][1]*400)/500 # ici 400 = Height et 500 longueur de l'environnement
     listCarteChaleur[round(px1)][round(px2)] +=1
-    #for uiBoucle2 in range(listPositions[uiBoucle1]) :
-        #print(listPositions[uiBoucle1][uiBoucle2])
-        #listCarteChaleur[uiBoucle1][uiBoucle2] += 1
 
 
 
