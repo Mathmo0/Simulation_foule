@@ -59,8 +59,6 @@ class TestUnitaire_CPersonne(unittest.TestCase) :
         self.assertEqual(coord[0], 31)
         self.assertEqual(coord[1], 33)
 
-        self.assertIn()
-
     def test_ajouterPersonne_is_OK(self) :
         personneAdd = CPersonne()
         self.personne.ajouterPersonne(personneAdd)
@@ -70,9 +68,9 @@ class TestUnitaire_CPersonne(unittest.TestCase) :
 
     def test_ajouterDirection_is_OK(self):
 
-        self.personne.ajouterDirection(np.array[10,10])
+        self.personne.ajouterDirection(np.array([10,10]))
 
-        self.assertIn(np.array[10,10],self.personne.getListDirection())
+        self.assertIn(np.array([10,10]),self.personne.getListDirection())
 
     def test_ajouterObstacle_is_OK(self):
 
@@ -87,7 +85,7 @@ class TestUnitaire_CPersonne(unittest.TestCase) :
 
         self.personne.ClearPersonneProximite()
 
-        self.assertEqual(len(self.personne.getListPersonneProx(),0))
+        self.assertEqual(len(self.personne.getListPersonneProx()),0)
 
     def test_ClearlistObstacleProx_is_OK(self):
         obstacle = CObstacle()
@@ -95,7 +93,23 @@ class TestUnitaire_CPersonne(unittest.TestCase) :
 
         self.personne.ClearlistObstacleProx()
 
-        self.assertEqual(len(self.personne.getlistObstacle(),0))
+        self.assertEqual(len(self.personne.getlistObstacle()),0)
+
+    #def test_CalculVitesse_normal_case(self):
+
+    #def test_CalculVitesse_vitesse_trop_eleve(self):
+
+    def test_sorti_is_False(self):
+
+        self.personne.ajouterCoordonnees(np.array([11,11]))
+
+        self.assertFalse(self.personne.sorti())
+
+    def test_sorti_is_True(self):
+        self.personne.ajouterCoordonnees(np.array([21, 21]))
+
+        self.assertTrue(self.personne.sorti())
+
 
 
 
