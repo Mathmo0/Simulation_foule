@@ -226,8 +226,9 @@ class CIHMSimulationClasse:
         for j in range(0, len(self.lListePersonnesVue)):
             self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
             self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
+            self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
             self.lListePersonnesVue[j].move()
-            index += 1
+            index += 2
         time.sleep(0.05 / float(self.fVitesse.get()))
 
     def lancerSimulation(self, event):
@@ -260,10 +261,9 @@ class CIHMSimulationClasse:
             # Creation des personnes et initialisation de leurs positions
             index = 0
             for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
-                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index],
-                                        self.lListePositions[0][self.iCurrent + index + 1], 3, 'red')
+                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 5)
                 self.lListePersonnesVue.append(personne)
-                index += 1
+                index += 2
 
             # Mouvement
             self.iCurrent = 0
@@ -340,7 +340,7 @@ class CIHMSimulationClasse:
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 3, 'red')
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
                 self.lListePersonnesVue.append(personne)
                 self.Window.update()
 
@@ -350,7 +350,7 @@ class CIHMSimulationClasse:
                 self.lListeObstaclesVue.append(obstacle)
                 self.Window.update()
 
-            header = len(self.lListePersonnes) * ["x", "y"]
+            header = len(self.lListePersonnes) * ["x", "y", "pression"]
 
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
@@ -360,6 +360,7 @@ class CIHMSimulationClasse:
                     for personne in self.lListePersonnes:
                         self.lListePositions.append(personne.RecupererDerniereCoordonne()[0])
                         self.lListePositions.append(personne.RecupererDerniereCoordonne()[1])
+                        self.lListePositions.append(personne.getPression())
 
                     writer.writerow(self.lListePositions)
                     self.lListePositions.clear()
@@ -395,8 +396,8 @@ class CIHMSimulationClasse:
                             # Force de Repulsion par un obstacle :
                             for obstacle in self.CEnvironnement.getListeObstacles():
                                 coordPieton = personne.RecupererDerniereCoordonne()
-                                sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacle(coordPieton,
-                                                                                                          obstacle)
+                                sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
+                                                                                                                      obstacle)
                                 print("sommet = ", sommet)
                                 if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 100) == True):
                                     personne.ajouterObstacle(obstacle)

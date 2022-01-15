@@ -127,7 +127,7 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
 
                 for obstacle in listObstacle :
                    coordPieton = personne.RecupererDerniereCoordonne()
-                   sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacle(coordPieton,obstacle)
+                   sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton, obstacle)
                    print("sommet = ",sommet)
                    if(COperation.DetectionCercle(sommet[0],sommet[1],coordPieton[0],coordPieton[1],10) == True) :
                        personne.ajouterObstacle(obstacle)

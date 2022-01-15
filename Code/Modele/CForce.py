@@ -8,7 +8,7 @@ from numpy import linalg as la
 c = 0.5
 tau = 0.5  # s
 SqrtTeta = 0.26  # m/s
-Sigma = 1.6 # m
+Sigma = 1.5 # m
 R = 0.2  # m
 DeltaT = 2  # s
 Phi = 100  # °

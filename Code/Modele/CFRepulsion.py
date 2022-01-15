@@ -2,7 +2,7 @@ import numpy as np
 
 from Code.Modele.CForce import CForce,tau
 from Code.Modele.COperation import COperation
-from Code.Modele.CObstacle import CObstacle
+from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 
 from numpy import linalg as la
 import numpy as np
@@ -84,7 +84,7 @@ class CFRepulsion(CForce) :
 
         return self.tForceRepulsion
 
-    def FREDeterminerSommetObstacle(self,coordPieton, obstacle:CObstacle):
+    def FREDeterminerSommetObstacleQuadrilatere(self, coordPieton, obstacle:CObstacleQuadrilatere):
         """
         Cette fontion permet de lequel des sommets d'un obstacle est utilise pour calculer la force de repulsion entre un personne et un obstacle
         @param coordPieton: coordonnes du pieton sur lequel est applique la force de repulsion Personne-Obstacle
@@ -95,6 +95,18 @@ class CFRepulsion(CForce) :
         listsommet = obstacle.getCoordonneesSommet()
         sommetRetenu = np.array([0,0])
         distance = 99999999999
+
+        #determination du centre de l'obstacle: [topLeft, topRight, bottomLeft, bottomRight]
+
+        centreX = listsommet[0][0] + obstacle.getLargeur()/2
+        centreY = listsommet[0][1] + obstacle.getHauteur()/2
+        centre = np.array([centreX, centreY])
+
+        #determination position pieton par rapport a l'obstacle:
+
+        if  coordPieton[1] <= listsommet[2][1] and  coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
+
+
 
         for sommet in listsommet :
 

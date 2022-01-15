@@ -2,13 +2,15 @@ from Code.Modele.COperation import COperation
 
 class CPersonneVue:
 
-    def __init__(self, canvas, x, y, rayon, color):
+    def __init__(self, canvas, x, y, rayon, color = 'DeepSkyBlue2', listcolor = ['DeepSkyBlue2', "DeepSkyBlue3","DodgerBlue2", "DodgerBlue3", "DeepSkyBlue4", "DodgerBlue4"], pression = 0):
         self.canvas = canvas
         self.image = COperation.create_circle(x, y, rayon, canvas, color)
         self.x = x
         self.y = y
         self.rayon = rayon
         self.color = color
+        self.pression = pression
+        self.listColor = listcolor
 
     def getX(self):
         return self.x
@@ -21,6 +23,24 @@ class CPersonneVue:
 
     def setY(self, y):
         self.y = y
+
+    def getPression(self):
+        return self.pression
+
+    def setPression(self, pres):
+        self.pression = pres
+        if 0 <= self.pression <= 1:
+            self.color = self.listColor[0]
+        elif 1 < self.pression <= 2:
+            self.color = self.listColor[1]
+        elif 2 < self.pression <= 3:
+            self.color = self.listColor[2]
+        elif 3 < self.pression <= 4:
+            self.color = self.listColor[3]
+        elif 4 < self.pression <= 5:
+            self.color = self.listColor[4]
+        elif 5 < self.pression <= 6:
+            self.color = self.listColor[5]
         
     def move(self):
         self.canvas.delete(self.image)

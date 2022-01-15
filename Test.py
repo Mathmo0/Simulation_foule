@@ -13,7 +13,7 @@ x = Symbol('x')
 y = Symbol('y')
 z = Symbol('z')
 t = Symbol('t')
-#oui = solve([sqrt((3-x)**2 + (7.5-y)**2)+sqrt((x-7)**2 +(y-15)**2)-8.5,sqrt((x-1)**2 + (y-10)**2)+sqrt((5-x)**2 +(10-y)**2)-4],[x,y])
+oui = solve([sqrt((3-x)**2 + (7.5-y)**2)+sqrt((x-7)**2 +(y-15)**2)-8.5,sqrt((x-1)**2 + (y-10)**2)+sqrt((5-x)**2 +(10-y)**2)-4],[x,y])
 #print(oui)
 
 coord = np.array([5,4])

@@ -313,7 +313,7 @@ class CPersonne:
         valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
 
         for obstacle in self.__lPERlistObstacleProximite :
-                sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacle(self.RecupererDerniereCoordonne(), obstacle)
+                sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacleQuadrilatere(self.RecupererDerniereCoordonne(), obstacle)
                 valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)- self.__fPERRayon
 
         self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
@@ -335,7 +335,7 @@ class CPersonne:
         @return: rien
         """
         Force = self.__vPERForceAcceleration.FACgetForceAcceleration() + self.__vPERForceRepulsionPersonne.gettertForceRepulsion() + self.__vPERForceRepulsionObstacle.gettertForceRepulsion() #+self.__vPERForceAttraction.get() # pas encore fait
-        self.__fPERPression = Force
+        self.__fPERPression = np.linalg.norm(Force)
         nouvellecoord = self.RecupererDerniereCoordonne()+Force
         self.ajouterCoordonnees(nouvellecoord)
         self.CalculVecteurVitesse(t)
