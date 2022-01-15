@@ -4,6 +4,7 @@ import unittest
 import numpy as np
 
 from Code.Modele.COperation import COperation
+
 class TestUnitaire_COperation(unittest.TestCase) :
 
 

@@ -284,19 +284,13 @@ class CPersonne:
         if self.__fPERVitesse > Vmax :
             self.__vPERVitesse = Vmax
 
-    def marcher(self):
-        self.canvas.delete(self.image)
-        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
-
     def CalculerForceRepulsion(self):
         """
         Permet de calculer la force de repulsion totale excercé par toute les personne qui sont dans __lPERlistPersonneProximite
 
         @return: rien
         """
-
-        #recupere la valuer actuelle de la force la force de repulsion
-        valeurTotaleForceRepulsion = np.array([0.0,0.0])#self.__vPERForceRepulsionPersonne.gettertForceRepulsion() ne pas decommenter provoque bug de la peste
+        valeurTotaleForceRepulsion = np.array([0.0,0.0])
 
         #calcul de nouvelle force de repulsion
         for personne in self.__lPERlistPersonneProximite :
