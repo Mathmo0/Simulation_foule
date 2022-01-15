@@ -1,15 +1,36 @@
 import Code.Modele.CEnvironnement as CEnvironnement
+import Code.Modele.CPersonne as CPersonne
+import Code.Modele.CObstacleQuadrilatere as CObstacleQuadrilatere
 import tkinter
 
 class CEnvironnementController:
 
-    def __init__(self):
-        return 0
+    @staticmethod
+    def ControleInCanvas(coordX, coordY, hauteur, largeur):
+        if coordX > largeur:
+            coordX = largeur
+        elif coordX < 0:
+            coordX = 0
 
-    def ControleInCanvas(self, environnement:CEnvironnement, canvas:tkinter.Canvas):
-        for personne in environnement.getListePersonnes:
-            if personne.getListeCoordonnees[0][0] > canvas.winfo_width():
-                personne.getListeCoordonnees[0][0] = canvas.winfo_width()
-            if personne.getListeCoordonnees[0][1] > canvas.winfo_height():
-                personne.getListeCoordonnees[0][1] = canvas.winfo_height()
+        if coordY > hauteur:
+            coordX = hauteur
+        elif coordY < 0:
+            coordX = 0
 
+    @staticmethod
+    def ControlePersonnesInCanvas(coordX, coordY, hauteur, largeur):
+        CEnvironnementController.ControleInCanvas(coordX, coordY, hauteur, largeur)
+
+    @staticmethod
+    def ControleSortieInCanvas(coordX, coordY, hauteur, largeur):
+        CEnvironnementController.ControleInCanvas(coordX, coordY, hauteur, largeur)
+
+    @staticmethod
+    def ControleObstaclesInCanvas(coordX, coordY, hauteur, largeur):
+        if coordX > largeur:
+            return 0
+
+        if coordY < 0:
+            return 0
+
+        return 1

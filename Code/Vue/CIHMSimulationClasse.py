@@ -5,6 +5,7 @@ from tkinter import ttk
 from Code.Modele.CPersonne import CPersonne
 from Code.Modele.COperation import COperation
 from Code.Vue.CPersonneVue import CPersonneVue
+from Code.Controller.CEnvironnementController import CEnvironnementController
 from tkinter import *
 from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 from Code.Vue.CObstacleQuadrilatereVue import CObstacleQuadrilatereVue
@@ -104,7 +105,6 @@ class CIHMSimulationClasse:
         self.menuVitesse = OptionMenu(self.Window, self.sEnvironnement, *self.lListeVitesse)
 
         self.Creation_Lancement_Simulation()
-
         self.Window.mainloop()
 
 
