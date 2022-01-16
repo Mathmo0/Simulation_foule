@@ -309,12 +309,12 @@ class CPersonne:
 
         @return: rien
         """
-        sommet = np.array([0,0])
-        valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0]) #self.__vPERForceRepulsionObstacle.gettertForceRepulsion()
+        sommet = np.array([0.0,0.0])
+        valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0])
 
         for obstacle in self.__lPERlistObstacleProximite :
                 sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacleQuadrilatere(self.RecupererDerniereCoordonne(), obstacle)
-                valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)- self.__fPERRayon
+                valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
 
         self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 
@@ -327,6 +327,22 @@ class CPersonne:
         eALpha = self.__lPERDirection[0]
         RAlpha = self.RecupererDerniereCoordonne()
         self.__vPERForceAcceleration.FACForceDacceleration(self.__vPERVitesse, 1.34, eALpha, RAlpha)
+
+    def CalculForceAttraction(self,t):
+
+        valeurTotaleForceAttraction = np.array([0.0, 0.0])
+
+        ealphaAttrac = self.__vPERForceAttraction.eAlpha(self.RecupererDirectionActuelle(),self.RecupererDerniereCoordonne())
+
+        # calcul de nouvelle force de repulsion
+
+        for personne in self.__lPERlistPersonneProximite:
+            try:
+                valeurTotaleForceAttraction += self.__vPERForceAttraction.FRAForceAttraction(ealphaAttrac,self.RecupererDerniereCoordonne(),personne.RecupererDerniereCoordonne(),t)
+            except:
+                print("Le pieton a un problème, on ne peut donc pas calculer la force d'attraction")
+
+        self.__vPERForceRepulsionPersonne.settertForceRepulsion(valeurTotaleForceAttraction)
 
     def CalculerNouvellePosition(self,t):
         """

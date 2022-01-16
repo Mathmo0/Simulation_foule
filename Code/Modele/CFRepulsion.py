@@ -7,9 +7,6 @@ from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 from numpy import linalg as la
 import numpy as np
 
-from sympy.solvers import solve
-from sympy import Symbol, sqrt, linsolve, diff
-
 class CFRepulsion(CForce) :
 
     def __init__(self, tForceRepulsion = np.array([0.0,0.0])):
@@ -49,7 +46,7 @@ class CFRepulsion(CForce) :
         bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
         V = self.VAlphaBeta(bEffet)
 
-        return nablarAlphaB * V
+        return -nablarAlphaB * V
 
     def FREForceDeRepulsionObstacle(self,Ralpha, RalphaDeltaT, RObstacle):
         """
@@ -65,7 +62,7 @@ class CFRepulsion(CForce) :
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
         UFRO = self.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
-        return NablaFRO * UFRO
+        return -NablaFRO * UFRO
 
     def FREForceRepulsionPersonne(self,vRkAlpha, Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta):
         """
@@ -98,21 +95,21 @@ class CFRepulsion(CForce) :
         listsommet = obstacle.getCoordonneesSommet()
         sommetRetenu = np.array([0.0,0.0])
 
-        x = Symbol('x')
-        y = Symbol('y')
 
         #determination du centre de l'obstacle: [topLeft, topRight, bottomLeft, bottomRight]
 
         centreX = listsommet[0][0] + obstacle.getLargeur()/2
         centreY = listsommet[0][1] + obstacle.getHauteur()/2
         centre = np.array([centreX, centreY])
+        coef = COperation.FonctionTrajectoirePieton(centre, coordPieton)
 
         #determination position pieton par rapport a l'obstacle:
 
         # cote gauche de l'obstacle:
         if  coordPieton[1] <= listsommet[2][1] and  coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
-            sommetRetenu = solve([sqrt((centreX - x) ** 2 + (centreY - y) ** 2) + sqrt((x - coordPieton[0]) ** 2 + (y - coordPieton[1]) ** 2) - np.linalg.norm(centre-coordPieton),
-                         sqrt((x - listsommet[0][0]) ** 2 + (y - listsommet[0][1]) ** 2) + sqrt((listsommet[2][0] - x) ** 2 + (10 - listsommet[2][1]) ** 2) - (listsommet[0][1]-listsommet[2][1])], [x, y])
+                x = listsommet[0][0]
+                y = coef[0]*x + coef[1]
+                sommetRetenu = np.array([x,y])
 
         # coin top left:
         elif coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
@@ -120,18 +117,21 @@ class CFRepulsion(CForce) :
 
         # en haut de l'obstacle:
         elif coordPieton[1] >= listsommet[0][1] and listsommet[0][0] <= coordPieton[0] <= listsommet[1][0]:
-            sommetRetenu = solve([sqrt((centreX - x) ** 2 + (centreY - y) ** 2) + sqrt((x - coordPieton[0]) ** 2 + (y - coordPieton[1]) ** 2) - np.linalg.norm(centre - coordPieton),
-                                  sqrt((x - listsommet[0][0]) ** 2 + (y - listsommet[0][1]) ** 2) + sqrt((listsommet[1][0] - x) ** 2 + (10 - listsommet[1][1]) ** 2) - (listsommet[1][0]-listsommet[0][0])], [x, y])
+
+            y = listsommet[0][1]
+            x =  (y- coef[1])/coef[0]
+            sommetRetenu = np.array([x, y])
+
         # coin topRight
         elif coordPieton[1] >= listsommet[0][1] and coordPieton[0] >= listsommet[1][0]:
             sommetRetenu = listsommet[1]
 
         # a droite de l'obstacle:
         elif listsommet[3][1] <= coordPieton[1] <= listsommet[0][1] and coordPieton[0] >= listsommet[3][0]:
-            sommetRetenu = solve([sqrt((centreX - x) ** 2 + (centreY - y) ** 2) + sqrt(
-                (x - coordPieton[0]) ** 2 + (y - coordPieton[1]) ** 2) - np.linalg.norm(centre - coordPieton),
-                                  sqrt((x - listsommet[1][0]) ** 2 + (y - listsommet[1][1]) ** 2) + sqrt(
-                                      (listsommet[3][0] - x) ** 2 + (10 - listsommet[3][1]) ** 2) - (listsommet[1][1]-listsommet[3][1])], [x, y])
+
+            x = listsommet[1][0]
+            y = coef[0] * x + coef[1]
+            sommetRetenu = np.array([x, y])
 
         # coin bottom Right:
         elif coordPieton[1] <= listsommet[3][1] and coordPieton[0] >= listsommet[3][0]:
@@ -139,11 +139,9 @@ class CFRepulsion(CForce) :
 
         # en bas :
         elif listsommet[2][0] <= coordPieton[0] <= listsommet[3][0] and coordPieton[1] <= listsommet[3][1]:
-            sommetRetenu = solve([sqrt((centreX - x) ** 2 + (centreY - y) ** 2) + sqrt(
-                (x - coordPieton[0]) ** 2 + (y - coordPieton[1]) ** 2) - np.linalg.norm(centre - coordPieton),
-                                  sqrt((x - listsommet[2][0]) ** 2 + (y - listsommet[2][1]) ** 2) + sqrt(
-                                      (listsommet[3][0] - x) ** 2 + (10 - listsommet[3][1]) ** 2) - (
-                                              listsommet[3][0] - listsommet[2][0])], [x, y])
+            y = listsommet[2][1]
+            x = (y - coef[1]) / coef[0]
+            sommetRetenu = np.array([x, y])
 
         # coin bottomLeft:
         elif coordPieton[1] <= listsommet[2][1] and coordPieton[0] <= listsommet[2][0]:
