@@ -1,17 +1,43 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
+#plt.use("TkAgg")
 import numpy as np
-from Code.Modele.CForce import DeltaT
+from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 
-class CIHMBilan :
+from Code.Modele.CForce import DeltaT
+from Code.Vue.CIHM import CIHM
+
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #NavigationToolbar2TkAgg
+from matplotlib.figure import Figure
+
+class CIHMBilan(CIHM):
 
     def __init__(self, listcoord = [] ,tpsSimulation = 0):
-
+        super().__init__("Bilan de l'évacuation d'une foule")
         self.__listcoord = listcoord
         self.__tpsSimulation = tpsSimulation
-        self.__listCarteChaleur = np.zeros((400,400))
+        self.__listCarteChaleur = np.zeros((self.iWidth, self.iHeight))
 
-    def heatmap2d(arr: np.ndarray):
-        plt.imshow(arr, cmap='viridis')
+        """
+         -----------------------  Affichage de la carte des chaleurs  ------------------------------
+        """
+        self.Creation_Zone_Simulation()
+        self.figure = Figure(figsize=(5, 4), dpi=100)
+        self.calculCarteChaleur()
+        self.CanvasSimulation = FigureCanvasTkAgg(self.heatmap2d(), self.getWindow())
+        self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+
+        """self.toolBar = NavigationToolbar2Tk(self.CanvasSimulation, self.getWindow())
+        self.toolBar.update()
+
+        self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+"""
+
+
+        self.Window.mainloop()
+
+    def heatmap2d(self):
+        plt.imshow(self.__listCarteChaleur, cmap='viridis')
         plt.colorbar()
         plt.show()
 
@@ -22,6 +48,9 @@ class CIHMBilan :
             self.__listCarteChaleur[round(px1)][round(px2)] += 1
 
     def calculTpsSimulation(self):
-
         self.__tpsSimulation = len(self.__listcoord[0])*DeltaT
 
+    def getWindowB(self):
+        return self.Window
+
+#test = CIHMBilan()

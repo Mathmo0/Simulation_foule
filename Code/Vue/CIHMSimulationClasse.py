@@ -1,26 +1,25 @@
 import time
 import os
 
-from tkinter import ttk
-from Code.Modele.CPersonne import CPersonne
 from Code.Modele.COperation import COperation
+from Code.Vue.CIHM import CIHM
+from Code.Vue.CIHMBilan import CIHMBilan
 from Code.Vue.CPersonneVue import CPersonneVue
-from Code.Controller.CEnvironnementController import CEnvironnementController
 from tkinter import *
-from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 from Code.Vue.CObstacleQuadrilatereVue import CObstacleQuadrilatereVue
 from Code.Modele.CFichier import CFichier
-from threading import Thread
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CForce import DeltaT
 import csv
-import numpy as np
 
 
-class CIHMSimulationClasse:
 
+class CIHMSimulationClasse(CIHM):
     # -----------------Constructeur-----------------
     def __init__(self, height = 400, width = 400):
+
+        super().__init__("Simulation de l'évacuation d'une foule")
+
         # ___ Attributs de navigation ___
         self.iCurrent = 0
         self.bBackward = False
@@ -43,28 +42,6 @@ class CIHMSimulationClasse:
 
         # ___ Attributs de fenetre ___
         """
-        -----------------------  Creation de la fenetre ------------------------------
-        """
-        self.Window = Tk()
-        self.backgroundColor = "#7fb3d5"
-        self.mainMenu = Menu()
-        self.Creation_Fenetre()
-
-        """
-        -----------------------  Titre  ------------------------------
-        """
-        self.labelTitle = Label()
-        self.labelSubTitle = Label()
-        self.Creation_Titres()
-
-        """
-        -----------------------  Menu  ------------------------------
-        """
-        self.aPropos = Label()
-        self.LabelAPropos = Label()
-        self.Creation_Menu()
-        self.LabelChargement = Label()
-        """
         -----------------------  Choix Fichier  ------------------------------
         """
         self.lListeEnvironnement = os.listdir('../../environnements/')
@@ -82,13 +59,6 @@ class CIHMSimulationClasse:
         self.labelForceAcc = Label()
         self.Creation_Zone_Saisies()
 
-        """
-        -----------------------  Zone de simulation  ------------------------------
-        """
-        self.iWidth = width
-        self.iHeight = height
-        self.FrameSimulation = Frame(self.Window)
-        self.CanvasSimulation = Canvas(self.Window)
         self.Creation_Zone_Simulation()
         print(self.sEnvironnement.get())
 
@@ -105,41 +75,15 @@ class CIHMSimulationClasse:
         self.menuVitesse = OptionMenu(self.Window, self.sEnvironnement, *self.lListeVitesse)
 
         self.Creation_Lancement_Simulation()
+
+        """
+        -----------------------  Bilan de la simulation  ------------------------------
+        """
+        self.Bilan:CIHMBilan = CIHMBilan
+        self.__bouton_bilan = Button()
+        self.Creation_Bilan()
+
         self.Window.mainloop()
-
-
-    def Creation_Fenetre(self):
-        self.Window['background'] = 'light gray'
-        # self.window.wm_attributes("-transparentcolor", 'grey')
-        self.Window.title("Simulation de foule à échelle microscopique")
-        # self.window.resizable(0, 0)
-        self.Window.geometry("1080x1080")
-        self.Window.minsize(1080, 1080)
-        self.Window.iconbitmap("../../Images/logo_polytech.ico")
-        # self.window.config()
-
-    def Creation_Menu(self):
-        # TODO afficher les infos correspondantes aux boutons
-        self.mainMenu = Menu(self.Window)
-        #fileMenuFichier = Menu(self.mainMenu)
-        self.mainMenu.add_cascade(label="à propos", command=self.A_Propos)
-        self.mainMenu.add_cascade(label="?")
-        self.Window.config(menu=self.mainMenu)
-
-    def Creation_Titres(self):
-        self.labelTitle = Label(self.Window,
-                                text="Simulation de l'évacuation d'une foule",
-                                font=("Arial", 40),
-                                bg='light grey')
-        self.labelSubTitle = Label(self.Window,
-                                   text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing",
-                                   font=("Arial", 15),
-                                   bg='light grey')
-        self.labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=6, sticky='NS')
-        self.labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=6, sticky='NS')
-
-        self.background = Label(self.Window, width=self.Window.winfo_width(), bg=self.backgroundColor)
-        self.background.grid(column=0, row=2, columnspan=7)
 
     def Creation_Choix_Fichier(self):
         self.sEnvironnement = StringVar(self.Window)
@@ -173,13 +117,6 @@ class CIHMSimulationClasse:
         self.iForceAcceleration = Entry(self.Window, width=3)
         self.iForceAcceleration.grid(column=6, row=2, sticky='W')
 
-    def Creation_Zone_Simulation(self):
-        self.FrameSimulation = Frame(self.Window)
-        self.FrameSimulation.grid(column=0, row=3, columnspan=6, pady=10, padx=20, sticky='NS')
-        self.CanvasSimulation = Canvas(self.Window, width=self.iWidth, height=self.iHeight, bg='snow', bd=1, relief=RIDGE)
-        self.CanvasSimulation.grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
-
-
     def Creation_Lancement_Simulation(self):
         # Reculer
         self.Window.columnconfigure(3, minsize=0, weight=0)
@@ -208,6 +145,13 @@ class CIHMSimulationClasse:
         self.fVitesse.set(self.lListeVitesse[2])
         self.menuVitesse = OptionMenu(self.Window, self.fVitesse, *self.lListeVitesse)
         self.menuVitesse.grid(column=4, row=5, sticky='W')
+
+    def Creation_Bilan(self):
+        self.__bouton_bilan.config(state=DISABLED, text="Bilan", command=self.AffichageBilan)
+        self.__bouton_bilan.grid(column=5, row=6, sticky='W')
+
+    def AffichageBilan(self):
+        self.Bilan = CIHMBilan(self.lListePositions)
 
     def mouvement(self):
         """
@@ -298,16 +242,6 @@ class CIHMSimulationClasse:
     def stop_iterate_front(self, event):
         self.bForward = False
 
-    def A_Propos(self):
-        self.aPropos = Toplevel(self.Window)
-        self.aPropos.resizable(0, 0)
-        self.LabelAPropos = Label(self.aPropos,
-                                  text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.",
-                                  font=("Arial", 20),
-                                  bg='light grey')
-
-        self.LabelAPropos.grid(column=0, row=0)
-
     def Refresh_ListeEnvironnement(self):
         self.lListeEnvironnement = os.listdir('../../environnements/')
         self.lListeEnvironnement.append('Vide')
@@ -316,12 +250,14 @@ class CIHMSimulationClasse:
     def Choix_Environnement(self, sEnvironnement):
         print(sEnvironnement)
         self.Clear()
+        self.__bouton_lancement.config(state=DISABLED)
+        self.__bouton_front.config(state=DISABLED)
+        self.__bouton_back.config(state=DISABLED)
+        self.__bouton_bilan.config(state=DISABLED)
         if(sEnvironnement != 'Vide'):
             self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
             self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
-            self.__bouton_lancement.config(state=DISABLED)
-            self.__bouton_front.config(state=DISABLED)
-            self.__bouton_back.config(state=DISABLED)
+
             self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
             self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
             for personnes in self.CEnvironnement.getListePersonnes():
@@ -412,23 +348,20 @@ class CIHMSimulationClasse:
                                     bfini = True
 
                     self.iTempsDeSimulation += DeltaT
-        else:
-            self.__bouton_lancement.config(state=DISABLED)
-            self.__bouton_front.config(state=DISABLED)
-            self.__bouton_back.config(state=DISABLED)
 
-        self.__bouton_lancement.config(state=NORMAL)
-        self.__bouton_front.config(state=NORMAL)
-        self.__bouton_back.config(state=NORMAL)
-        self.LabelChargement.config(text='')
+
+            self.__bouton_lancement.config(state=NORMAL)
+            self.__bouton_front.config(state=NORMAL)
+            self.__bouton_back.config(state=NORMAL)
+            self.LabelChargement.config(text='')
+
+            self.__bouton_bilan.config(state=NORMAL)
 
     def Clear(self):
         # ___ Attributs de navigation ___
         self.iCurrent = 0
         self.bBackward = False
         self.bForward = False
-
-        #self.CEnvironnement = CEnvironnement()
 
         self.lListePositions.clear()
         self.lListePersonnes.clear()
@@ -438,13 +371,4 @@ class CIHMSimulationClasse:
 
         self.Creation_Zone_Simulation()
 
-
-
-
-
-
-
 test = CIHMSimulationClasse()
-#test.Window.update()
-#test.Window.mainloop()
-#test.Creation_Zone_Simulation()
