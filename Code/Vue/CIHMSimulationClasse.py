@@ -396,7 +396,7 @@ class CIHMSimulationClasse:
                                 sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
                                                                                                                       obstacle)
                                 print("sommet = ", sommet)
-                                if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 100) == True):
+                                if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
                                     personne.ajouterObstacle(obstacle)
 
                             #personne.CalculerForceRepulsionObstacle()
