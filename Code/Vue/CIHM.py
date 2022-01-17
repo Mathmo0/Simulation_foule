@@ -67,7 +67,7 @@ class CIHM:
                                 font=("Arial", 40),
                                 bg='light grey')
         self.labelSubTitle = Label(self.Window,
-                                   text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing",
+                                   text="Simulation à l'échelle microscopique basée sur le modèle des forces sociales de D.Helbing",
                                    font=("Arial", 15),
                                    bg='light grey')
         self.labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=6, sticky='NS')
