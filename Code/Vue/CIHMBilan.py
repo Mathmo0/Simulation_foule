@@ -22,9 +22,13 @@ class CIHMBilan(CIHM):
          -----------------------  Affichage de la carte des chaleurs  ------------------------------
         """
         self.Creation_Zone_Simulation()
-        self.figure = Figure(figsize=(5, 4), dpi=100)
+        self.figure = Figure(figsize=(5, 5), dpi=90)
         self.calculCarteChaleur()
-        self.CanvasSimulation = FigureCanvasTkAgg(self.heatmap2d(), self.getWindow())
+        self.c = self.figure.add_subplot(111)
+        #self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
+        self.heatmap2d()
+        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.getWindow())
+
         self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
 
         """self.toolBar = NavigationToolbar2Tk(self.CanvasSimulation, self.getWindow())
@@ -37,8 +41,9 @@ class CIHMBilan(CIHM):
         self.Window.mainloop()
 
     def heatmap2d(self):
-        plt.imshow(self.__listCarteChaleur, cmap='viridis')
-        plt.colorbar()
+        self.c = plt.imshow(self.__listCarteChaleur, cmap='hot')
+        self.c = plt.colorbar()
+        #self.c.plot(self.__listCarteChaleur)
         plt.show()
 
     def calculCarteChaleur(self):

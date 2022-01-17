@@ -331,8 +331,8 @@ class CIHMSimulationClasse(CIHM):
                             print('__________Position : ', personne.RecupererDerniereCoordonne())
                             personne.CalculerForceRepulsion()
                             print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
-                            personne.CalculForceAttraction(self.iTempsDeSimulation)
-                            print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
+                            #personne.CalculForceAttraction(self.iTempsDeSimulation)
+                            #print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
 
                             print('\n-------------autre------------\n')
 
