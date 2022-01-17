@@ -46,7 +46,7 @@ class CFRepulsion(CForce) :
         bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
         V = self.VAlphaBeta(bEffet)
 
-        return nablarAlphaB * V
+        return -nablarAlphaB * V
 
     def FREForceDeRepulsionObstacle(self,Ralpha, RalphaDeltaT, RObstacle):
         """
@@ -62,7 +62,7 @@ class CFRepulsion(CForce) :
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
         UFRO = self.UAlphaObstacle(NormeVecteurRAlphaObstacle)
 
-        return NablaFRO * UFRO
+        return -NablaFRO * UFRO
 
     def FREForceRepulsionPersonne(self,vRkAlpha, Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta):
         """
@@ -93,48 +93,60 @@ class CFRepulsion(CForce) :
 
         """
         listsommet = obstacle.getCoordonneesSommet()
-        sommetRetenu = np.array([0,0])
-        distance = 99999999999
+        sommetRetenu = np.array([0.0,0.0])
+
 
         #determination du centre de l'obstacle: [topLeft, topRight, bottomLeft, bottomRight]
 
         centreX = listsommet[0][0] + obstacle.getLargeur()/2
         centreY = listsommet[0][1] + obstacle.getHauteur()/2
         centre = np.array([centreX, centreY])
+        coef = COperation.FonctionTrajectoirePieton(centre, coordPieton)
 
         #determination position pieton par rapport a l'obstacle:
 
         """# cote gauche de l'obstacle:
         if  coordPieton[1] <= listsommet[2][1] and  coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
+                x = listsommet[0][0]
+                y = coef[0]*x + coef[1]
+                sommetRetenu = np.array([x,y])
 
         # coin top left:
         elif coordPieton[1] >= listsommet[0][1] and coordPieton[0] <= listsommet[0][0]:
             sommetRetenu = listsommet[0]
+
         # en haut de l'obstacle:
         elif coordPieton[1] >= listsommet[0][1] and listsommet[0][0] <= coordPieton[0] <= listsommet[1][0]:
+
+            y = listsommet[0][1]
+            x =  (y- coef[1])/coef[0]
+            sommetRetenu = np.array([x, y])
 
         # coin topRight
         elif coordPieton[1] >= listsommet[0][1] and coordPieton[0] >= listsommet[1][0]:
             sommetRetenu = listsommet[1]
+
         # a droite de l'obstacle:
         elif listsommet[3][1] <= coordPieton[1] <= listsommet[0][1] and coordPieton[0] >= listsommet[3][0]:
+
+            x = listsommet[1][0]
+            y = coef[0] * x + coef[1]
+            sommetRetenu = np.array([x, y])
 
         # coin bottom Right:
         elif coordPieton[1] <= listsommet[3][1] and coordPieton[0] >= listsommet[3][0]:
             sommetRetenu = listsommet[3]
+
         # en bas :
         elif listsommet[2][0] <= coordPieton[0] <= listsommet[3][0] and coordPieton[1] <= listsommet[3][1]:
+            y = listsommet[2][1]
+            x = (y - coef[1]) / coef[0]
+            sommetRetenu = np.array([x, y])
 
         # coin bottomLeft:
         elif coordPieton[1] <= listsommet[2][1] and coordPieton[0] <= listsommet[2][0]:
             sommetRetenu = listsommet[2]"""
 
-        for sommet in listsommet :
-
-            distancePO = la.norm(coordPieton-sommet)
-            if(distancePO < distance) :
-                sommetRetenu = sommet
-                distance = distancePO
         return sommetRetenu
 
 
