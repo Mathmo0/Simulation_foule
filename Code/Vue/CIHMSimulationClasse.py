@@ -12,6 +12,7 @@ from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CForce import DeltaT
 import csv
 
+from Code.Vue.CSortiesVue import CSortiesVue
 
 
 class CIHMSimulationClasse(CIHM):
@@ -38,6 +39,7 @@ class CIHMSimulationClasse(CIHM):
         self.lListePersonnes = []
         self.lListePersonnesVue = []
         self.lListePersonnesSorties = [] #Liste des personnes sortie
+        self.lListeSortiesVue = []
         self.lListeObstaclesVue = []
 
         # ___ Attributs de fenetre ___
@@ -278,6 +280,11 @@ class CIHMSimulationClasse(CIHM):
             for obstacles in self.CEnvironnement.getListeObstacles():
                 obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
                 self.lListeObstaclesVue.append(obstacle)
+                self.Window.update()
+
+            for sortie in self.CEnvironnement.getSorties():
+                sortie = CSortiesVue(self.CanvasSimulation, sortie)
+                self.lListeSortiesVue.append(sortie)
                 self.Window.update()
 
             header = len(self.lListePersonnes) * ["x", "y", "pression"]
