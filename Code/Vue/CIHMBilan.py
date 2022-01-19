@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 
 class CIHMBilan(CIHM):
 
-    def __init__(self, listcoord = [] ,tpsSimulation = 0):
+    def __init__(self, listcoord ,tpsSimulation = 0):
         super().__init__("Bilan de l'évacuation d'une foule")
         self.__listcoord = listcoord
         self.__tpsSimulation = tpsSimulation
