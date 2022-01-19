@@ -294,7 +294,7 @@ class CIHMSimulationClasse(CIHM):
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
-                while bfini == False:
+                while bfini == False and self.iTempsDeSimulation <= 40000:
                     if self.lListePersonnes == []:
                         bfini = True
 
@@ -374,6 +374,7 @@ class CIHMSimulationClasse(CIHM):
         self.iCurrent = 0
         self.bBackward = False
         self.bForward = False
+        self.iTempsDeSimulation = 0
 
         self.lListePositions.clear()
         self.lListePersonnes.clear()

@@ -367,7 +367,7 @@ class CPersonne:
         coordonneePieton = self.RecupererDerniereCoordonne()
 
         #On verifie si le pieton est aux alentours de la sortie.
-        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 3)
+        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 4)
 
         #Si oui, on retire les coordonnees de la sortie de sa memoire.
         if IsGone:
