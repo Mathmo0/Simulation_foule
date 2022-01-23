@@ -294,7 +294,7 @@ class CIHMSimulationClasse(CIHM):
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
-                while bfini == False and self.iTempsDeSimulation <= 40000:
+                while bfini == False and self.iTempsDeSimulation <= 20000:
                     if self.lListePersonnes == []:
                         bfini = True
 
