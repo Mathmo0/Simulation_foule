@@ -194,6 +194,7 @@ class CIHMSimulationClasse(CIHM):
 
         if not (self.__bouton_lancement['state'] == DISABLED):
             self.__bouton_lancement.config(state=DISABLED)
+            self.__bouton_back.config(state=DISABLED)
             self.__bouton_front.config(state=DISABLED)
             #for personne in self.lListePersonnes:
                 #personne.disparaitre()

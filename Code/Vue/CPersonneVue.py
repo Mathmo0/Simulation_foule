@@ -3,61 +3,61 @@ from Code.Modele.COperation import COperation
 class CPersonneVue:
 
     def __init__(self, canvas, x, y, rayon, color = 'DeepSkyBlue2', listcolor = ['DeepSkyBlue2', "DeepSkyBlue3","DodgerBlue2", "DodgerBlue3", "DeepSkyBlue4", "DodgerBlue4","midnightblue","navy","darkblue","black"], pression = 0):
-        self.canvas = canvas
-        self.image = COperation.create_circle(x, y, rayon, canvas, color)
-        self.x = x
-        self.y = y
-        self.rayon = rayon
-        self.color = color
-        self.pression = pression
-        self.listColor = listcolor
+        self.__PVUcanvas = canvas
+        self.__PVUimage = COperation.create_circle(x, y, rayon, canvas, color)
+        self.__fPVUx = x
+        self.__fPVUy = y
+        self.__iPVUrayon = rayon
+        self.__sPVUcolor = color
+        self.__fPVUpression = pression
+        self.__lPVUlistColor = listcolor
 
     def getX(self):
-        return self.x
+        return self.__fPVUx
 
     def setX(self, x):
-        self.x = x
+        self.__fPVUx = x
 
     def getY(self):
-        return self.y
+        return self.__fPVUy
 
     def setY(self, y):
-        self.y = y
+        self.__fPVUy = y
 
     def getPression(self):
-        return self.pression
+        return self.__fPVUpression
 
     def setPression(self, pres):
-        self.pression = pres
-        if 0 <= self.pression <= 1:
-            self.color = self.listColor[0]
-        elif 1 < self.pression <= 2:
-            self.color = self.listColor[1]
-        elif 2 < self.pression <= 3:
-            self.color = self.listColor[2]
-        elif 3 < self.pression <= 4:
-            self.color = self.listColor[3]
-        elif 4 < self.pression <= 5:
-            self.color = self.listColor[4]
-        elif 5 < self.pression <= 6:
-            self.color = self.listColor[5]
-        elif 6 < self.pression <= 7:
-            self.color = self.listColor[6]
-        elif 7 < self.pression <= 8:
-            self.color = self.listColor[7]
-        elif 8 < self.pression <= 9:
-            self.color = self.listColor[8]
-        elif 9 < self.pression <= 10:
-            self.color = self.listColor[9]
-        elif  self.pression > 10:
-            self.color = self.listColor[9]
+        self.__fPVUpression = pres
+        if 0 <= self.__fPVUpression <= 1:
+            self.__sPVUcolor = self.__lPVUlistColor[0]
+        elif 1 < self.__fPVUpression <= 2:
+            self.__sPVUcolor = self.__lPVUlistColor[1]
+        elif 2 < self.__fPVUpression <= 3:
+            self.__sPVUcolor = self.__lPVUlistColor[2]
+        elif 3 < self.__fPVUpression <= 4:
+            self.__sPVUcolor = self.__lPVUlistColor[3]
+        elif 4 < self.__fPVUpression <= 5:
+            self.__sPVUcolor = self.__lPVUlistColor[4]
+        elif 5 < self.__fPVUpression <= 6:
+            self.__sPVUcolor = self.__lPVUlistColor[5]
+        elif 6 < self.__fPVUpression <= 7:
+            self.__sPVUcolor = self.__lPVUlistColor[6]
+        elif 7 < self.__fPVUpression <= 8:
+            self.__sPVUcolor = self.__lPVUlistColor[7]
+        elif 8 < self.__fPVUpression <= 9:
+            self.__sPVUcolor = self.__lPVUlistColor[8]
+        elif 9 < self.__fPVUpression <= 10:
+            self.__sPVUcolor = self.__lPVUlistColor[9]
+        elif  self.__fPVUpression > 10:
+            self.__sPVUcolor = self.__lPVUlistColor[9]
         
     def move(self):
-        self.canvas.delete(self.image)
-        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
+        self.__PVUcanvas.delete(self.__PVUimage)
+        self.__PVUimage = COperation.create_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)
 
     def disparaitre(self):
-        self.canvas.delete(self.image)
+        self.__PVUcanvas.delete(self.__PVUimage)
 
     def apparaitre(self):
-        self.image = COperation.create_circle(self.x, self.y, self.rayon, self.canvas, self.color)
+        self.__PVUimage = COperation.create_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)

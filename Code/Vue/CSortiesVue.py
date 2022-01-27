@@ -5,9 +5,9 @@ import numpy as np
 
 class CSortiesVue:
     def __init__(self, canvas, listeCoord:np.array, rayon = 10):
-        self.canvas = canvas
-        self.rayon = rayon
+        self.__SORcanvas = canvas
+        self.__SORrayon = rayon
         if len(listeCoord) == 2 :
-            self.__coordx = listeCoord[0]
-            self.__coordy = listeCoord[1]
-            self.__image = COperation.create_circle(self.__coordx, self.__coordy, self.rayon, self.canvas, "green")
+            self.__SORcoordx = listeCoord[0]
+            self.__SORcoordy = listeCoord[1]
+            self.__SORimage = COperation.create_circle(self.__SORcoordx, self.__SORcoordy, self.__SORrayon, self.__SORcanvas, "green")
