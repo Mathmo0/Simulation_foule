@@ -168,15 +168,15 @@ class CIHMSimulationClasse(CIHM):
         """
         index = 0
         for j in range(0, len(self.lListePersonnesVue)):
-            self.personne = CPersonne(False, np.array([self.lListePersonnesVue[j].getX(), self.lListePersonnesVue[j].getY()]))
+            self.personne = CPersonne(False, np.array([self.lListePositions[self.iCurrent][j + index], self.lListePositions[self.iCurrent][j + index + 1]]))
             self.personne.ajouterDirection(self.CEnvironnement.getSorties()[0])
             if self.personne.sorti() == False :
                 self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
                 self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
                 self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
-                self.lListePersonnesVue[j].move()
             else:
-                self.lListePersonnesVue[j].disparaitre()
+                self.lListePersonnesVue[j].color = ""
+            self.lListePersonnesVue[j].move()
             index += 2
         time.sleep(0.05 / float(self.fVitesse.get()))
 
