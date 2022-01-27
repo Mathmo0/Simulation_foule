@@ -8,17 +8,24 @@ class CFAcceleration(CForce) :
 
     def __init__(self,tForceAcceleration = np.array([0,0]) ):
 
-        self.tForceAcceleration = tForceAcceleration;
+        self.__tFACForceAcceleration = tForceAcceleration;
 
     #getter et setter :
 
     def FACgetForceAcceleration(self):
-        return self.tForceAcceleration
+        """
+        getter pour l'attribut __tFACForceAcceleration
+
+        @return: __tFACForceAcceleration
+        """
+        return self.__tFACForceAcceleration
 
     #methodes :
 
     def FACForceDacceleration(self,vAlpha, vAlpha0, vRkAlpha, vRalpha):
         """
+        Cette fontion permet de calculer la force d'acceleration pour un pieton alpha
+
         @param vAlpha : vecteur vitesse du piéton alpha
         @param vAlpha0 : vitesse initiale du piéton
         @param vRkAlpha: Destination du pieton Alpha
@@ -28,6 +35,6 @@ class CFAcceleration(CForce) :
         """
         eAlphaS = self.eAlpha(vRkAlpha, vRalpha)
 
-        self.tForceAcceleration = (1 / tau) * ((vAlpha0 * eAlphaS) - vAlpha)
+        self.__tFACForceAcceleration = (1 / tau) * ((vAlpha0 * eAlphaS) - vAlpha)
 
-        return self.tForceAcceleration
+        return self.__tFACForceAcceleration

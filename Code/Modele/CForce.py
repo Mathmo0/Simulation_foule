@@ -87,6 +87,8 @@ class CForce :
 
     def w(self,e, f):
         """
+        Cette fonction permet de calculer l'influence des personnes derrière elles.
+
         @param e : est le vecteur sortie/obstacle
         @param f : est un vecteur force
         @return:
