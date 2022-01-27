@@ -43,8 +43,8 @@ class CObstacleQuadrilatere(CObstacle):
 
     def calculerCoordonnees(self):
         coinTopRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1]])
-        coinBottomLeft = np.array([self.tCoordonneesSommet[0][0], self.tCoordonneesSommet[0][1] + self.iHauteur])
-        coinBottomRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1] + self.iHauteur])
+        coinBottomLeft = np.array([self.tCoordonneesSommet[0][0], self.tCoordonneesSommet[0][1] - self.iHauteur])
+        coinBottomRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1] - self.iHauteur])
         self.tCoordonneesSommet.append(coinTopRight)
         self.tCoordonneesSommet.append(coinBottomLeft)
         self.tCoordonneesSommet.append(coinBottomRight)

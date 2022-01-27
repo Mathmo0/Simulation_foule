@@ -18,11 +18,18 @@ class CPersonneVue:
     def setX(self, x):
         self.__fPVUx = x
 
+
     def getY(self):
         return self.__fPVUy
 
     def setY(self, y):
         self.__fPVUy = y
+
+    def setColor(self, color):
+        self.__sPVUcolor = color
+
+    def getColor(self):
+        return self.__sPVUcolor
 
     def getPression(self):
         return self.__fPVUpression

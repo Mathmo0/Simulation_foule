@@ -9,11 +9,11 @@ c = 0.5
 tau = 0.5  # s
 SqrtTeta = 0.26  # m/s
 Sigma = 1.5 # m
-R = 0.122  # 0.2# m
+R = 0.2  # 0.2# m
 DeltaT = 2  # s
 Phi = 100  # °
 VAlphaBeta0 = 12 #2.1 #5 # m**2
-UAlphaObstacle0 = 1.5 #(m/s)**2
+UAlphaObstacle0 = 0.5 #(m/s)**2
 cst = 10
 
 class CForce :

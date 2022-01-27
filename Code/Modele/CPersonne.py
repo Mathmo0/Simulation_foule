@@ -315,7 +315,6 @@ class CPersonne:
         for obstacle in self.__lPERlistObstacleProximite :
                 sommet = self.__vPERForceRepulsionObstacle.FREDeterminerSommetObstacleQuadrilatere(self.RecupererDerniereCoordonne(), obstacle)
                 valeurTotaleForceRepulsionObstacle += self.__vPERForceRepulsionObstacle.FREForceDeRepulsionObstacle(self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], sommet)
-
         self.__vPERForceRepulsionObstacle.settertForceRepulsion(valeurTotaleForceRepulsionObstacle)
 
     def CalculerForceAcceleration(self):

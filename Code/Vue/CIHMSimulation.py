@@ -174,9 +174,10 @@ class CIHMSimulationClasse(CIHM):
                 self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
                 self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
                 self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
+                self.lListePersonnesVue[j].move()
             else:
-                self.lListePersonnesVue[j].color = ""
-            self.lListePersonnesVue[j].move()
+                self.lListePersonnesVue[j].setColor("")
+                self.lListePersonnesVue[j].move()
             index += 2
         time.sleep(0.05 / float(self.fVitesse.get()))
 
@@ -202,6 +203,7 @@ class CIHMSimulationClasse(CIHM):
 
         if not (self.__bouton_lancement['state'] == DISABLED):
             self.__bouton_lancement.config(state=DISABLED)
+            self.__bouton_bilan.config(state=DISABLED)
             self.__bouton_back.config(state=DISABLED)
             self.__bouton_front.config(state=DISABLED)
             #for personne in self.lListePersonnes:
@@ -222,6 +224,7 @@ class CIHMSimulationClasse(CIHM):
                 self.Window.update()
                 self.mouvement()
             self.__bouton_lancement.config(state=NORMAL)
+            self.__bouton_bilan.config(state=NORMAL)
             self.__bouton_back.config(state=NORMAL)
             self.__bouton_front.config(state=NORMAL)
 
@@ -303,7 +306,8 @@ class CIHMSimulationClasse(CIHM):
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
-                while bfini == False and self.iTempsDeSimulation <= 20000:
+                while bfini == False and self.iTempsDeSimulation <= 5000:
+                    print(self.iTempsDeSimulation)
                     if self.lListePersonnes == []:
                         bfini = True
 
@@ -356,8 +360,8 @@ class CIHMSimulationClasse(CIHM):
                                 if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
                                     personne.ajouterObstacle(obstacle)
 
-                            #personne.CalculerForceRepulsionObstacle()
-                            #print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                            personne.CalculerForceRepulsionObstacle()
+                            print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                             # Nouvelle Position:
 
                             personne.CalculerNouvellePosition(self.iTempsDeSimulation)
