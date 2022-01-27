@@ -330,13 +330,13 @@ class CIHMSimulationClasse(CIHM):
                                     coordperprox = personneProx.RecupererDerniereCoordonne()
                                     if (COperation.DetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
                                         personne.ajouterPersonne(personneProx)
-                            print('__________Position : ', personne.RecupererDerniereCoordonne())
+                            #print('__________Position : ', personne.RecupererDerniereCoordonne())
                             personne.CalculerForceRepulsion()
-                            print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
+                            #print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
                             #personne.CalculForceAttraction(self.iTempsDeSimulation)
                             #print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
 
-                            print('\n-------------autre------------\n')
+                            #print('\n-------------autre------------\n')
 
                             # Force de Repulsion par un obstacle :
                             for obstacle in self.CEnvironnement.getListeObstacles():
@@ -348,7 +348,7 @@ class CIHMSimulationClasse(CIHM):
                                     personne.ajouterObstacle(obstacle)
 
                             #personne.CalculerForceRepulsionObstacle()
-                            print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                            #print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                             # Nouvelle Position:
 
                             personne.CalculerNouvellePosition(self.iTempsDeSimulation)
