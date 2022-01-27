@@ -201,7 +201,7 @@ class CIHMSimulationClasse(CIHM):
             # Creation des personnes et initialisation de leurs positions
             index = 0
             for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
-                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 3)
+                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 5)
                 self.lListePersonnesVue.append(personne)
                 index += 2
 
@@ -272,7 +272,7 @@ class CIHMSimulationClasse(CIHM):
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 3)
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
                 self.lListePersonnesVue.append(personne)
                 self.Window.update()
 
@@ -313,7 +313,7 @@ class CIHMSimulationClasse(CIHM):
 
                             personne.CalculerForceAcceleration()
 
-                            # Force de Repulsion entre personne et aussi pour la force D'attraction :
+                            # Force de Repulsion entre personne :
 
                             personne.ClearPersonneProximite()
 
@@ -331,9 +331,7 @@ class CIHMSimulationClasse(CIHM):
                             print('__________Position : ', personne.RecupererDerniereCoordonne())
                             personne.CalculerForceRepulsion()
                             print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
-                            #calcul force d'attraction
-
-                            #personne.CalculForceAttraction(self.iTempsDeSimulation)
+                            personne.CalculForceAttraction(self.iTempsDeSimulation)
                             print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
 
                             print('\n-------------autre------------\n')
@@ -349,7 +347,6 @@ class CIHMSimulationClasse(CIHM):
 
                             personne.CalculerForceRepulsionObstacle()
                             print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
-
                             # Nouvelle Position:
 
                             personne.CalculerNouvellePosition(self.iTempsDeSimulation)

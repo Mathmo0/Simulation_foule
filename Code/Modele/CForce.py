@@ -12,7 +12,7 @@ Sigma = 1.5 # m
 R = 0.122  # 0.2# m
 DeltaT = 2  # s
 Phi = 100  # °
-VAlphaBeta0 = 1.5 #5 # m**2
+VAlphaBeta0 = 12 #2.1 #5 # m**2
 UAlphaObstacle0 = 1.5 #(m/s)**2
 cst = 10
 

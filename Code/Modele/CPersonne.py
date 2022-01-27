@@ -18,7 +18,7 @@ class CPersonne:
         assert rayon > 0, "La rayon doit etre strictement positive "
         assert chpsVision > 0, "Le champ de vision doit être strictement positif"
 
-        self.__vPERVitesse = np.array([0, 0])
+        self.__vPERVecteurVitesse = np.array([0, 0])
         self.__fPERVitesse = vitesse
         self.__fPERPression = pression
         self.__lPERDirection: List[np.array()] = []
@@ -51,7 +51,7 @@ class CPersonne:
         getter pour l'attribut __vPERVitesse
         @return:
         """
-        return self.__vPERVitesse
+        return self.__vPERVecteurVitesse
 
     def getPression(self):
         """
@@ -270,7 +270,7 @@ class CPersonne:
         @return:  rien
         """
         force = CForce()
-        self.__vPERVitesse = force.VecteurVitesse(self.__lPERCoordonees[0], self.RecupererDerniereCoordonne(), t)
+        self.__vPERVecteurVitesse = force.VecteurVitesse(self.__lPERCoordonees[0], self.RecupererDerniereCoordonne(), t)
         self.CalculVitesse()
 
     def CalculVitesse(self):
@@ -279,10 +279,10 @@ class CPersonne:
         @return: rien
         """
         force = CForce()
-        self.__fPERVitesse = np.linalg.norm(self.__vPERVitesse)
+        self.__fPERVitesse = np.linalg.norm(self.__vPERVecteurVitesse)
         Vmax = force.VitesseAlphaMax(1.34)
         if self.__fPERVitesse > Vmax :
-            self.__vPERVitesse = Vmax
+            self.__vPERVecteurVitesse = Vmax
 
     def CalculerForceRepulsion(self):
         """
@@ -296,7 +296,7 @@ class CPersonne:
         for personne in self.__lPERlistPersonneProximite :
             #TODO : Exception aucune direction
             try :
-                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse()) # self.__fPERRayon
+                valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.RecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.RecupererDerniereCoordonne(), personne.RecupererDirectionActuelle(), personne.getVitesse())# self.__fPERRayon
             except :
                 print("Le pieton n'a aucun direction, on ne peut donc pas calculer la force de repulsion")
 
@@ -326,7 +326,7 @@ class CPersonne:
         """
         eALpha = self.__lPERDirection[0]
         RAlpha = self.RecupererDerniereCoordonne()
-        self.__vPERForceAcceleration.FACForceDacceleration(self.__vPERVitesse, 1.34, eALpha, RAlpha)
+        self.__vPERForceAcceleration.FACForceDacceleration(self.__vPERVecteurVitesse, 1.34, eALpha, RAlpha)
 
     def CalculForceAttraction(self,t):
 
@@ -367,7 +367,7 @@ class CPersonne:
         coordonneePieton = self.RecupererDerniereCoordonne()
 
         #On verifie si le pieton est aux alentours de la sortie.
-        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 3)
+        IsGone = COperation.DetectionCercle(coordonneeSortie[0], coordonneeSortie[1], coordonneePieton[0], coordonneePieton[1], 4)
 
         #Si oui, on retire les coordonnees de la sortie de sa memoire.
         if IsGone:

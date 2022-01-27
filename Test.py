@@ -54,22 +54,22 @@ def heatmap2d(arr: np.ndarray):
     plt.show()
 
 
-'''monFichier = CFichier("FichierSimulation/FichierPositions.csv")
+monFichier = CFichier("FichierSimulation/FichierPositions.csv")
 listPositions = monFichier.LireFichierPosition()
 
 listCarteChaleur = np.zeros((400,400))
 print(listCarteChaleur)
 for uiBoucle1 in range(len(listPositions)) :
 
-    px1 = (listPositions[uiBoucle1][0]*400)/500 # ici 400 = widh et 500 largeur de l'environnement
-    px2 = (listPositions[uiBoucle1][1]*400)/500 # ici 400 = Height et 500 longueur de l'environnement
+    px1 = (listPositions[uiBoucle1][0]) # ici 400 = widh et 500 largeur de l'environnement
+    px2 = (listPositions[uiBoucle1][1]) # ici 400 = Height et 500 longueur de l'environnement
     listCarteChaleur[round(px1)][round(px2)] +=1
 
 
 
 test_array = listCarteChaleur # np.arange(100 * 100).reshape(100, 100)
 heatmap2d(test_array)
-'''
+
 
 position2 = np.array([3,7.5])
 position = np.array([7,15])

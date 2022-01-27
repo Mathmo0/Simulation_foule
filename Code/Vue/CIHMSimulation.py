@@ -1,278 +1,387 @@
 import time
 import os
 
-from tkinter import ttk
-from Code.Modele.CPersonne import CPersonne
+from Code.Modele.COperation import COperation
+from Code.Vue.CIHM import CIHM
+from Code.Vue.CIHMBilan import CIHMBilan
 from Code.Vue.CPersonneVue import CPersonneVue
 from tkinter import *
-from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 from Code.Vue.CObstacleQuadrilatereVue import CObstacleQuadrilatereVue
 from Code.Modele.CFichier import CFichier
-from threading import Thread
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CForce import DeltaT
 import csv
-import numpy as np
 
-"""
-------------------------- Recuperation des coordonees -------------------------
-"""
-monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
-listPositions = monFichier.LireFichierPosition()
-
-#On obtient le nombre de personnes grace aux colonnes du fichier csv
-nbPersonnes = len(listPositions[0])/2
-print("list position = ",listPositions)
-personnes = []
+from Code.Vue.CSortiesVue import CSortiesVue
 
 
-"""
----------------Carte de Chaleur -------------------------
-"""
-listCarteChaleur = [400][400]
-for uiBoucle1 in range(399) :
-    for uiBoucle2 in range(399) :
-        listCarteChaleur[uiBoucle1][uiBoucle2] = 0
+class CIHMSimulationClasse(CIHM):
+    # -----------------Constructeur-----------------
+    def __init__(self, height = 400, width = 400):
 
+        super().__init__("Simulation de l'évacuation d'une foule")
 
+        # ___ Attributs de navigation ___
+        self.iCurrent = 0
+        self.bBackward = False
+        self.bForward = False
 
+        # ___ Attributs pour la simulation ___
+        self.iForceAttraction = 0
+        self.iForceRepulsion = 0
+        self.iForceAcceleration = 0
+        self.iTempsDeSimulation = 0
 
-#----------------------------------------- Fonctions --------------------------------------------------------------------
-def A_Propos():
-    aPropos = Toplevel(window)
-    aPropos.resizable(0, 0)
-    LabelAPropos = Label(aPropos, text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.", font=("Arial", 20), bg='light grey')
-    LabelAPropos.grid(column=0, row=0)
+        self.CEnvironnement = CEnvironnement()
 
-def Choix_Environnement(variable):
-    print(variable)
+        self.FichierPosition = CFichier("../../FichierSimulation/FichierPositions")
+        self.lListePositions = []
+        self.lListePersonnes = []
+        self.lListePersonnesVue = []
+        self.lListePersonnesSorties = [] #Liste des personnes sortie
+        self.lListeSortiesVue = []
+        self.lListeObstaclesVue = []
+        self.listeTest = []
 
+        # ___ Attributs de fenetre ___
+        """
+        -----------------------  Choix Fichier  ------------------------------
+        """
+        self.lListeEnvironnement = os.listdir('../../environnements/')
+        self.lListeEnvironnement.append('Vide')
+        self.sEnvironnement = ''
+        self.FichierEnvironnement = CFichier()
+        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement)
+        self.Creation_Choix_Fichier()
 
+        """
+        -----------------------  Zones de saisies  ------------------------------
+        """
+        self.labelForceAttract = Label()
+        self.labelForceRepuls = Label()
+        self.labelForceAcc = Label()
+        self.Creation_Zone_Saisies()
 
-def mouvement(multi):
-    """
-    Fonction permettant d'actualiser la position des personnes.
+        self.Creation_Zone_Simulation()
+        print(self.sEnvironnement.get())
 
-    @param : multiplicateur qui permet de moduler la vitesse de la simulation
-    @return : rien
-    """
-    index = 0
-    for j in range(0, len(personnes)):
-        personnes[j].setX(listPositions[current][j + index])
-        personnes[j].setY(listPositions[current][j + index + 1])
-        personnes[j].move()
-        index += 1
-    time.sleep(0.5/multi)
+        """
+        -----------------------  Lancement et navigation dans la simulation  ------------------------------
+        """
+        self.__bouton_back = Button()
+        self.__bouton_front = Button()
+        self.__bouton_lancement = Button()
 
+        self.labelVitesse = Label()
+        self.lListeVitesse = [0.25, 0.5, 1, 1.5, 2]
+        self.fVitesse = 1
+        self.menuVitesse = OptionMenu(self.Window, self.sEnvironnement, *self.lListeVitesse)
 
-def lancerSimulation(event):
-    """
-    Fonction permettant de lancer la simulation.
+        self.Creation_Lancement_Simulation()
 
-    @return : rien
-    """
-    if not (bouton_lancement['state'] == DISABLED):
-        bouton_lancement.config(state=DISABLED)
-        bouton_front.config(state=DISABLED)
-        global current
-        global multiplicateur
-        for personne in personnes:
-            personne.disparaitre()
-        personnes.clear()
-        window.update()
-        current = 0
-        #Creation des personnes et initialisation de leurs positions
+        """
+        -----------------------  Bilan de la simulation  ------------------------------
+        """
+        self.Bilan:CIHMBilan = CIHMBilan
+        self.__bouton_bilan = Button()
+        self.Creation_Bilan()
+
+        self.Window.mainloop()
+
+    def Creation_Choix_Fichier(self):
+        self.sEnvironnement = StringVar(self.Window)
+        self.sEnvironnement.set(self.lListeEnvironnement[len(self.lListeEnvironnement) - 1])
+        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement, command=self.Choix_Environnement)
+        self.ChoixMenu.grid(column=0, row=2, sticky='E')
+
+    #TODO RENDRE FONCTIONNEL LA SAISIS
+    def Creation_Zone_Saisies(self):
+        # Force attraction
+        self.Window.columnconfigure(0, minsize=0, weight=0)
+        self.labelForceAttract = Label(self.Window, text="Force d'attraction (en %):", bg=self.backgroundColor)
+        self.labelForceAttract.grid(column=1, row=2, sticky='E')
+        self.Window.columnconfigure(1, minsize=0, weight=0)
+        self.iForceAttraction = Entry(self.Window, width=3)
+        self.iForceAttraction.grid(column=2, row=2, sticky='W')
+
+        # Force répulsion
+        self.Window.columnconfigure(2, minsize=0, weight=1)
+        self.labelForceRepuls = Label(self.Window, text="Force de répulsion (en %):", bg=self.backgroundColor)
+        self.labelForceRepuls.grid(column=3, row=2, sticky='E')
+        self.Window.columnconfigure(3, minsize=0, weight=1)
+        self.iForceRepulsion = Entry(self.Window, width=3)
+        self.iForceRepulsion.grid(column=4, row=2, sticky='W')
+
+        # Force accélération
+        self.Window.columnconfigure(4, minsize=0, weight=1)
+        self.labelForceAcc = Label(self.Window, text="Force d'accélération (en %):", bg=self.backgroundColor)
+        self.labelForceAcc.grid(column=5, row=2, sticky='E')
+        self.Window.columnconfigure(5, minsize=0, weight=1)
+        self.iForceAcceleration = Entry(self.Window, width=3)
+        self.iForceAcceleration.grid(column=6, row=2, sticky='W')
+
+    def Creation_Lancement_Simulation(self):
+        # Reculer
+        self.Window.columnconfigure(3, minsize=0, weight=0)
+        self.__bouton_back = Button(self.Window, text='<<<')
+        self.__bouton_back.grid(column=3, row=6, sticky='W')
+        self.__bouton_back.bind('<ButtonPress-1>', self.iterate_back)
+        self.__bouton_back.bind('<ButtonRelease-1>', self.stop_iterate_back)
+
+        # Avancer
+        self.__bouton_front = Button(self.Window, text='>>>')
+        self.__bouton_front.grid(column=3, row=6, sticky='E')
+        self.__bouton_front.bind('<ButtonPress-1>', self.iterate_front)
+        self.__bouton_front.bind('<ButtonRelease-1>', self.stop_iterate_front)
+
+        # Lancement simulation
+        self.__bouton_lancement = Button(self.Window, text='LANCER')
+        self.__bouton_lancement.grid(column=3, row=6, sticky='NS')
+        self.__bouton_lancement.bind('<ButtonPress>', self.lancerSimulation)
+
+        # Force vitesse
+        self.labelVitesse = Label(self.Window, text="Vitesse de lecture : ", bg='light grey')
+        self.labelVitesse.grid(column=3, row=5, sticky='E', pady=10)
+        self.Window.columnconfigure(5, minsize=0, weight=1)
+
+        self.fVitesse = StringVar(self.Window)
+        self.fVitesse.set(self.lListeVitesse[2])
+        self.menuVitesse = OptionMenu(self.Window, self.fVitesse, *self.lListeVitesse)
+        self.menuVitesse.grid(column=4, row=5, sticky='W')
+
+    def Creation_Bilan(self):
+        self.__bouton_bilan.config(state=DISABLED, text="Bilan", command=self.AffichageBilan)
+        self.__bouton_bilan.grid(column=5, row=6, sticky='W')
+
+    def AffichageBilan(self):
+        self.Bilan = CIHMBilan(self.listeTest)
+
+    def mouvement(self):
+        """
+        Fonction permettant d'actualiser la position des personnes.
+
+        @param : multiplicateur qui permet de moduler la vitesse de la simulation
+        @return : rien
+        """
         index = 0
-        for current in range(0, int(nbPersonnes)):
-            personne = CPersonneVue(canvas, listPositions[0][current + index], listPositions[0][current + index + 1], 10, 'red')
-            personnes.append(personne)
-            index += 1
+        for j in range(0, len(self.lListePersonnesVue)):
+            self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
+            self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
+            self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
+            self.lListePersonnesVue[j].move()
+            index += 2
+        time.sleep(0.05 / float(self.fVitesse.get()))
 
-        #Mouvement
-        current = 0
-        for current in range(0, len(listPositions)):
-            window.update()
-            mouvement(10)
-        bouton_lancement.config(state=NORMAL)
-        bouton_back.config(state=NORMAL)
-        bouton_front.config(state=NORMAL)
+    def lancerSimulation(self, event):
+        """
+        Fonction permettant de lancer la simulation.
 
-def iterate_back(event):
-    """
-    Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
+        @return : rien
+        """
+        for personne in self.lListePersonnesVue:
+            personne.disparaitre()
 
-    @return : rien
-    """
-    global multiplicateur
-    global backward
-    backward = True
-    global current
-    while(current - 1 >= 0 and (backward == True)):
-        window.update()
-        current -= 1
-        mouvement(10)
+        self.lListePersonnesVue.clear()
 
-def iterate_front(event):
-    """
-    Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
+        """
+        ------------------------- Recuperation des coordonees -------------------------
+        """
+        monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
+        self.lListePositions = monFichier.LireFichierPosition()
+        self.listeTest = self.lListePositions
 
-    @return : rien
-    """
-    global multiplicateur
-    global forward
-    forward = True
-    global current
-    while(current + 1 < len(listPositions) and (forward == True)):
-        window.update()
-        current += 1
-        mouvement(10)
+        # On obtient le nombre de personnes grace aux colonnes du fichier csv
+
+        if not (self.__bouton_lancement['state'] == DISABLED):
+            self.__bouton_lancement.config(state=DISABLED)
+            self.__bouton_front.config(state=DISABLED)
+            #for personne in self.lListePersonnes:
+                #personne.disparaitre()
+            self.lListePersonnes.clear()
+            self.Window.update()
+            self.iCurrent = 0
+            # Creation des personnes et initialisation de leurs positions
+            index = 0
+            for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
+                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 5)
+                self.lListePersonnesVue.append(personne)
+                index += 2
+
+            # Mouvement
+            self.iCurrent = 0
+            for self.iCurrent in range(0, len(self.lListePositions)):
+                self.Window.update()
+                self.mouvement()
+            self.__bouton_lancement.config(state=NORMAL)
+            self.__bouton_back.config(state=NORMAL)
+            self.__bouton_front.config(state=NORMAL)
+
+    def iterate_back(self, event):
+        """
+        Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
+
+        @return : rien
+        """
+        self.bBackward = True
+        while (self.iCurrent - 1 >= 0 and (self.bBackward == True)):
+            self.Window.update()
+            self.iCurrent -= 1
+            self.mouvement()
+
+    def iterate_front(self, event):
+        """
+        Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
+
+        @return : rien
+        """
+        self.bForward = True
+        while (self.iCurrent + 1 < len(self.lListePositions) and (self.bForward == True)):
+            self.Window.update()
+            self.iCurrent += 1
+            self.mouvement()
+
+    def stop_iterate_back(self, event):
+        self.bBackward = False
+
+    def stop_iterate_front(self, event):
+        self.bForward = False
+
+    def Refresh_ListeEnvironnement(self):
+        self.lListeEnvironnement = os.listdir('../../environnements/')
+        self.lListeEnvironnement.append('Vide')
+
+    #TODO rendre fonctionnel le choix de lenvironnement avec une methode
+    def Choix_Environnement(self, sEnvironnement):
+        print(sEnvironnement)
+        self.Clear()
+        self.__bouton_lancement.config(state=DISABLED)
+        self.__bouton_front.config(state=DISABLED)
+        self.__bouton_back.config(state=DISABLED)
+        self.__bouton_bilan.config(state=DISABLED)
+        if(sEnvironnement != 'Vide'):
+            self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
+            self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
+
+            self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
+            self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
+            for personnes in self.CEnvironnement.getListePersonnes():
+                personnes.ajouterDirection(self.CEnvironnement.getSorties())
+
+            self.lListePersonnesSorties = [True for i in range(self.CEnvironnement.getNbPersonnes())]
+            bfini = False
+
+            self.lListePersonnes = self.CEnvironnement.getListePersonnes()
+
+            #Affichage de la position initiale
+            for personnes in self.lListePersonnes:
+                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
+                self.lListePersonnesVue.append(personne)
+                self.Window.update()
+
+            #Affichage des obstacles
+            for obstacles in self.CEnvironnement.getListeObstacles():
+                obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
+                self.lListeObstaclesVue.append(obstacle)
+                self.Window.update()
+
+            for sortie in self.CEnvironnement.getSorties():
+                sortie = CSortiesVue(self.CanvasSimulation, sortie)
+                self.lListeSortiesVue.append(sortie)
+                self.Window.update()
+
+            header = len(self.lListePersonnes) * ["x", "y", "pression"]
+
+            with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
+                writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
+                writer.writerow(header)
+                while bfini == False and self.iTempsDeSimulation <= 20000:
+                    if self.lListePersonnes == []:
+                        bfini = True
+
+                    # ecriture des coordonnees
+                    for personne in self.lListePersonnes:
+                        self.lListePositions.append(personne.RecupererDerniereCoordonne()[0])
+                        self.lListePositions.append(personne.RecupererDerniereCoordonne()[1])
+                        self.lListePositions.append(personne.getPression())
+
+                    writer.writerow(self.lListePositions)
+                    self.lListePositions.clear()
+
+                    # calcul des nouvelles coordonnees
+                    for personne in self.lListePersonnes:
+                        if self.lListePersonnesSorties[self.lListePersonnes.index(personne)] == True:
+
+                            # Force D'acceleration :
+
+                            personne.CalculerForceAcceleration()
+
+                            # Force de Repulsion entre personne :
+
+                            personne.ClearPersonneProximite()
+
+                            # ajout des personnes proche de personne
+                            for personneProx in self.lListePersonnes:
+
+                                # pour pas qu'on ajoute elle-même dans la liste et les personnes sorti
+
+                                if self.lListePersonnes.index(personne) != self.lListePersonnes.index(personneProx) and (
+                                        self.lListePersonnesSorties[self.lListePersonnes.index(personneProx)] == True):
+                                    coordper = personne.RecupererDerniereCoordonne()
+                                    coordperprox = personneProx.RecupererDerniereCoordonne()
+                                    if (COperation.DetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
+                                        personne.ajouterPersonne(personneProx)
+                            print('__________Position : ', personne.RecupererDerniereCoordonne())
+                            personne.CalculerForceRepulsion()
+                            print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
+                            #personne.CalculForceAttraction(self.iTempsDeSimulation)
+                            #print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
+
+                            print('\n-------------autre------------\n')
+
+                            # Force de Repulsion par un obstacle :
+                            for obstacle in self.CEnvironnement.getListeObstacles():
+                                coordPieton = personne.RecupererDerniereCoordonne()
+                                sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
+                                                                                                                      obstacle)
+                                #print("sommet = ", sommet)
+                                if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
+                                    personne.ajouterObstacle(obstacle)
+
+                            #personne.CalculerForceRepulsionObstacle()
+                            print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                            # Nouvelle Position:
+
+                            personne.CalculerNouvellePosition(self.iTempsDeSimulation)
+
+                            # On verifie si la personne est sortie ou non.
+                            if personne.sorti() == True:
+                                self.lListePersonnesSorties[self.lListePersonnes.index(personne)] = False
+                                if not any(self.lListePersonnesSorties):
+                                    bfini = True
+
+                    self.iTempsDeSimulation += DeltaT
 
 
-def stop_iterate_back(event):
-    global backward
-    backward = False
+            self.__bouton_lancement.config(state=NORMAL)
+            self.__bouton_front.config(state=NORMAL)
+            self.__bouton_back.config(state=NORMAL)
+            self.LabelChargement.config(text='')
 
+            self.__bouton_bilan.config(state=NORMAL)
 
-def stop_iterate_front(event):
-    global forward
-    forward = False
+    def Clear(self):
+        # ___ Attributs de navigation ___
+        self.iCurrent = 0
+        self.bBackward = False
+        self.bForward = False
+        self.iTempsDeSimulation = 0
 
-def menu_fichier(event):
-    listeEnvironnement = os.listdir('../../environnements/')
-#-----------------------------------------------------------------------------------------------------------------------
+        self.lListePositions.clear()
+        self.lListePersonnes.clear()
+        self.lListePersonnesVue.clear()
+        self.lListeObstaclesVue.clear()
+        self.lListePersonnesSorties.clear()
 
-"""
------------------------  Creation de la fenetre ------------------------------
-"""
-current = 0
-backward = False
-forward = False
-backgroundColor = "#7fb3d5"
-multiplicateur = 1
+        self.Creation_Zone_Simulation()
 
-
-window = Tk()
-window['background']='light gray'
-#window.wm_attributes("-transparentcolor", 'grey')
-window.title("Simulation de foule à échelle microscopique")
-#window.resizable(0, 0)
-window.geometry("800x800")
-window.minsize(800, 800)
-window.iconbitmap("../../Images/logo_polytech.ico")
-#window.config()
-
-
-"""
------------------------  Titre  ------------------------------
-"""
-labelTitle = Label(window, text="Simulation de l'évacuation d'une foule", font=("Arial", 40), bg='light grey')
-labelSubTitle = Label(window, text="Simulation à l'échelle microscopique basées sur le modèle des forces sociales de D.Helbing", font=("Arial", 15), bg='light grey')
-labelTitle.grid(column=0, row=0, ipadx=5, pady=5, columnspan=6, sticky='NS')
-labelSubTitle.grid(column=0, row=1, ipadx=5, pady=5, columnspan=6, sticky='NS')
-
-background = Label(window, width=window.winfo_width(), bg=backgroundColor)
-background.grid(column=0, row=2, columnspan=7)
-"""
------------------------  Menu  ------------------------------
-"""
-#TODO afficher les infos correspondantes aux boutons
-mainMenu = Menu(window)
-fileMenuFichier = Menu(mainMenu)
-mainMenu.add_cascade(label="?")
-mainMenu.add_cascade(label="à propos", command=A_Propos)
-
-"""
------------------------  Choix Fichier  ------------------------------
-"""
-#TODO rendre fonctionnel le choix de lenvironnement avec une methode
-listeEnvironnement = os.listdir('../../environnements/')
-listeEnvironnement.append('Vide')
-variable = StringVar(window)
-variable.set(listeEnvironnement[len(listeEnvironnement) - 1])
-var = str(variable.get())
-opt = OptionMenu(window, variable, *listeEnvironnement, command=Choix_Environnement)
-opt.grid(column=0, row=2, sticky='E')
-#print(variable.get())
-"""
------------------------  Zones de saisies  ------------------------------
-"""
-#TODO récupérer les valeurs dans des variables et en faire qqchose
-#Force attraction
-window.columnconfigure(0, minsize=0, weight=0)
-labelForceAtract = Label(window, text="Force d'attraction (en %):", bg=backgroundColor)
-labelForceAtract.grid(column=1, row=2, sticky='E')
-window.columnconfigure(1, minsize=0, weight=0)
-ForceAtract = Entry(window, width=3)
-ForceAtract.grid(column=2, row=2, sticky='W')
-
-#Force répulsion
-window.columnconfigure(2, minsize=0, weight=1)
-labelForceRepuls = Label(window, text="Force de répulsion (en %):", bg=backgroundColor)
-labelForceRepuls.grid(column=3, row=2, sticky='E')
-window.columnconfigure(3, minsize=0, weight=1)
-ForceRepuls = Entry(window, width=3)
-ForceRepuls.grid(column=4, row=2, sticky='W')
-
-#Force accélération
-window.columnconfigure(4, minsize=0, weight=1)
-labelForceAcc = Label(window, text="Force d'accélération (en %):", bg=backgroundColor)
-labelForceAcc.grid(column=5, row=2, sticky='E')
-window.columnconfigure(5, minsize=0, weight=1)
-ForceAcc = Entry(window, width=3)
-ForceAcc.grid(column=6, row=2, sticky='W')
-
-"""
------------------------  Zone de simulation  ------------------------------
-"""
-WIDTH = 400
-HEIGHT = 400
-
-main_frame= Frame(window)
-#main_frame.pack(fill=BOTH, expand=1)
-main_frame.grid(column=0, row=3, columnspan=6, pady=10, padx=20, sticky='NS')
-
-canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg='snow', bd=1, relief=RIDGE)
-#canvas.pack(expand=YES)
-canvas.grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
-
-table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
-table.calculerCoordonnees()
-vueTable = CObstacleQuadrilatereVue(canvas, table)
-
-table2 = CObstacleQuadrilatere(100, 100, np.array([250,250]))
-table2.calculerCoordonnees()
-vueTable2 = CObstacleQuadrilatereVue(canvas, table2)
-
-"""
------------------------  Lancement et navigation dans la simulation  ------------------------------
-"""
-window.columnconfigure(3, minsize=0, weight=0)
-bouton_back = Button(window, text='<<<')
-bouton_back.grid(column=3, row=6, sticky='W')
-bouton_back.bind('<ButtonPress-1>', iterate_back)
-bouton_back.bind('<ButtonRelease-1>', stop_iterate_back)
-
-bouton_front = Button(window, text='>>>')
-bouton_front.grid(column=3, row=6, sticky='E')
-bouton_front.bind('<ButtonPress-1>', iterate_front)
-bouton_front.bind('<ButtonRelease-1>', stop_iterate_front)
-
-bouton_lancement = Button(window, text='LANCER')
-bouton_lancement.grid(column=3, row=6, sticky='NS')
-bouton_lancement.bind('<ButtonPress>', lancerSimulation)
-window.bind('<space>',lancerSimulation)
-
-#Force vitesse
-labelmultiplicateur = Label(window, text="Vitesse de lecture : ", bg='light grey')
-labelmultiplicateur.grid(column=3, row=5, sticky='E', pady=10)
-window.columnconfigure(5, minsize=0, weight=1)
-listeVitesse = [0.25, 0.5, 1, 1.5, 2]
-variable = StringVar(window)
-variable.set(listeVitesse[2])
-opt = OptionMenu(window, variable, *listeVitesse)
-opt.grid(column=4, row=5, sticky='W')
-
-
-#Lancement
-window.config(menu=mainMenu)
-window.mainloop()
+test = CIHMSimulationClasse()
