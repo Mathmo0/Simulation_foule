@@ -10,25 +10,25 @@ import numpy as np
 class CFRepulsion(CForce) :
 
     def __init__(self, tForceRepulsion = np.array([0.0,0.0])):
-        self.tForceRepulsion = tForceRepulsion
+        self.__tFREForceRepulsion = tForceRepulsion
 
     def gettertForceRepulsion(self):
         """
-        getter pour l'attribut tForceRepulsion
+        getter pour l'attribut __tFREForceRepulsion
 
-        @return: tForceRepulsion
+        @return: __tFREForceRepulsion
         """
-        return self.tForceRepulsion
+        return self.__tFREForceRepulsion
 
     def settertForceRepulsion(self,newForceRepulsion):
         """
-        setter pour l'attribut tForceRepulsion
+        setter pour l'attribut __tFREForceRepulsion
 
-        @param newForceRepulsion:  nouvelle valeur de tForceRepulsion
+        @param newForceRepulsion:  nouvelle valeur de __tFREForceRepulsion
         @return: rien
 
         """
-        self.tForceRepulsion = newForceRepulsion
+        self.__tFREForceRepulsion = newForceRepulsion
 
     def FREEffetDeRepulsion(self,Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta):
         """
@@ -80,13 +80,14 @@ class CFRepulsion(CForce) :
         eAlphaFRP = self.eAlpha(vRkAlpha, Ralpha)
         EffetrepulsionRFP = self.FREEffetDeRepulsion(Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta)
 
-        self.tForceRepulsion = self.w(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
+        self.__tFREForceRepulsion = self.w(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
 
-        return self.tForceRepulsion
+        return self.__tFREForceRepulsion
 
     def FREDeterminerSommetObstacleQuadrilatere(self, coordPieton, obstacle:CObstacleQuadrilatere):
         """
         Cette fontion permet de lequel des sommets d'un obstacle est utilise pour calculer la force de repulsion entre un personne et un obstacle
+
         @param coordPieton: coordonnes du pieton sur lequel est applique la force de repulsion Personne-Obstacle
         @param obstacle: obstacle qui va appliquer la force de repulsion Personne-Obstacle
         @return: coordonnees du sommet qui va etre utilisée pour appliquer la force de repulsion Personne-Obstacle

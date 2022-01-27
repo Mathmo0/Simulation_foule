@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 #plt.use("TkAgg")
 import numpy as np
 from matplotlib.backends._backend_tk import NavigationToolbar2Tk
-
+import seaborn as sns
 from Code.Modele.CForce import DeltaT
 from Code.Vue.CIHM import CIHM
 
@@ -21,10 +21,20 @@ class CIHMBilan(CIHM):
         """
          -----------------------  Affichage de la carte des chaleurs  ------------------------------
         """
-        self.Creation_Zone_Simulation()
-        self.figure = Figure(figsize=(5, 5), dpi=90)
+        self.figure = Figure(figsize=(5, 5))
         self.calculCarteChaleur()
         self.c = self.figure.add_subplot(111)
+        # self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
+        self.heatmap2d()
+        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.getWindow())
+
+        self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+
+
+        #self.Creation_Zone_Simulation()
+        self.figure = Figure(figsize=(5, 5))
+        self.calculCarteChaleur()
+        #self.c = self.figure.add_subplot(111)
         #self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
         self.heatmap2d()
         self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.getWindow())
@@ -41,9 +51,10 @@ class CIHMBilan(CIHM):
         self.Window.mainloop()
 
     def heatmap2d(self):
-        self.c = plt.imshow(self.__listCarteChaleur, cmap='hot')
-        self.c = plt.colorbar()
+        self.c = plt.imshow(self.__listCarteChaleur, cmap='viridis')
+        self.c = plt.colorbar() #ticks=[0, 1, 2, 3,4,5]
         #self.c.plot(self.__listCarteChaleur)
+        #self.c = sns.heatmap(self.__listCarteChaleur, linewidth=0.5)
         plt.show()
 
     def calculCarteChaleur(self):

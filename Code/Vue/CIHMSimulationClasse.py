@@ -1,10 +1,7 @@
 import time
 import os
 
-import numpy as np
-
 from Code.Modele.COperation import COperation
-from Code.Modele.CPersonne import CPersonne
 from Code.Vue.CIHM import CIHM
 from Code.Vue.CIHMBilan import CIHMBilan
 from Code.Vue.CPersonneVue import CPersonneVue
@@ -44,7 +41,6 @@ class CIHMSimulationClasse(CIHM):
         self.lListePersonnesSorties = [] #Liste des personnes sortie
         self.lListeSortiesVue = []
         self.lListeObstaclesVue = []
-        self.listeTest = []
 
         # ___ Attributs de fenetre ___
         """
@@ -157,7 +153,7 @@ class CIHMSimulationClasse(CIHM):
         self.__bouton_bilan.grid(column=5, row=6, sticky='W')
 
     def AffichageBilan(self):
-        self.Bilan = CIHMBilan(self.listeTest)
+        self.Bilan = CIHMBilan(self.lListePositions)
 
     def mouvement(self):
         """
@@ -168,14 +164,9 @@ class CIHMSimulationClasse(CIHM):
         """
         index = 0
         for j in range(0, len(self.lListePersonnesVue)):
-            self.personne = CPersonne(False, np.array([self.lListePositions[self.iCurrent][j + index], self.lListePositions[self.iCurrent][j + index + 1]]))
-            self.personne.ajouterDirection(self.CEnvironnement.getSorties()[0])
-            if self.personne.sorti() == False :
-                self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
-                self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
-                self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
-            else:
-                self.lListePersonnesVue[j].color = ""
+            self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
+            self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
+            self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
             self.lListePersonnesVue[j].move()
             index += 2
         time.sleep(0.05 / float(self.fVitesse.get()))
@@ -196,13 +187,11 @@ class CIHMSimulationClasse(CIHM):
         """
         monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
         self.lListePositions = monFichier.LireFichierPosition()
-        self.listeTest = self.lListePositions
 
         # On obtient le nombre de personnes grace aux colonnes du fichier csv
 
         if not (self.__bouton_lancement['state'] == DISABLED):
             self.__bouton_lancement.config(state=DISABLED)
-            self.__bouton_back.config(state=DISABLED)
             self.__bouton_front.config(state=DISABLED)
             #for personne in self.lListePersonnes:
                 #personne.disparaitre()
@@ -303,7 +292,7 @@ class CIHMSimulationClasse(CIHM):
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
-                while bfini == False and self.iTempsDeSimulation <= 20000:
+                while bfini == False:
                     if self.lListePersonnes == []:
                         bfini = True
 
@@ -339,13 +328,13 @@ class CIHMSimulationClasse(CIHM):
                                     coordperprox = personneProx.RecupererDerniereCoordonne()
                                     if (COperation.DetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
                                         personne.ajouterPersonne(personneProx)
-                            #print('__________Position : ', personne.RecupererDerniereCoordonne())
+                            print('__________Position : ', personne.RecupererDerniereCoordonne())
                             personne.CalculerForceRepulsion()
-                            #print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
-                            #personne.CalculForceAttraction(self.iTempsDeSimulation)
-                            #print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
+                            print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
+                            personne.CalculForceAttraction(self.iTempsDeSimulation)
+                            print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
 
-                            #print('\n-------------autre------------\n')
+                            print('\n-------------autre------------\n')
 
                             # Force de Repulsion par un obstacle :
                             for obstacle in self.CEnvironnement.getListeObstacles():
@@ -356,8 +345,8 @@ class CIHMSimulationClasse(CIHM):
                                 if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
                                     personne.ajouterObstacle(obstacle)
 
-                            #personne.CalculerForceRepulsionObstacle()
-                            #print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                            personne.CalculerForceRepulsionObstacle()
+                            print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                             # Nouvelle Position:
 
                             personne.CalculerNouvellePosition(self.iTempsDeSimulation)
@@ -383,7 +372,6 @@ class CIHMSimulationClasse(CIHM):
         self.iCurrent = 0
         self.bBackward = False
         self.bForward = False
-        self.iTempsDeSimulation = 0
 
         self.lListePositions.clear()
         self.lListePersonnes.clear()
