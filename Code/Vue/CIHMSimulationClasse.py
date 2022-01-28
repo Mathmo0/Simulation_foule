@@ -22,36 +22,36 @@ class CIHMSimulationClasse(CIHM):
         super().__init__("Simulation de l'évacuation d'une foule")
 
         # ___ Attributs de navigation ___
-        self.iCurrent = 0
-        self.bBackward = False
-        self.bForward = False
+        self.__iSIMCurrent = 0
+        self.__bSIMBackward = False
+        self.__bSIMForward = False
 
         # ___ Attributs pour la simulation ___
-        self.iForceAttraction = 0
-        self.iForceRepulsion = 0
-        self.iForceAcceleration = 0
-        self.iTempsDeSimulation = 0
+        self.__fSIMForceAttraction = 0
+        self.__fSIMForceRepulsion = 0
+        self.__fSIMForceAcceleration = 0
+        self.__iSIMTempsDeSimulation = 0
 
-        self.CEnvironnement = CEnvironnement()
+        self.__ENVEnvironnement = CEnvironnement()
 
-        self.FichierPosition = CFichier("../../FichierSimulation/FichierPositions")
-        self.lListePositions = []
-        self.lListePersonnes = []
-        self.lListePersonnesVue = []
-        self.lListePersonnesSorties = [] #Liste des personnes sortie
-        self.lListeSortiesVue = []
-        self.lListeObstaclesVue = []
+        self.__SIMFichierPosition = CFichier("../../FichierSimulation/FichierPositions")
+        self.__lSIMListePositions = []
+        self.__lSIMListePersonnes = []
+        self.__lSIMListePersonnesVue = []
+        self.__lSIMListePersonnesSorties = [] #Liste des personnes sortie
+        self.__lSIMListeSortiesVue = []
+        self.__lSIMListeObstaclesVue = []
 
         # ___ Attributs de fenetre ___
         """
         -----------------------  Choix Fichier  ------------------------------
         """
-        self.lListeEnvironnement = os.listdir('../../environnements/')
-        self.lListeEnvironnement.append('Vide')
-        self.sEnvironnement = ''
-        self.FichierEnvironnement = CFichier()
-        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement)
-        self.Creation_Choix_Fichier()
+        self.__lSIMListeEnvironnement = os.listdir('../../environnements/')
+        self.__lSIMListeEnvironnement.append('Vide')
+        self.__sSIMEnvironnement = ''
+        self.__SIMFichierEnvironnement = CFichier()
+        self.__SIMChoixMenu = OptionMenu(self.__IHMWindow, self.__sSIMEnvironnement, *self.__lSIMListeEnvironnement)
+        self.SIMCreation_Choix_Fichier()
 
         """
         -----------------------  Zones de saisies  ------------------------------
@@ -59,10 +59,10 @@ class CIHMSimulationClasse(CIHM):
         self.labelForceAttract = Label()
         self.labelForceRepuls = Label()
         self.labelForceAcc = Label()
-        self.Creation_Zone_Saisies()
+        self.SIMCreation_Zone_Saisies()
 
-        self.Creation_Zone_Simulation()
-        print(self.sEnvironnement.get())
+        self.IHMCreation_Zone_Simulation()
+        print(self.__sSIMEnvironnement.get())
 
         """
         -----------------------  Lancement et navigation dans la simulation  ------------------------------
@@ -74,88 +74,88 @@ class CIHMSimulationClasse(CIHM):
         self.labelVitesse = Label()
         self.lListeVitesse = [0.25, 0.5, 1, 1.5, 2]
         self.fVitesse = 1
-        self.menuVitesse = OptionMenu(self.Window, self.sEnvironnement, *self.lListeVitesse)
+        self.menuVitesse = OptionMenu(self.__IHMWindow, self.__sSIMEnvironnement, *self.lListeVitesse)
 
-        self.Creation_Lancement_Simulation()
+        self.SIMCreation_Lancement_Simulation()
 
         """
         -----------------------  Bilan de la simulation  ------------------------------
         """
         self.Bilan:CIHMBilan = CIHMBilan
         self.__bouton_bilan = Button()
-        self.Creation_Bilan()
+        self.SIMCreation_Bilan()
 
-        self.Window.mainloop()
+        self.__IHMWindow.mainloop()
 
-    def Creation_Choix_Fichier(self):
-        self.sEnvironnement = StringVar(self.Window)
-        self.sEnvironnement.set(self.lListeEnvironnement[len(self.lListeEnvironnement) - 1])
-        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement, command=self.Choix_Environnement)
-        self.ChoixMenu.grid(column=0, row=2, sticky='E')
+    def SIMCreation_Choix_Fichier(self):
+        self.__sSIMEnvironnement = StringVar(self.__IHMWindow)
+        self.__sSIMEnvironnement.set(self.__lSIMListeEnvironnement[len(self.__lSIMListeEnvironnement) - 1])
+        self.__SIMChoixMenu = OptionMenu(self.__IHMWindow, self.__sSIMEnvironnement, *self.__lSIMListeEnvironnement, command=self.SIMChoix_Environnement)
+        self.__SIMChoixMenu.grid(column=0, row=2, sticky='E')
 
     #TODO RENDRE FONCTIONNEL LA SAISIS
-    def Creation_Zone_Saisies(self):
+    def SIMCreation_Zone_Saisies(self):
         # Force attraction
-        self.Window.columnconfigure(0, minsize=0, weight=0)
-        self.labelForceAttract = Label(self.Window, text="Force d'attraction (en %):", bg=self.backgroundColor)
+        self.__IHMWindow.columnconfigure(0, minsize=0, weight=0)
+        self.labelForceAttract = Label(self.__IHMWindow, text="Force d'attraction (en %):", bg=self.__sIHMbackgroundColor)
         self.labelForceAttract.grid(column=1, row=2, sticky='E')
-        self.Window.columnconfigure(1, minsize=0, weight=0)
-        self.iForceAttraction = Entry(self.Window, width=3)
-        self.iForceAttraction.grid(column=2, row=2, sticky='W')
+        self.__IHMWindow.columnconfigure(1, minsize=0, weight=0)
+        self.__fSIMForceAttraction = Entry(self.__IHMWindow, width=3)
+        self.__fSIMForceAttraction.grid(column=2, row=2, sticky='W')
 
         # Force répulsion
-        self.Window.columnconfigure(2, minsize=0, weight=1)
-        self.labelForceRepuls = Label(self.Window, text="Force de répulsion (en %):", bg=self.backgroundColor)
+        self.__IHMWindow.columnconfigure(2, minsize=0, weight=1)
+        self.labelForceRepuls = Label(self.__IHMWindow, text="Force de répulsion (en %):", bg=self.__sIHMbackgroundColor)
         self.labelForceRepuls.grid(column=3, row=2, sticky='E')
-        self.Window.columnconfigure(3, minsize=0, weight=1)
-        self.iForceRepulsion = Entry(self.Window, width=3)
-        self.iForceRepulsion.grid(column=4, row=2, sticky='W')
+        self.__IHMWindow.columnconfigure(3, minsize=0, weight=1)
+        self.__fSIMForceRepulsion = Entry(self.__IHMWindow, width=3)
+        self.__fSIMForceRepulsion.grid(column=4, row=2, sticky='W')
 
         # Force accélération
-        self.Window.columnconfigure(4, minsize=0, weight=1)
-        self.labelForceAcc = Label(self.Window, text="Force d'accélération (en %):", bg=self.backgroundColor)
+        self.__IHMWindow.columnconfigure(4, minsize=0, weight=1)
+        self.labelForceAcc = Label(self.__IHMWindow, text="Force d'accélération (en %):", bg=self.__sIHMbackgroundColor)
         self.labelForceAcc.grid(column=5, row=2, sticky='E')
-        self.Window.columnconfigure(5, minsize=0, weight=1)
-        self.iForceAcceleration = Entry(self.Window, width=3)
-        self.iForceAcceleration.grid(column=6, row=2, sticky='W')
+        self.__IHMWindow.columnconfigure(5, minsize=0, weight=1)
+        self.__fSIMForceAcceleration = Entry(self.__IHMWindow, width=3)
+        self.__fSIMForceAcceleration.grid(column=6, row=2, sticky='W')
 
-    def Creation_Lancement_Simulation(self):
+    def SIMCreation_Lancement_Simulation(self):
         # Reculer
-        self.Window.columnconfigure(3, minsize=0, weight=0)
-        self.__bouton_back = Button(self.Window, text='<<<')
+        self.__IHMWindow.columnconfigure(3, minsize=0, weight=0)
+        self.__bouton_back = Button(self.__IHMWindow, text='<<<')
         self.__bouton_back.grid(column=3, row=6, sticky='W')
-        self.__bouton_back.bind('<ButtonPress-1>', self.iterate_back)
-        self.__bouton_back.bind('<ButtonRelease-1>', self.stop_iterate_back)
+        self.__bouton_back.bind('<ButtonPress-1>', self.SIMiterate_back)
+        self.__bouton_back.bind('<ButtonRelease-1>', self.SIMstop_iterate_back)
 
         # Avancer
-        self.__bouton_front = Button(self.Window, text='>>>')
+        self.__bouton_front = Button(self.__IHMWindow, text='>>>')
         self.__bouton_front.grid(column=3, row=6, sticky='E')
-        self.__bouton_front.bind('<ButtonPress-1>', self.iterate_front)
-        self.__bouton_front.bind('<ButtonRelease-1>', self.stop_iterate_front)
+        self.__bouton_front.bind('<ButtonPress-1>', self.SIMiterate_front)
+        self.__bouton_front.bind('<ButtonRelease-1>', self.SIMstop_iterate_front)
 
         # Lancement simulation
-        self.__bouton_lancement = Button(self.Window, text='LANCER')
+        self.__bouton_lancement = Button(self.__IHMWindow, text='LANCER')
         self.__bouton_lancement.grid(column=3, row=6, sticky='NS')
-        self.__bouton_lancement.bind('<ButtonPress>', self.lancerSimulation)
+        self.__bouton_lancement.bind('<ButtonPress>', self.SIMlancerSimulation)
 
         # Force vitesse
-        self.labelVitesse = Label(self.Window, text="Vitesse de lecture : ", bg='light grey')
+        self.labelVitesse = Label(self.__IHMWindow, text="Vitesse de lecture : ", bg='light grey')
         self.labelVitesse.grid(column=3, row=5, sticky='E', pady=10)
-        self.Window.columnconfigure(5, minsize=0, weight=1)
+        self.__IHMWindow.columnconfigure(5, minsize=0, weight=1)
 
-        self.fVitesse = StringVar(self.Window)
+        self.fVitesse = StringVar(self.__IHMWindow)
         self.fVitesse.set(self.lListeVitesse[2])
-        self.menuVitesse = OptionMenu(self.Window, self.fVitesse, *self.lListeVitesse)
+        self.menuVitesse = OptionMenu(self.__IHMWindow, self.fVitesse, *self.lListeVitesse)
         self.menuVitesse.grid(column=4, row=5, sticky='W')
 
-    def Creation_Bilan(self):
-        self.__bouton_bilan.config(state=DISABLED, text="Bilan", command=self.AffichageBilan)
+    def SIMCreation_Bilan(self):
+        self.__bouton_bilan.config(state=DISABLED, text="Bilan", command=self.SIMAffichageBilan)
         self.__bouton_bilan.grid(column=5, row=6, sticky='W')
 
-    def AffichageBilan(self):
-        self.Bilan = CIHMBilan(self.lListePositions)
+    def SIMAffichageBilan(self):
+        self.Bilan = CIHMBilan(self.__lSIMListePositions)
 
-    def mouvement(self):
+    def SIMmouvement(self):
         """
         Fonction permettant d'actualiser la position des personnes.
 
@@ -163,30 +163,30 @@ class CIHMSimulationClasse(CIHM):
         @return : rien
         """
         index = 0
-        for j in range(0, len(self.lListePersonnesVue)):
-            self.lListePersonnesVue[j].setX(self.lListePositions[self.iCurrent][j + index])
-            self.lListePersonnesVue[j].setY(self.lListePositions[self.iCurrent][j + index + 1])
-            self.lListePersonnesVue[j].setPression(self.lListePositions[self.iCurrent][j + index + 2])
-            self.lListePersonnesVue[j].move()
+        for j in range(0, len(self.__lSIMListePersonnesVue)):
+            self.__lSIMListePersonnesVue[j].setX(self.__lSIMListePositions[self.__iSIMCurrent][j + index])
+            self.__lSIMListePersonnesVue[j].setY(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 1])
+            self.__lSIMListePersonnesVue[j].setPression(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 2])
+            self.__lSIMListePersonnesVue[j].move()
             index += 2
         time.sleep(0.05 / float(self.fVitesse.get()))
 
-    def lancerSimulation(self, event):
+    def SIMlancerSimulation(self, event):
         """
         Fonction permettant de lancer la simulation.
 
         @return : rien
         """
-        for personne in self.lListePersonnesVue:
+        for personne in self.__lSIMListePersonnesVue:
             personne.disparaitre()
 
-        self.lListePersonnesVue.clear()
+        self.__lSIMListePersonnesVue.clear()
 
         """
         ------------------------- Recuperation des coordonees -------------------------
         """
         monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
-        self.lListePositions = monFichier.LireFichierPosition()
+        self.__lSIMListePositions = monFichier.LireFichierPosition()
 
         # On obtient le nombre de personnes grace aux colonnes du fichier csv
 
@@ -195,119 +195,119 @@ class CIHMSimulationClasse(CIHM):
             self.__bouton_front.config(state=DISABLED)
             #for personne in self.lListePersonnes:
                 #personne.disparaitre()
-            self.lListePersonnes.clear()
-            self.Window.update()
-            self.iCurrent = 0
+            self.__lSIMListePersonnes.clear()
+            self.__IHMWindow.update()
+            self.__iSIMCurrent = 0
             # Creation des personnes et initialisation de leurs positions
             index = 0
-            for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
-                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 5)
-                self.lListePersonnesVue.append(personne)
+            for self.__iSIMCurrent in range(0, int(self.__ENVEnvironnement.getNbPersonnes())):
+                personne = CPersonneVue(self.__IHMCanvasSimulation, self.__lSIMListePositions[0][self.__iSIMCurrent + index], self.__lSIMListePositions[0][self.__iSIMCurrent + index + 1], 5)
+                self.__lSIMListePersonnesVue.append(personne)
                 index += 2
 
             # Mouvement
-            self.iCurrent = 0
-            for self.iCurrent in range(0, len(self.lListePositions)):
-                self.Window.update()
-                self.mouvement()
+            self.__iSIMCurrent = 0
+            for self.__iSIMCurrent in range(0, len(self.__lSIMListePositions)):
+                self.__IHMWindow.update()
+                self.SIMmouvement()
             self.__bouton_lancement.config(state=NORMAL)
             self.__bouton_back.config(state=NORMAL)
             self.__bouton_front.config(state=NORMAL)
 
-    def iterate_back(self, event):
+    def SIMiterate_back(self, event):
         """
         Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
 
         @return : rien
         """
-        self.bBackward = True
-        while (self.iCurrent - 1 >= 0 and (self.bBackward == True)):
-            self.Window.update()
-            self.iCurrent -= 1
-            self.mouvement()
+        self.__bSIMBackward = True
+        while (self.__iSIMCurrent - 1 >= 0 and (self.__bSIMBackward == True)):
+            self.__IHMWindow.update()
+            self.__iSIMCurrent -= 1
+            self.SIMmouvement()
 
-    def iterate_front(self, event):
+    def SIMiterate_front(self, event):
         """
         Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
 
         @return : rien
         """
-        self.bForward = True
-        while (self.iCurrent + 1 < len(self.lListePositions) and (self.bForward == True)):
-            self.Window.update()
-            self.iCurrent += 1
-            self.mouvement()
+        self.__bSIMForward = True
+        while (self.__iSIMCurrent + 1 < len(self.__lSIMListePositions) and (self.__bSIMForward == True)):
+            self.__IHMWindow.update()
+            self.__iSIMCurrent += 1
+            self.SIMmouvement()
 
-    def stop_iterate_back(self, event):
-        self.bBackward = False
+    def SIMstop_iterate_back(self, event):
+        self.__bSIMBackward = False
 
-    def stop_iterate_front(self, event):
-        self.bForward = False
+    def SIMstop_iterate_front(self, event):
+        self.__bSIMForward = False
 
-    def Refresh_ListeEnvironnement(self):
-        self.lListeEnvironnement = os.listdir('../../environnements/')
-        self.lListeEnvironnement.append('Vide')
+    def SIMRefresh_ListeEnvironnement(self):
+        self.__lSIMListeEnvironnement = os.listdir('../../environnements/')
+        self.__lSIMListeEnvironnement.append('Vide')
 
     #TODO rendre fonctionnel le choix de lenvironnement avec une methode
-    def Choix_Environnement(self, sEnvironnement):
+    def SIMChoix_Environnement(self, sEnvironnement):
         print(sEnvironnement)
-        self.Clear()
+        self.SIMClear()
         self.__bouton_lancement.config(state=DISABLED)
         self.__bouton_front.config(state=DISABLED)
         self.__bouton_back.config(state=DISABLED)
         self.__bouton_bilan.config(state=DISABLED)
         if(sEnvironnement != 'Vide'):
-            self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
+            self.LabelChargement = Label(self.__IHMWindow, text="Chargement... ", bg='light grey')
             self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
 
-            self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
-            self.CEnvironnement.CEnvironnementFichier(self.FichierEnvironnement)
-            for personnes in self.CEnvironnement.getListePersonnes():
-                personnes.ajouterDirection(self.CEnvironnement.getSorties())
+            self.__SIMFichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
+            self.__ENVEnvironnement.CEnvironnementFichier(self.__SIMFichierEnvironnement)
+            for personnes in self.__ENVEnvironnement.getListePersonnes():
+                personnes.ajouterDirection(self.__ENVEnvironnement.getSorties())
 
-            self.lListePersonnesSorties = [True for i in range(self.CEnvironnement.getNbPersonnes())]
+            self.__lSIMListePersonnesSorties = [True for i in range(self.__ENVEnvironnement.getNbPersonnes())]
             bfini = False
 
-            self.lListePersonnes = self.CEnvironnement.getListePersonnes()
+            self.__lSIMListePersonnes = self.__ENVEnvironnement.getListePersonnes()
 
             #Affichage de la position initiale
-            for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
-                self.lListePersonnesVue.append(personne)
-                self.Window.update()
+            for personnes in self.__lSIMListePersonnes:
+                personne = CPersonneVue(self.__IHMCanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
+                self.__lSIMListePersonnesVue.append(personne)
+                self.__IHMWindow.update()
 
             #Affichage des obstacles
-            for obstacles in self.CEnvironnement.getListeObstacles():
-                obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
-                self.lListeObstaclesVue.append(obstacle)
-                self.Window.update()
+            for obstacles in self.__ENVEnvironnement.getListeObstacles():
+                obstacle = CObstacleQuadrilatereVue(self.__IHMCanvasSimulation, obstacles)
+                self.__lSIMListeObstaclesVue.append(obstacle)
+                self.__IHMWindow.update()
 
-            for sortie in self.CEnvironnement.getSorties():
-                sortie = CSortiesVue(self.CanvasSimulation, sortie)
-                self.lListeSortiesVue.append(sortie)
-                self.Window.update()
+            for sortie in self.__ENVEnvironnement.getSorties():
+                sortie = CSortiesVue(self.__IHMCanvasSimulation, sortie)
+                self.__lSIMListeSortiesVue.append(sortie)
+                self.__IHMWindow.update()
 
-            header = len(self.lListePersonnes) * ["x", "y", "pression"]
+            header = len(self.__lSIMListePersonnes) * ["x", "y", "pression"]
 
             with  open("../../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
                 while bfini == False:
-                    if self.lListePersonnes == []:
+                    if self.__lSIMListePersonnes == []:
                         bfini = True
 
                     # ecriture des coordonnees
-                    for personne in self.lListePersonnes:
-                        self.lListePositions.append(personne.RecupererDerniereCoordonne()[0])
-                        self.lListePositions.append(personne.RecupererDerniereCoordonne()[1])
-                        self.lListePositions.append(personne.getPression())
+                    for personne in self.__lSIMListePersonnes:
+                        self.__lSIMListePositions.append(personne.RecupererDerniereCoordonne()[0])
+                        self.__lSIMListePositions.append(personne.RecupererDerniereCoordonne()[1])
+                        self.__lSIMListePositions.append(personne.getPression())
 
-                    writer.writerow(self.lListePositions)
-                    self.lListePositions.clear()
+                    writer.writerow(self.__lSIMListePositions)
+                    self.__lSIMListePositions.clear()
 
                     # calcul des nouvelles coordonnees
-                    for personne in self.lListePersonnes:
-                        if self.lListePersonnesSorties[self.lListePersonnes.index(personne)] == True:
+                    for personne in self.__lSIMListePersonnes:
+                        if self.__lSIMListePersonnesSorties[self.__lSIMListePersonnes.index(personne)] == True:
 
                             # Force D'acceleration :
 
@@ -318,12 +318,12 @@ class CIHMSimulationClasse(CIHM):
                             personne.ClearPersonneProximite()
 
                             # ajout des personnes proche de personne
-                            for personneProx in self.lListePersonnes:
+                            for personneProx in self.__lSIMListePersonnes:
 
                                 # pour pas qu'on ajoute elle-même dans la liste et les personnes sorti
 
-                                if self.lListePersonnes.index(personne) != self.lListePersonnes.index(personneProx) and (
-                                        self.lListePersonnesSorties[self.lListePersonnes.index(personneProx)] == True):
+                                if self.__lSIMListePersonnes.index(personne) != self.__lSIMListePersonnes.index(personneProx) and (
+                                        self.__lSIMListePersonnesSorties[self.__lSIMListePersonnes.index(personneProx)] == True):
                                     coordper = personne.RecupererDerniereCoordonne()
                                     coordperprox = personneProx.RecupererDerniereCoordonne()
                                     if (COperation.DetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
@@ -331,13 +331,13 @@ class CIHMSimulationClasse(CIHM):
                             print('__________Position : ', personne.RecupererDerniereCoordonne())
                             personne.CalculerForceRepulsion()
                             print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
-                            personne.CalculForceAttraction(self.iTempsDeSimulation)
+                            personne.CalculForceAttraction(self.__iSIMTempsDeSimulation)
                             print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
 
                             print('\n-------------autre------------\n')
 
                             # Force de Repulsion par un obstacle :
-                            for obstacle in self.CEnvironnement.getListeObstacles():
+                            for obstacle in self.__ENVEnvironnement.getListeObstacles():
                                 coordPieton = personne.RecupererDerniereCoordonne()
                                 sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
                                                                                                                       obstacle)
@@ -349,15 +349,15 @@ class CIHMSimulationClasse(CIHM):
                             print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
                             # Nouvelle Position:
 
-                            personne.CalculerNouvellePosition(self.iTempsDeSimulation)
+                            personne.CalculerNouvellePosition(self.__iSIMTempsDeSimulation)
 
                             # On verifie si la personne est sortie ou non.
                             if personne.sorti() == True:
-                                self.lListePersonnesSorties[self.lListePersonnes.index(personne)] = False
-                                if not any(self.lListePersonnesSorties):
+                                self.__lSIMListePersonnesSorties[self.__lSIMListePersonnes.index(personne)] = False
+                                if not any(self.__lSIMListePersonnesSorties):
                                     bfini = True
 
-                    self.iTempsDeSimulation += DeltaT
+                    self.__iSIMTempsDeSimulation += DeltaT
 
 
             self.__bouton_lancement.config(state=NORMAL)
@@ -367,18 +367,18 @@ class CIHMSimulationClasse(CIHM):
 
             self.__bouton_bilan.config(state=NORMAL)
 
-    def Clear(self):
+    def SIMClear(self):
         # ___ Attributs de navigation ___
-        self.iCurrent = 0
-        self.bBackward = False
-        self.bForward = False
+        self.__iSIMCurrent = 0
+        self.__bSIMBackward = False
+        self.__bSIMForward = False
 
-        self.lListePositions.clear()
-        self.lListePersonnes.clear()
-        self.lListePersonnesVue.clear()
-        self.lListeObstaclesVue.clear()
-        self.lListePersonnesSorties.clear()
+        self.__lSIMListePositions.clear()
+        self.__lSIMListePersonnes.clear()
+        self.__lSIMListePersonnesVue.clear()
+        self.__lSIMListeObstaclesVue.clear()
+        self.__lSIMListePersonnesSorties.clear()
 
-        self.Creation_Zone_Simulation()
+        self.IHMCreation_Zone_Simulation()
 
 test = CIHMSimulationClasse()

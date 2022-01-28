@@ -54,7 +54,7 @@ class CIHMSimulationClasse(CIHM):
         self.lListeEnvironnement.append('Vide')
         self.sEnvironnement = ''
         self.FichierEnvironnement = CFichier()
-        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement)
+        self.ChoixMenu = OptionMenu(self.__IHMWindow, self.sEnvironnement, *self.lListeEnvironnement)
         self.Creation_Choix_Fichier()
 
         """
@@ -65,7 +65,7 @@ class CIHMSimulationClasse(CIHM):
         self.labelForceAcc = Label()
         self.Creation_Zone_Saisies()
 
-        self.Creation_Zone_Simulation()
+        self.IHMCreation_Zone_Simulation()
         print(self.sEnvironnement.get())
 
         """
@@ -78,7 +78,7 @@ class CIHMSimulationClasse(CIHM):
         self.labelVitesse = Label()
         self.lListeVitesse = [0.25, 0.5, 1, 1.5, 2]
         self.fVitesse = 1
-        self.menuVitesse = OptionMenu(self.Window, self.sEnvironnement, *self.lListeVitesse)
+        self.menuVitesse = OptionMenu(self.__IHMWindow, self.sEnvironnement, *self.lListeVitesse)
 
         self.Creation_Lancement_Simulation()
 
@@ -89,67 +89,67 @@ class CIHMSimulationClasse(CIHM):
         self.__bouton_bilan = Button()
         self.Creation_Bilan()
 
-        self.Window.mainloop()
+        self.__IHMWindow.mainloop()
 
     def Creation_Choix_Fichier(self):
-        self.sEnvironnement = StringVar(self.Window)
+        self.sEnvironnement = StringVar(self.__IHMWindow)
         self.sEnvironnement.set(self.lListeEnvironnement[len(self.lListeEnvironnement) - 1])
-        self.ChoixMenu = OptionMenu(self.Window, self.sEnvironnement, *self.lListeEnvironnement, command=self.Choix_Environnement)
+        self.ChoixMenu = OptionMenu(self.__IHMWindow, self.sEnvironnement, *self.lListeEnvironnement, command=self.Choix_Environnement)
         self.ChoixMenu.grid(column=0, row=2, sticky='E')
 
     #TODO RENDRE FONCTIONNEL LA SAISIS
     def Creation_Zone_Saisies(self):
         # Force attraction
-        self.Window.columnconfigure(0, minsize=0, weight=0)
-        self.labelForceAttract = Label(self.Window, text="Force d'attraction (en %):", bg=self.backgroundColor)
+        self.__IHMWindow.columnconfigure(0, minsize=0, weight=0)
+        self.labelForceAttract = Label(self.__IHMWindow, text="Force d'attraction (en %):", bg=self.__sIHMbackgroundColor)
         self.labelForceAttract.grid(column=1, row=2, sticky='E')
-        self.Window.columnconfigure(1, minsize=0, weight=0)
-        self.iForceAttraction = Entry(self.Window, width=3)
+        self.__IHMWindow.columnconfigure(1, minsize=0, weight=0)
+        self.iForceAttraction = Entry(self.__IHMWindow, width=3)
         self.iForceAttraction.grid(column=2, row=2, sticky='W')
 
         # Force répulsion
-        self.Window.columnconfigure(2, minsize=0, weight=1)
-        self.labelForceRepuls = Label(self.Window, text="Force de répulsion (en %):", bg=self.backgroundColor)
+        self.__IHMWindow.columnconfigure(2, minsize=0, weight=1)
+        self.labelForceRepuls = Label(self.__IHMWindow, text="Force de répulsion (en %):", bg=self.__sIHMbackgroundColor)
         self.labelForceRepuls.grid(column=3, row=2, sticky='E')
-        self.Window.columnconfigure(3, minsize=0, weight=1)
-        self.iForceRepulsion = Entry(self.Window, width=3)
+        self.__IHMWindow.columnconfigure(3, minsize=0, weight=1)
+        self.iForceRepulsion = Entry(self.__IHMWindow, width=3)
         self.iForceRepulsion.grid(column=4, row=2, sticky='W')
 
         # Force accélération
-        self.Window.columnconfigure(4, minsize=0, weight=1)
-        self.labelForceAcc = Label(self.Window, text="Force d'accélération (en %):", bg=self.backgroundColor)
+        self.__IHMWindow.columnconfigure(4, minsize=0, weight=1)
+        self.labelForceAcc = Label(self.__IHMWindow, text="Force d'accélération (en %):", bg=self.__sIHMbackgroundColor)
         self.labelForceAcc.grid(column=5, row=2, sticky='E')
-        self.Window.columnconfigure(5, minsize=0, weight=1)
-        self.iForceAcceleration = Entry(self.Window, width=3)
+        self.__IHMWindow.columnconfigure(5, minsize=0, weight=1)
+        self.iForceAcceleration = Entry(self.__IHMWindow, width=3)
         self.iForceAcceleration.grid(column=6, row=2, sticky='W')
 
     def Creation_Lancement_Simulation(self):
         # Reculer
-        self.Window.columnconfigure(3, minsize=0, weight=0)
-        self.__bouton_back = Button(self.Window, text='<<<')
+        self.__IHMWindow.columnconfigure(3, minsize=0, weight=0)
+        self.__bouton_back = Button(self.__IHMWindow, text='<<<')
         self.__bouton_back.grid(column=3, row=6, sticky='W')
         self.__bouton_back.bind('<ButtonPress-1>', self.iterate_back)
         self.__bouton_back.bind('<ButtonRelease-1>', self.stop_iterate_back)
 
         # Avancer
-        self.__bouton_front = Button(self.Window, text='>>>')
+        self.__bouton_front = Button(self.__IHMWindow, text='>>>')
         self.__bouton_front.grid(column=3, row=6, sticky='E')
         self.__bouton_front.bind('<ButtonPress-1>', self.iterate_front)
         self.__bouton_front.bind('<ButtonRelease-1>', self.stop_iterate_front)
 
         # Lancement simulation
-        self.__bouton_lancement = Button(self.Window, text='LANCER')
+        self.__bouton_lancement = Button(self.__IHMWindow, text='LANCER')
         self.__bouton_lancement.grid(column=3, row=6, sticky='NS')
         self.__bouton_lancement.bind('<ButtonPress>', self.lancerSimulation)
 
         # Force vitesse
-        self.labelVitesse = Label(self.Window, text="Vitesse de lecture : ", bg='light grey')
+        self.labelVitesse = Label(self.__IHMWindow, text="Vitesse de lecture : ", bg='light grey')
         self.labelVitesse.grid(column=3, row=5, sticky='E', pady=10)
-        self.Window.columnconfigure(5, minsize=0, weight=1)
+        self.__IHMWindow.columnconfigure(5, minsize=0, weight=1)
 
-        self.fVitesse = StringVar(self.Window)
+        self.fVitesse = StringVar(self.__IHMWindow)
         self.fVitesse.set(self.lListeVitesse[2])
-        self.menuVitesse = OptionMenu(self.Window, self.fVitesse, *self.lListeVitesse)
+        self.menuVitesse = OptionMenu(self.__IHMWindow, self.fVitesse, *self.lListeVitesse)
         self.menuVitesse.grid(column=4, row=5, sticky='W')
 
     def Creation_Bilan(self):
@@ -209,19 +209,19 @@ class CIHMSimulationClasse(CIHM):
             #for personne in self.lListePersonnes:
                 #personne.disparaitre()
             self.lListePersonnes.clear()
-            self.Window.update()
+            self.__IHMWindow.update()
             self.iCurrent = 0
             # Creation des personnes et initialisation de leurs positions
             index = 0
             for self.iCurrent in range(0, int(self.CEnvironnement.getNbPersonnes())):
-                personne = CPersonneVue(self.CanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 5)
+                personne = CPersonneVue(self.__IHMCanvasSimulation, self.lListePositions[0][self.iCurrent + index], self.lListePositions[0][self.iCurrent + index + 1], 5)
                 self.lListePersonnesVue.append(personne)
                 index += 2
 
             # Mouvement
             self.iCurrent = 0
             for self.iCurrent in range(0, len(self.lListePositions)):
-                self.Window.update()
+                self.__IHMWindow.update()
                 self.mouvement()
             self.__bouton_lancement.config(state=NORMAL)
             self.__bouton_bilan.config(state=NORMAL)
@@ -236,7 +236,7 @@ class CIHMSimulationClasse(CIHM):
         """
         self.bBackward = True
         while (self.iCurrent - 1 >= 0 and (self.bBackward == True)):
-            self.Window.update()
+            self.__IHMWindow.update()
             self.iCurrent -= 1
             self.mouvement()
 
@@ -248,7 +248,7 @@ class CIHMSimulationClasse(CIHM):
         """
         self.bForward = True
         while (self.iCurrent + 1 < len(self.lListePositions) and (self.bForward == True)):
-            self.Window.update()
+            self.__IHMWindow.update()
             self.iCurrent += 1
             self.mouvement()
 
@@ -271,7 +271,7 @@ class CIHMSimulationClasse(CIHM):
         self.__bouton_back.config(state=DISABLED)
         self.__bouton_bilan.config(state=DISABLED)
         if(sEnvironnement != 'Vide'):
-            self.LabelChargement = Label(self.Window, text="Chargement... ", bg='light grey')
+            self.LabelChargement = Label(self.__IHMWindow, text="Chargement... ", bg='light grey')
             self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
 
             self.FichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
@@ -286,20 +286,20 @@ class CIHMSimulationClasse(CIHM):
 
             #Affichage de la position initiale
             for personnes in self.lListePersonnes:
-                personne = CPersonneVue(self.CanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
+                personne = CPersonneVue(self.__IHMCanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
                 self.lListePersonnesVue.append(personne)
-                self.Window.update()
+                self.__IHMWindow.update()
 
             #Affichage des obstacles
             for obstacles in self.CEnvironnement.getListeObstacles():
-                obstacle = CObstacleQuadrilatereVue(self.CanvasSimulation, obstacles)
+                obstacle = CObstacleQuadrilatereVue(self.__IHMCanvasSimulation, obstacles)
                 self.lListeObstaclesVue.append(obstacle)
-                self.Window.update()
+                self.__IHMWindow.update()
 
             for sortie in self.CEnvironnement.getSorties():
-                sortie = CSortiesVue(self.CanvasSimulation, sortie)
+                sortie = CSortiesVue(self.__IHMCanvasSimulation, sortie)
                 self.lListeSortiesVue.append(sortie)
-                self.Window.update()
+                self.__IHMWindow.update()
 
             header = len(self.lListePersonnes) * ["x", "y", "pression"]
 
@@ -395,6 +395,6 @@ class CIHMSimulationClasse(CIHM):
         self.lListeObstaclesVue.clear()
         self.lListePersonnesSorties.clear()
 
-        self.Creation_Zone_Simulation()
+        self.IHMCreation_Zone_Simulation()
 
 test = CIHMSimulationClasse()

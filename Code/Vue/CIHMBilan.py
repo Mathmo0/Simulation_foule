@@ -16,7 +16,7 @@ class CIHMBilan(CIHM):
         super().__init__("Bilan de l'évacuation d'une foule")
         self.__listcoord = listcoord
         self.__tpsSimulation = tpsSimulation
-        self.__listCarteChaleur = np.zeros((self.iWidth, self.iHeight))
+        self.__listCarteChaleur = np.zeros((self.__iIHMWidth, self.__iIHMHeight))
 
         """
          -----------------------  Affichage de la carte des chaleurs  ------------------------------
@@ -26,7 +26,7 @@ class CIHMBilan(CIHM):
         self.c = self.figure.add_subplot(111)
         # self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
         self.heatmap2d()
-        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.getWindow())
+        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.IHMgetWindow())
 
         self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
 
@@ -37,7 +37,7 @@ class CIHMBilan(CIHM):
         #self.c = self.figure.add_subplot(111)
         #self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
         self.heatmap2d()
-        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.getWindow())
+        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.IHMgetWindow())
 
         self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
 
@@ -48,7 +48,7 @@ class CIHMBilan(CIHM):
 """
 
 
-        self.Window.mainloop()
+        self.__IHMWindow.mainloop()
 
     def heatmap2d(self):
         self.c = plt.imshow(self.__listCarteChaleur, cmap='viridis')
@@ -67,6 +67,6 @@ class CIHMBilan(CIHM):
         self.__tpsSimulation = len(self.__listcoord[0])*DeltaT
 
     def getWindowB(self):
-        return self.Window
+        return self.__IHMWindow
 
 #test = CIHMBilan()

@@ -45,7 +45,7 @@ class CEnvironnement:
 
         self.fSuperficie = environnement.iHauteur * environnement.iLargeur
 
-        self.lListePersonnes = environnement.lListePersonnes
+        self.lListePersonnes = environnement.__lSIMListePersonnes
 
         self.lListeObstacles = environnement.lListeObstacles
 
