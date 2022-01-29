@@ -15,18 +15,29 @@ class CFichier:
 
     # -------------------Constructeur-------------------#
     def __init__(self, nomFichier=""):
-        self.sNomFichier = nomFichier# + ".csv"
+        self.__sFICNomFichier = nomFichier# + ".csv"
 
     # -------------------Getters-------------------#
-    def getNomFichier(self):
-        return self.sNomFichier
+    def FICgetNomFichier(self):
+        """
+        getter pour l'attribut __sFICNomFichier
+
+        @return: __sFICNomFichier
+        """
+        return self.__sFICNomFichier
 
     # ---------------------Setters---------------------#
-    def setNomFichier(self, nomFichier):
-        self.sNomFichier = nomFichier
+    def FICsetNomFichier(self, nomFichier):
+        """
+        setter pour l'attribut __sFICNomFichier
+
+        @param nomFichier: nouveau nom de fichier
+        @return: rien
+        """
+        self.__sFICNomFichier = nomFichier
 
     # -------------------Methodes-------------------#
-    def LireFichierPosition(self):
+    def FICLireFichierPosition(self):
         """
         Fonction permettant de stocker les informations du fichier csv dans une liste
 
@@ -38,7 +49,7 @@ class CFichier:
         listPositions = []
 
         # Ouverture du fichier
-        with open(self.sNomFichier, newline='') as csv_file:
+        with open(self.__sFICNomFichier, newline='') as csv_file:
             reader = csv.reader(csv_file, delimiter=";")
             next(csv_file)
             for row in reader:
@@ -47,12 +58,12 @@ class CFichier:
 
         return listPositions
 
-    def ParserListeCSV(self, row):
+    def FICParserListeCSV(self, row):
         """
         Recupere la ligne d'un fichier CSV et la parse en format liste
 
-        :param row:
-        :return: liste
+        @param row:
+        @return: liste
         """
         str = ""  #Variable temp pour recuper et parser
         list_coord = [np.array([0,0]) for i in range(1, len(row))]
@@ -78,11 +89,11 @@ class CFichier:
 
         return list_coord
 
-    def LireFichierEnvironnement(self):
+    def FICLireFichierEnvironnement(self):
         """
             fonction pour construire un objet CEnvironnement a partir d'un fichier csv
 
-            @return :
+            @return : list des différents attribut récupérer par le parsing
 
         """
         # variables
@@ -91,7 +102,7 @@ class CFichier:
         liste_dimensions_obstacles = np.array([(0, 0)])
 
         # ouverture du fichier
-        with open(self.sNomFichier, newline='') as csvfile:
+        with open(self.__sFICNomFichier, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=';')
             for row in reader:
 
@@ -109,27 +120,27 @@ class CFichier:
 
                 # recuperer la liste des sorties
                 elif (row[0] == 'Sortie(s)'):
-                    sorties = self.ParserListeCSV(row)
+                    sorties = self.FICParserListeCSV(row)
                     for sortie in sorties:
-                        CEnvironnementController.ControleInCanvas(sortie[0], sortie[1], hauteur, largeur)
+                        CEnvironnementController.ENCControleInCanvas(sortie[0], sortie[1], hauteur, largeur)
                         sortie[0] = 400 * sortie[0] / largeur
                         sortie[1] = 400 * sortie[1] / hauteur
 
                 # recuperer la liste des personnes
                 elif (row[0] == 'Liste de personnes'):
-                    list_coord = self.ParserListeCSV(row)
+                    list_coord = self.FICParserListeCSV(row)
                     for coord in list_coord:
-                        CEnvironnementController.ControleInCanvas(coord[0], coord[1], hauteur, largeur)
+                        CEnvironnementController.ENCControleInCanvas(coord[0], coord[1], hauteur, largeur)
                         coord[0] = 400 * coord[0] / largeur
                         coord[1] = 400 * coord[1] / hauteur
                     list_personnes = [CPersonne(False,coord) for coord in list_coord]
 
                 # recuperer la liste des obstacles
                 elif (row[0] == 'Liste coordonnees d\'obstacles'):
-                    list_coord_obstacles = self.ParserListeCSV(row)
+                    list_coord_obstacles = self.FICParserListeCSV(row)
                     k = 0
                     for coord in list_coord_obstacles:
-                        if CEnvironnementController.ControleObstaclesInCanvas(coord[0], coord[1], hauteur, largeur) == 1:
+                        if CEnvironnementController.ENCControleObstaclesInCanvas(coord[0], coord[1], hauteur, largeur) == 1:
                             coord[0] = 400 * coord[0] / largeur
                             coord[1] = 400 * coord[1] / hauteur
                         else :
@@ -138,7 +149,7 @@ class CFichier:
 
                 # recuperer la liste des dimensions d'obstacles
                 elif(row[0] == 'Liste dimensions d\'obstacles (H,L)'):
-                    liste_dimensions_obstacles = self.ParserListeCSV(row)
+                    liste_dimensions_obstacles = self.FICParserListeCSV(row)
                     for coord in liste_dimensions_obstacles:
                         coord[0] = 400 * abs(coord[0]) / hauteur
                         coord[1] = 400 * abs(coord[1]) / largeur
@@ -147,11 +158,11 @@ class CFichier:
             print(list_coord_obstacles)
             list_obstacles = [CObstacleQuadrilatere(0,0,coordO) for coordO in list_coord_obstacles] #initilisation de la liste
             for i in range(min(len(list_coord_obstacles), len(liste_dimensions_obstacles))):
-                list_obstacles[i].setHauteur(liste_dimensions_obstacles[i][0])
-                list_obstacles[i].setLargeur(liste_dimensions_obstacles[i][1])
+                list_obstacles[i].OBQsetHauteur(liste_dimensions_obstacles[i][0])
+                list_obstacles[i].OBQsetLargeur(liste_dimensions_obstacles[i][1])
 
             for obs in list_obstacles:
-                obs.calculerCoordonnees()
+                obs.OBQcalculerCoordonnees()
 
             return nom, hauteur, largeur, sorties, list_personnes, list_obstacles
 

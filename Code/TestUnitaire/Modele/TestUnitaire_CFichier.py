@@ -35,8 +35,8 @@ class TestUnitaire_CFichier(unittest.TestCase):
 
         self.liste_Obstacles = [CObstacleQuadrilatere(0,0,coord) for coord in self.coord_Obstacles]
         for i in range(min(len(self.coord_Obstacles), len(self.coord_dimension_obstacles))):
-            self.liste_Obstacles[i].setHauteur(self.coord_dimension_obstacles[i][0])
-            self.liste_Obstacles[i].setLargeur(self.coord_dimension_obstacles[i][1])
+            self.liste_Obstacles[i].OBQsetHauteur(self.coord_dimension_obstacles[i][0])
+            self.liste_Obstacles[i].OBQsetLargeur(self.coord_dimension_obstacles[i][1])
 
         self.environnementREF = CEnvironnement("Burreau", 34, 20, self.sorties0, self.liste_Personnes, self.liste_Obstacles)
 

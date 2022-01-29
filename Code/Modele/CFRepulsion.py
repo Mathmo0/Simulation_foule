@@ -12,7 +12,7 @@ class CFRepulsion(CForce) :
     def __init__(self, tForceRepulsion = np.array([0.0,0.0])):
         self.__tFREForceRepulsion = tForceRepulsion
 
-    def gettertForceRepulsion(self):
+    def FREgettertForceRepulsion(self):
         """
         getter pour l'attribut __tFREForceRepulsion
 
@@ -20,7 +20,7 @@ class CFRepulsion(CForce) :
         """
         return self.__tFREForceRepulsion
 
-    def settertForceRepulsion(self,newForceRepulsion):
+    def FREsettertForceRepulsion(self, newForceRepulsion):
         """
         setter pour l'attribut __tFREForceRepulsion
 
@@ -42,9 +42,9 @@ class CFRepulsion(CForce) :
         @return: valeur de l'effet de repulsion
 
         """
-        nablarAlphaB = COperation.Nabla(Ralpha, Rbeta, Rbeta)
-        bEffet = self.b(Ralpha, Rbeta, vitesseBeta, vRkBeta)
-        V = self.VAlphaBeta(bEffet)
+        nablarAlphaB = COperation.OPENabla(Ralpha, Rbeta, Rbeta)
+        bEffet = self.FORb(Ralpha, Rbeta, vitesseBeta, vRkBeta)
+        V = self.FORVAlphaBeta(bEffet)
 
         return -nablarAlphaB * V
 
@@ -58,9 +58,9 @@ class CFRepulsion(CForce) :
         @return: valeur de la force de repulsion exercer par l'obstacle sur le pieton Alpha
 
         """
-        NablaFRO = COperation.Nabla(Ralpha, RObstacle, RObstacle)
+        NablaFRO = COperation.OPENabla(Ralpha, RObstacle, RObstacle)
         NormeVecteurRAlphaObstacle = la.norm(Ralpha - RObstacle)
-        UFRO = self.UAlphaObstacle(NormeVecteurRAlphaObstacle)
+        UFRO = self.FORUAlphaObstacle(NormeVecteurRAlphaObstacle)
 
         return -NablaFRO * UFRO
 
@@ -77,10 +77,10 @@ class CFRepulsion(CForce) :
         @return: valeur de la force de repulsion applique par le pieton Beta sur le pieton Alpha
 
         """
-        eAlphaFRP = self.eAlpha(vRkAlpha, Ralpha)
+        eAlphaFRP = self.FOReAlpha(vRkAlpha, Ralpha)
         EffetrepulsionRFP = self.FREEffetDeRepulsion(Ralpha, RalphaDeltaT, Rbeta, vRkBeta, vitesseBeta)
 
-        self.__tFREForceRepulsion = self.w(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
+        self.__tFREForceRepulsion = self.FORw(eAlphaFRP, -EffetrepulsionRFP) * EffetrepulsionRFP
 
         return self.__tFREForceRepulsion
 
@@ -93,16 +93,16 @@ class CFRepulsion(CForce) :
         @return: coordonnees du sommet qui va etre utilisée pour appliquer la force de repulsion Personne-Obstacle
 
         """
-        listsommet = obstacle.getCoordonneesSommet()
+        listsommet = obstacle.OBSgetCoordonneesSommet()
         sommetRetenu = np.array([0.0,0.0])
 
 
         #determination du centre de l'obstacle: [topLeft, topRight, bottomLeft, bottomRight]
 
-        centreX = listsommet[0][0] + obstacle.getLargeur()/2
-        centreY = listsommet[0][1] + obstacle.getHauteur()/2
+        centreX = listsommet[0][0] + obstacle.OBQgetLargeur() / 2
+        centreY = listsommet[0][1] + obstacle.OBQgetHauteur() / 2
         centre = np.array([centreX, centreY])
-        coef = COperation.FonctionTrajectoirePieton(centre, coordPieton)
+        coef = COperation.OPEFonctionTrajectoirePieton(centre, coordPieton)
 
         #determination position pieton par rapport a l'obstacle:
 

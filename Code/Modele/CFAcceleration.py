@@ -33,7 +33,7 @@ class CFAcceleration(CForce) :
         @return: Valeur de la force d'acceleration
 
         """
-        eAlphaS = self.eAlpha(vRkAlpha, vRalpha)
+        eAlphaS = self.FOReAlpha(vRkAlpha, vRalpha)
 
         self.__tFACForceAcceleration = (1 / tau) * ((vAlpha0 * eAlphaS) - vAlpha)
 

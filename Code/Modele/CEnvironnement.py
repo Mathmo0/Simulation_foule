@@ -28,7 +28,7 @@ class CEnvironnement:
         self.AttribuerSortie()
 
     def CEnvironnementFichier(self, fichier):
-        self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.LireFichierEnvironnement()
+        self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.FICLireFichierEnvironnement()
 
         self.fSuperficie = self.iHauteur * self.iLargeur
 
@@ -40,10 +40,10 @@ class CEnvironnement:
     def CEnvironnementCopie(self, environnement):
         self.sNom = environnement.sNom
 
-        self.iHauteur = environnement.iHauteur
-        self.iLargeur = environnement.iLargeur
+        self.iHauteur = environnement.__iOBQHauteur
+        self.iLargeur = environnement.__iOBQLargeur
 
-        self.fSuperficie = environnement.iHauteur * environnement.iLargeur
+        self.fSuperficie = environnement.__iOBQHauteur * environnement.__iOBQLargeur
 
         self.lListePersonnes = environnement.__lSIMListePersonnes
 
@@ -127,8 +127,8 @@ class CEnvironnement:
 
     def AttribuerSortie(self):
         for personnes in self.lListePersonnes:
-            personnes.ajouterDirection(self.tSorties)
-            personnes.PlusCourtChemin()
+            personnes.PERajouterDirection(self.tSorties)
+            personnes.PERPlusCourtChemin()
 
 
 

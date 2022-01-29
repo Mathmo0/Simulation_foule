@@ -10,44 +10,73 @@ class CObstacleQuadrilatere(CObstacle):
     # -------------------Constructeur-------------------#
     def __init__(self, hauteur = 0, largeur = 0, coordonneesSommets = np.array([0, 0])):
         super().__init__(coordonneesSommets)
-        self.iSuperficie = hauteur * largeur
-        self.iHauteur = hauteur
-        self.iLargeur = largeur
+        self.__iOBQSuperficie = hauteur * largeur
+        self.__iOBQHauteur = hauteur
+        self.__iOBQLargeur = largeur
 
 
     # -------------------Getters-------------------#
-    def getHauteur(self):
-        return self.iHauteur
+    def OBQgetHauteur(self):
+        """
+        getter pour l'attribut __iOBQHauteur
 
-    def getLargeur(self):
-        return self.iLargeur
+        @return: __iOBQHauteur
+        """
+        return self.__iOBQHauteur
+
+    def OBQgetLargeur(self):
+        """
+        getter pour l'attribut __iOBQLargeur
+        @return: __iOBQLargeur
+        """
+        return self.__iOBQLargeur
 
 
     # ---------------------Setters---------------------#
-    def setHauteur(self, hauteur):
-        self.iHauteur = hauteur
-        self.iSuperficie = self.iHauteur * self.iLargeur
+    def OBQsetHauteur(self, hauteur):
+        """
+        setter pour l'attribut __iOBQHauteur
 
-    def setLargeur(self, largeur):
-        self.iLargeur = largeur
-        self.iSuperficie = self.iHauteur * self.iLargeur
+        @param hauteur: nouvelle hauteur pour l'obstacle
+        @return: rien
+        """
+        self.__iOBQHauteur = hauteur
+        self.__iOBQSuperficie = self.__iOBQHauteur * self.__iOBQLargeur
+
+    def OBQsetLargeur(self, largeur):
+        """
+        setter pour l'attribut __iOBQLargeur
+        @param largeur: nouvelle largeur pour l'obstacle
+        @return: rien
+        """
+        self.__iOBQLargeur = largeur
+        self.__iOBQSuperficie = self.__iOBQHauteur * self.__iOBQLargeur
 
 
     # -------------------Methodes-------------------#
     def OBSToString(self):
+        """
+         fonction pemettant d'afficher les differentes informations de l'obstacle
+        @return: rien
+        """
         print("\nCoordonnees : {}\n"
               "Superficie : {}\n"
               "Hauteur : {}\n"
               "Largeur : {}\n"
-              .format(self.getCoordonneesSommet(), self.getSuperficie(), self.getHauteur(), self.getLargeur()))
+              .format(self.OBSgetCoordonneesSommet(), self.OBSgetSuperficie(), self.OBQgetHauteur(), self.OBQgetLargeur()))
 
-    def calculerCoordonnees(self):
-        coinTopRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1]])
-        coinBottomLeft = np.array([self.tCoordonneesSommet[0][0], self.tCoordonneesSommet[0][1] - self.iHauteur])
-        coinBottomRight = np.array([self.tCoordonneesSommet[0][0] + self.iLargeur, self.tCoordonneesSommet[0][1] - self.iHauteur])
-        self.tCoordonneesSommet.append(coinTopRight)
-        self.tCoordonneesSommet.append(coinBottomLeft)
-        self.tCoordonneesSommet.append(coinBottomRight)
+    def OBQcalculerCoordonnees(self):
+        """
+        fonction permettant de calculer les 3 autre sommets de l'obstacle
+
+        @return: rien
+        """
+        coinTopRight = np.array([self.__tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self.__tOBSCoordonneesSommet[0][1]])
+        coinBottomLeft = np.array([self.__tOBSCoordonneesSommet[0][0], self.__tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
+        coinBottomRight = np.array([self.__tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self.__tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
+        self.__tOBSCoordonneesSommet.append(coinTopRight)
+        self.__tOBSCoordonneesSommet.append(coinBottomLeft)
+        self.__tOBSCoordonneesSommet.append(coinBottomRight)
 
 
 """list_sorties = np.array([(3, 4), (2, 4)])

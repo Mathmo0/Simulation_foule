@@ -20,7 +20,7 @@ class CForce :
 
     #methode :
 
-    def VitesseAlphaMax(self,vAlpha0):
+    def FORVitesseAlphaMax(self, vAlpha0):
         """
         Cette fonction permet de calculer la vitesse max d'un pieton
 
@@ -30,7 +30,7 @@ class CForce :
         """
         return 1.3 * vAlpha0
 
-    def VecteurVitesse(self,Position, PositionDeltaT, t):
+    def FORVecteurVitesse(self, Position, PositionDeltaT, t):
         """
         Cette fonction permet de calculer le vectur vitesse pour un pieton alpha à un instant t donnee
 
@@ -49,7 +49,7 @@ class CForce :
             else:
                 return (Position - PositionDeltaT) / t
 
-    def eAlpha(self,vRkAlpha, vRalpha):
+    def FOReAlpha(self, vRkAlpha, vRalpha):
 
         """
         Cette focntion permet de calculer le vecteur destination du pieton alpha
@@ -64,7 +64,7 @@ class CForce :
         else :
             return np.array([0.0,0.0])
 
-    def b(self,Ralpha, Rbeta, vitesseBeta, vRkBeta):
+    def FORb(self, Ralpha, Rbeta, vitesseBeta, vRkBeta):
         """
         Cette fonction pemret de calculer le coefficient b
 
@@ -77,7 +77,7 @@ class CForce :
         """
         RalphaBeta = Ralpha - Rbeta
         NormeRalphaBeta = la.norm(RalphaBeta)
-        eBeta = self.eAlpha(vRkBeta, Rbeta)
+        eBeta = self.FOReAlpha(vRkBeta, Rbeta)
 
         calcul = (NormeRalphaBeta + la.norm(RalphaBeta - vitesseBeta * DeltaT * eBeta)) ** 2 - (
                     vitesseBeta * DeltaT) ** 2
@@ -85,20 +85,20 @@ class CForce :
         Deuxb = math.sqrt(calcul)
         return Deuxb / 2
 
-    def w(self,e, f):
+    def FORw(self, e, f):
         """
         Cette fonction permet de calculer l'influence des personnes derrière elles.
 
         @param e : est le vecteur sortie/obstacle
         @param f : est un vecteur force
-        @return:
+        @return: 1 ou c selon l'influence du pieton
         """
         if (np.dot(e, f) >= la.norm(f) * math.cos(Phi)):
             return 1
         else:
             return c
 
-    def VAlphaBeta(self,b):
+    def FORVAlphaBeta(self, b):
         """
         Cette fonction permet de caculer le potentiel repulsif
 
@@ -108,7 +108,7 @@ class CForce :
         """
         return VAlphaBeta0 * np.exp(-b / Sigma)
 
-    def UAlphaObstacle(self,NormeVecteurRAlphaObstacle):
+    def FORUAlphaObstacle(self, NormeVecteurRAlphaObstacle):
         """
         Cette focntion permet de calculer le potentiel décroissant répulsif et monotonique
 
@@ -117,6 +117,12 @@ class CForce :
         """
         return UAlphaObstacle0 * np.exp(-NormeVecteurRAlphaObstacle / R)
 
-    def W(self,normeRalphaI,t):
+    def FORW(self, normeRalphaI, t):
+        """
+        Cette fonction permet de calculer le potentiel pour la force d'attraction
 
+        @param normeRalphaI: distance entre le pieton alpha et i
+        @param t: temps
+        @return: valeur du potentiel
+        """
         return UAlphaObstacle0*np.exp(normeRalphaI)/t*cst

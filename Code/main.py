@@ -56,10 +56,10 @@ Killian.ajouterDirection(np.array([400,400]))
 
 
 table = CObstacleQuadrilatere(10, 400, np.array([300,300]))
-table.calculerCoordonnees()
+table.OBQcalculerCoordonnees()
 
 table2 = CObstacleQuadrilatere(100, 100, np.array([150,150]))
-table2.calculerCoordonnees()
+table2.OBQcalculerCoordonnees()
 
 listObstacles = [] #[table, table2]
 
@@ -88,8 +88,8 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
     while Fini == False:
         #ecriture des coordonnees
         for personne in listPersonnes2:
-                listPositions.append(personne.RecupererDerniereCoordonne()[0])
-                listPositions.append(personne.RecupererDerniereCoordonne()[1])
+                listPositions.append(personne.PERRecupererDerniereCoordonne()[0])
+                listPositions.append(personne.PERRecupererDerniereCoordonne()[1])
 
         writer.writerow(listPositions)
         listPositions.clear()
@@ -100,11 +100,11 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
 
                 #Force D'acceleration :
 
-                personne.CalculerForceAcceleration()
+                personne.PERCalculerForceAcceleration()
 
                 #Force de Repulsion entre personne :
 
-                personne.ClearPersonneProximite()
+                personne.PERClearPersonneProximite()
 
                     #ajout des personnes proche de personne
                 for personneProx in listPersonnes2 :
@@ -112,34 +112,34 @@ with  open("../FichierSimulation/FichierPositions.csv", "w") as csv_file:
                     #pour pas qu'on ajoute elle-même dans la liste et les personnes sorti
 
                     if listPersonnes2.index(personne) != listPersonnes2.index(personneProx) and (listPersonnesSorties[listPersonnes2.index(personneProx)] == True) :
-                        coordper = personne.RecupererDerniereCoordonne()
-                        coordperprox = personneProx.RecupererDerniereCoordonne()
-                        if (COperation.DetectionCercle(coordper[0],coordper[1],coordperprox[0],coordperprox[1],20) == True) :
-                            personne.ajouterPersonne(personneProx)
-                print('__________iiiii : ', personne.RecupererDerniereCoordonne())
-                personne.CalculerForceRepulsion()
-                print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
+                        coordper = personne.PERRecupererDerniereCoordonne()
+                        coordperprox = personneProx.PERRecupererDerniereCoordonne()
+                        if (COperation.OPEDetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True) :
+                            personne.PERajouterPersonne(personneProx)
+                print('__________iiiii : ', personne.PERRecupererDerniereCoordonne())
+                personne.PERCalculerForceRepulsion()
+                print("____REP : ", personne.PERgetForceRepulsionPersonne().FREgettertForceRepulsion())
                 print('\n-------------autre------------\n')
 
                 #Force de Repulsion par un obstacle :
 
-                personne.ClearlistObstacleProx()
+                personne.PERClearlistObstacleProx()
 
                 for obstacle in listObstacle :
-                   coordPieton = personne.RecupererDerniereCoordonne()
-                   sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton, obstacle)
+                   coordPieton = personne.PERRecupererDerniereCoordonne()
+                   sommet = personne.PERgetForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton, obstacle)
                    print("sommet = ",sommet)
-                   if(COperation.DetectionCercle(sommet[0],sommet[1],coordPieton[0],coordPieton[1],10) == True) :
-                       personne.ajouterObstacle(obstacle)
+                   if(COperation.OPEDetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True) :
+                       personne.PERajouterObstacle(obstacle)
 
-                personne.CalculerForceRepulsionObstacle()
-                print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                personne.PERCalculerForceRepulsionObstacle()
+                print("____REPOBSTACLE : ", personne.PERgetForceRepulsionObstacle().FREgettertForceRepulsion())
                 #Nouvelle Position:
 
-                personne.CalculerNouvellePosition(t)
+                personne.PERCalculerNouvellePosition(t)
 
                 #On verifie si la personne est sortie ou non.
-                if personne.sorti() == True:
+                if personne.PERsorti() == True:
                     listPersonnesSorties[listPersonnes2.index(personne)] = False
                     if not any(listPersonnesSorties):
                         Fini = True

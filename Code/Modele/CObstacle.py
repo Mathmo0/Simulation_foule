@@ -7,25 +7,47 @@ class CObstacle :
 
     # -------------------Constructeur-------------------#
     def __init__(self, coordonneesSommet = np.array([0,0])):
-        self.iSuperficie = 0
-        self.tCoordonneesSommet = [coordonneesSommet]
+        self.__iOBSSuperficie = 0
+        self.__tOBSCoordonneesSommet = [coordonneesSommet]
 
 
     # -------------------Getters-------------------#
-    def getSuperficie(self):
-        return self.iSuperficie
+    def OBSgetSuperficie(self):
+        """
+        getter pour l'attribut __iOBSSuperficie
 
-    def getCoordonneesSommet(self):
-        return self.tCoordonneesSommet
+        @return: __iOBSSuperficie
+        """
+        return self.__iOBSSuperficie
+
+    def OBSgetCoordonneesSommet(self):
+        """
+        getter pour l'attribut __tOBSCoordonneesSommet
+
+        @return: __tOBSCoordonneesSommet
+        """
+        return self.__tOBSCoordonneesSommet
 
 
     # ---------------------Setters---------------------#
-    def setCoordonneesSommet(self, coordonneesSommets):
-        self.tCoordonneesSommet = coordonneesSommets
+    def OBSsetCoordonneesSommet(self, coordonneesSommets):
+        """
+        setter pour l'attribut __tOBSCoordonneesSommet
+        @param coordonneesSommets: nouvelle coordonnees pour le sommet
+
+        @return: rien
+        """
+        self.__tOBSCoordonneesSommet = coordonneesSommets
 
 
     # -------------------Methodes-------------------#
     def OBSToString(self):
+        """
+         fonction pemettant d'afficher les differentes informations de l'obstacle
+
+        @return: rien
+        """
+
         print("Coordonnees : {}\n"
               "Superficie : {}\n"
-              .format(self.getCoordonneesSommet(), self.getSuperficie()))
+              .format(self.OBSgetCoordonneesSommet(), self.OBSgetSuperficie()))

@@ -6,7 +6,16 @@ import tkinter
 class CEnvironnementController:
 
     @staticmethod
-    def ControleInCanvas(coordX, coordY, hauteur, largeur):
+    def ENCControleInCanvas(coordX, coordY, hauteur, largeur):
+        """
+
+        @param coordX:
+        @param coordY:
+        @param hauteur:
+        @param largeur:
+        @return:
+        """
+
         if coordX > largeur:
             coordX = largeur
         elif coordX < 0:
@@ -18,15 +27,40 @@ class CEnvironnementController:
             coordX = 0
 
     @staticmethod
-    def ControlePersonnesInCanvas(coordX, coordY, hauteur, largeur):
-        CEnvironnementController.ControleInCanvas(coordX, coordY, hauteur, largeur)
+    def ENCControlePersonnesInCanvas(coordX, coordY, hauteur, largeur):
+        """
+
+        @param coordX:
+        @param coordY:
+        @param hauteur:
+        @param largeur:
+        @return:
+        """
+        CEnvironnementController.ENCControleInCanvas(coordX, coordY, hauteur, largeur)
 
     @staticmethod
-    def ControleSortieInCanvas(coordX, coordY, hauteur, largeur):
-        CEnvironnementController.ControleInCanvas(coordX, coordY, hauteur, largeur)
+    def ENCControleSortieInCanvas(coordX, coordY, hauteur, largeur):
+        """
+
+        @param coordX:
+        @param coordY:
+        @param hauteur:
+        @param largeur:
+        @return:
+        """
+        CEnvironnementController.ENCControleInCanvas(coordX, coordY, hauteur, largeur)
 
     @staticmethod
-    def ControleObstaclesInCanvas(coordX, coordY, hauteur, largeur):
+    def ENCControleObstaclesInCanvas(coordX, coordY, hauteur, largeur):
+        """
+
+        @param coordX:
+        @param coordY:
+        @param hauteur:
+        @param largeur:
+        @return:
+
+        """
         if coordX > largeur:
             return 0
 

@@ -10,4 +10,4 @@ class CSortiesVue:
         if len(listeCoord) == 2 :
             self.__SORcoordx = listeCoord[0]
             self.__SORcoordy = listeCoord[1]
-            self.__SORimage = COperation.create_circle(self.__SORcoordx, self.__SORcoordy, self.__SORrayon, self.__SORcanvas, "green")
+            self.__SORimage = COperation.OPEcreate_circle(self.__SORcoordx, self.__SORcoordy, self.__SORrayon, self.__SORcanvas, "green")

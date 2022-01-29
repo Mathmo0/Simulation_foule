@@ -169,11 +169,11 @@ class CIHMSimulation(CIHM):
         index = 0
         for j in range(0, len(self.__lSIMListePersonnesVue)):
             self.personne = CPersonne(False, np.array([self.__lSIMListePositions[self.__iSIMCurrent][j + index], self.__lSIMListePositions[self.__iSIMCurrent][j + index + 1]]))
-            self.personne.ajouterDirection(self.__ENVEnvironnement.getSorties()[0])
-            if self.personne.sorti() == False :
+            self.personne.PERajouterDirection(self.__ENVEnvironnement.getSorties()[0])
+            if self.personne.PERsorti() == False :
                 self.__lSIMListePersonnesVue[j].setX(self.__lSIMListePositions[self.__iSIMCurrent][j + index])
                 self.__lSIMListePersonnesVue[j].setY(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 1])
-                self.__lSIMListePersonnesVue[j].setPression(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 2])
+                self.__lSIMListePersonnesVue[j].PERsetPression(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 2])
                 self.__lSIMListePersonnesVue[j].move()
             else:
                 self.__lSIMListePersonnesVue[j].setColor("")
@@ -196,7 +196,7 @@ class CIHMSimulation(CIHM):
         ------------------------- Recuperation des coordonees -------------------------
         """
         monFichier = CFichier("../../FichierSimulation/FichierPositions.csv")
-        self.__lSIMListePositions = monFichier.LireFichierPosition()
+        self.__lSIMListePositions = monFichier.FICLireFichierPosition()
         self.__lSIMlisteTest = self.__lSIMListePositions
 
         # On obtient le nombre de personnes grace aux colonnes du fichier csv
@@ -277,7 +277,7 @@ class CIHMSimulation(CIHM):
             self.__SIMFichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
             self.__ENVEnvironnement.CEnvironnementFichier(self.__SIMFichierEnvironnement)
             for personnes in self.__ENVEnvironnement.getListePersonnes():
-                personnes.ajouterDirection(self.__ENVEnvironnement.getSorties())
+                personnes.PERajouterDirection(self.__ENVEnvironnement.getSorties())
 
             self.__lSIMListePersonnesSorties = [True for i in range(self.__ENVEnvironnement.getNbPersonnes())]
             bfini = False
@@ -286,7 +286,7 @@ class CIHMSimulation(CIHM):
 
             #Affichage de la position initiale
             for personnes in self.__lSIMListePersonnes:
-                personne = CPersonneVue(self._IHMCanvasSimulation, personnes.getListCoordonnees()[0][0], personnes.getListCoordonnees()[0][1], 5)
+                personne = CPersonneVue(self._IHMCanvasSimulation, personnes.PERgetListCoordonnees()[0][0], personnes.PERgetListCoordonnees()[0][1], 5)
                 self.__lSIMListePersonnesVue.append(personne)
                 self._IHMWindow.update()
 
@@ -313,9 +313,9 @@ class CIHMSimulation(CIHM):
 
                     # ecriture des coordonnees
                     for personne in self.__lSIMListePersonnes:
-                        self.__lSIMListePositions.append(personne.RecupererDerniereCoordonne()[0])
-                        self.__lSIMListePositions.append(personne.RecupererDerniereCoordonne()[1])
-                        self.__lSIMListePositions.append(personne.getPression())
+                        self.__lSIMListePositions.append(personne.PERRecupererDerniereCoordonne()[0])
+                        self.__lSIMListePositions.append(personne.PERRecupererDerniereCoordonne()[1])
+                        self.__lSIMListePositions.append(personne.PERgetPression())
 
                     writer.writerow(self.__lSIMListePositions)
                     self.__lSIMListePositions.clear()
@@ -326,11 +326,11 @@ class CIHMSimulation(CIHM):
 
                             # Force D'acceleration :
 
-                            personne.CalculerForceAcceleration()
+                            personne.PERCalculerForceAcceleration()
 
                             # Force de Repulsion entre personne :
 
-                            personne.ClearPersonneProximite()
+                            personne.PERClearPersonneProximite()
 
                             # ajout des personnes proche de personne
                             for personneProx in self.__lSIMListePersonnes:
@@ -339,12 +339,12 @@ class CIHMSimulation(CIHM):
 
                                 if self.__lSIMListePersonnes.index(personne) != self.__lSIMListePersonnes.index(personneProx) and (
                                         self.__lSIMListePersonnesSorties[self.__lSIMListePersonnes.index(personneProx)] == True):
-                                    coordper = personne.RecupererDerniereCoordonne()
-                                    coordperprox = personneProx.RecupererDerniereCoordonne()
-                                    if (COperation.DetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
-                                        personne.ajouterPersonne(personneProx)
+                                    coordper = personne.PERRecupererDerniereCoordonne()
+                                    coordperprox = personneProx.PERRecupererDerniereCoordonne()
+                                    if (COperation.OPEDetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
+                                        personne.PERajouterPersonne(personneProx)
                             #print('__________Position : ', personne.RecupererDerniereCoordonne())
-                            personne.CalculerForceRepulsion()
+                            personne.PERCalculerForceRepulsion()
                             #print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
                             #personne.CalculForceAttraction(self.iTempsDeSimulation)
                             #print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
@@ -353,21 +353,21 @@ class CIHMSimulation(CIHM):
 
                             # Force de Repulsion par un obstacle :
                             for obstacle in self.__ENVEnvironnement.getListeObstacles():
-                                coordPieton = personne.RecupererDerniereCoordonne()
-                                sommet = personne.getForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
-                                                                                                                      obstacle)
+                                coordPieton = personne.PERRecupererDerniereCoordonne()
+                                sommet = personne.PERgetForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
+                                                                                                                         obstacle)
                                 #print("sommet = ", sommet)
-                                if (COperation.DetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
-                                    personne.ajouterObstacle(obstacle)
+                                if (COperation.OPEDetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
+                                    personne.PERajouterObstacle(obstacle)
 
-                            personne.CalculerForceRepulsionObstacle()
-                            print("____REPOBSTACLE : ", personne.getForceRepulsionObstacle().gettertForceRepulsion())
+                            personne.PERCalculerForceRepulsionObstacle()
+                            print("____REPOBSTACLE : ", personne.PERgetForceRepulsionObstacle().FREgettertForceRepulsion())
                             # Nouvelle Position:
 
-                            personne.CalculerNouvellePosition(self.__iSIMTempsDeSimulation)
+                            personne.PERCalculerNouvellePosition(self.__iSIMTempsDeSimulation)
 
                             # On verifie si la personne est sortie ou non.
-                            if personne.sorti() == True:
+                            if personne.PERsorti() == True:
                                 self.__lSIMListePersonnesSorties[self.__lSIMListePersonnes.index(personne)] = False
                                 if not any(self.__lSIMListePersonnesSorties):
                                     bfini = True

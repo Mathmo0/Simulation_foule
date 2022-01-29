@@ -4,7 +4,7 @@ class CPersonneVue:
 
     def __init__(self, canvas, x, y, rayon, color = 'DeepSkyBlue2', listcolor = ['DeepSkyBlue2', "DeepSkyBlue3","DodgerBlue2", "DodgerBlue3", "DeepSkyBlue4", "DodgerBlue4","midnightblue","navy","darkblue","black"], pression = 0):
         self.__PVUcanvas = canvas
-        self.__PVUimage = COperation.create_circle(x, y, rayon, canvas, color)
+        self.__PVUimage = COperation.OPEcreate_circle(x, y, rayon, canvas, color)
         self.__fPVUx = x
         self.__fPVUy = y
         self.__iPVUrayon = rayon
@@ -61,10 +61,10 @@ class CPersonneVue:
         
     def move(self):
         self.__PVUcanvas.delete(self.__PVUimage)
-        self.__PVUimage = COperation.create_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)
+        self.__PVUimage = COperation.OPEcreate_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)
 
     def disparaitre(self):
         self.__PVUcanvas.delete(self.__PVUimage)
 
     def apparaitre(self):
-        self.__PVUimage = COperation.create_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)
+        self.__PVUimage = COperation.OPEcreate_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)

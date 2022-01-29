@@ -55,7 +55,7 @@ def heatmap2d(arr: np.ndarray):
 
 
 monFichier = CFichier("FichierSimulation/FichierPositions.csv")
-listPositions = monFichier.LireFichierPosition()
+listPositions = monFichier.FICLireFichierPosition()
 
 listCarteChaleur = np.zeros((400,400))
 print(listCarteChaleur)
@@ -73,5 +73,5 @@ heatmap2d(test_array)
 
 position2 = np.array([3,7.5])
 position = np.array([7,15])
-a = COperation.FonctionTrajectoirePieton(position,position2)
+a = COperation.OPEFonctionTrajectoirePieton(position, position2)
 print("a = ",a)

@@ -7,7 +7,7 @@ class CFAttraction(CForce) :
     def __init__(self,ValeurForceAttraction = np.array([0.0,0.0])) :
         self.__tFATValeurForceAttraction = ValeurForceAttraction
 
-    def getValeurForceAttraction(self):
+    def FATgetValeurForceAttraction(self):
         """
         getter pour l'attribut __tFATValeurForceAttraction
 
@@ -15,17 +15,18 @@ class CFAttraction(CForce) :
         """
         return self.__tFATValeurForceAttraction
 
-    def setValeurForceAttraction(self,ValeurForceAttraction):
+    def FATsetValeurForceAttraction(self, ValeurForceAttraction):
 
         """
          setter pour l'attribut __tFATValeurForceAttraction
+
         @param ValeurForceAttraction: nouvelle valeur pour la force d'attraction
 
         @return: rien
         """
         self.__tFATValeurForceAttraction = ValeurForceAttraction
 
-    def FRAeffetAttraction(self,Ralpha,Ri,t) :
+    def FATeffetAttraction(self, Ralpha, Ri, t) :
         """
         Cette fonction permet de calculer l'effet d'attraction
 
@@ -35,16 +36,16 @@ class CFAttraction(CForce) :
 
         @return: la valeur de l'effet de repulsion
         """
-        Nabla = COperation.Nabla(Ralpha,Ri,Ri)
+        Nabla = COperation.OPENabla(Ralpha, Ri, Ri)
         normeRalphaI = np.linalg.norm(Ralpha-Ri)
 
-        Wattraction = self.W(self,normeRalphaI,t)
+        Wattraction = self.FORW(self, normeRalphaI, t)
 
         return -Nabla*Wattraction
 
-    def FRAForceAttraction(self,eApha,RAlpha,Ri,t) :
+    def FATForceAttraction(self, eApha, RAlpha, Ri, t) :
         """
-        Cette fcontion permet de calculer l'effet d'attraction
+        Cette fonction permet de calculer la force d'attraction
 
         @param eApha: vecteur direction du pieton alpha
         @param Ralpha: Position du pieton alpha à l'instant t
@@ -54,7 +55,7 @@ class CFAttraction(CForce) :
         @return: valeur de la force d'attraction
 
         """
-        effetAttraction = self.FRAeffetAttraction(RAlpha,Ri,t)
-        self.__tFATValeurForceAttraction = self.w(eApha,effetAttraction)*effetAttraction
+        effetAttraction = self.FATeffetAttraction(RAlpha, Ri, t)
+        self.__tFATValeurForceAttraction = self.FORw(eApha, effetAttraction) * effetAttraction
 
         return self.__tFATValeurForceAttraction
