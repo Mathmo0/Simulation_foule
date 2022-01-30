@@ -51,10 +51,15 @@ class CIHMBilan(CIHM):
         self._IHMWindow.mainloop()
 
     def heatmap2d(self):
-        self.c = plt.imshow(self.__listCarteChaleur, cmap='viridis')
-        self.c = plt.colorbar() #ticks=[0, 1, 2, 3,4,5]
+        #self.c = plt.imshow(self.__listCarteChaleur, cmap='viridis')
+        #self.c = plt.colorbar(cbar_kwas=0.1) #ticks=[0, 1, 2, 3,4,5]
         #self.c.plot(self.__listCarteChaleur)
-        #self.c = sns.heatmap(self.__listCarteChaleur, linewidth=0.5)
+        #self.c.plot(self.__listCarteChaleur)
+        #data = sns.load_dataset(self.__listcoord)
+        #data = self.__listCarteChaleur.pivot([i for i in range(0, 400)], [i for i in range(0, 400)])
+        #self.c.xticks([i for i in range(0, 400)])
+        #self.c.yticks([i for i in range(0, 400)])
+        self.c = sns.heatmap(self.__listCarteChaleur, annot=None, vmin=0.0, vmax=5, ax=plt.plot([i for i in range(0, 400)])) #linewidth=0.5)
         plt.show()
 
     def calculCarteChaleur(self):

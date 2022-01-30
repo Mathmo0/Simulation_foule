@@ -331,10 +331,10 @@ class CIHMSimulation(CIHM):
                 self.__lSIMListeObstaclesVue.append(obstacle)
                 self._IHMWindow.update()
 
-            for sortie in self.__ENVEnvironnement.getSorties():
-                sortie = CSortiesVue(self._IHMCanvasSimulation, sortie)
-                self.__lSIMListeSortiesVue.append(sortie)
-                self._IHMWindow.update()
+            #for sortie in self.__ENVEnvironnement.getSorties():
+            sortie = CSortiesVue(self._IHMCanvasSimulation, self.__ENVEnvironnement.getSorties()[0])
+            self.__lSIMListeSortiesVue.append(sortie)
+            self._IHMWindow.update()
 
             header = len(self.__lSIMListePersonnes) * ["x", "y", "pression"]
 

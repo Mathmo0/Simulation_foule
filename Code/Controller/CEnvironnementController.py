@@ -22,9 +22,11 @@ class CEnvironnementController:
             coordX = 0
 
         if coordY > hauteur:
-            coordX = hauteur
+            coordY = hauteur
         elif coordY < 0:
-            coordX = 0
+            coordY = 0
+
+        return coordX, coordY
 
     @staticmethod
     def ENCControlePersonnesInCanvas(coordX, coordY, hauteur, largeur):
