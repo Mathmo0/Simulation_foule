@@ -42,6 +42,11 @@ class CIHM:
         return self._IHMWindow
 
     def IHMCreation_Fenetre(self):
+        """
+        Fonction permettant l'affichage de la fenetre principale.
+
+        @return : void
+        """
         self._IHMWindow['background'] = 'light gray'
         # self.window.wm_attributes("-transparentcolor", 'grey')
         self._IHMWindow.title("Simulation de foule à échelle microscopique")
@@ -54,6 +59,11 @@ class CIHM:
         self._IHMWindow.columnconfigure(4, minsize=0, weight=1)
 
     def IHMCreation_Menu(self):
+        """
+        Fonction permettant de créer un menu
+
+        @return : void
+        """
         # TODO afficher les infos correspondantes aux boutons
         self._IHMmainMenu = Menu(self._IHMWindow)
         #fileMenuFichier = Menu(self.mainMenu)
@@ -62,6 +72,12 @@ class CIHM:
         self._IHMWindow.config(menu=self._IHMmainMenu)
 
     def IHMCreation_Titres(self, titre):
+        """
+        Fonction affichant un titre a la fenetre principale.
+
+        @param : titre que l'on veut attribuer a la fenetre.
+        @return : void
+        """
         self._IHMlabelTitle = Label(self._IHMWindow,
                                     text=titre,
                                     font=("Arial", 40),
@@ -77,6 +93,11 @@ class CIHM:
         self.background.grid(column=0, row=2, columnspan=7)
 
     def IHMA_Propos(self):
+        """
+        Fonction qui crée une option a propos en haut a gauche qui affiche une pop up en cliquant dessus.
+
+        @return : void
+        """
         self.__IHMaPropos = Toplevel(self._IHMWindow)
         self.__IHMaPropos.resizable(0, 0)
         self.__IHMLabelAPropos = Label(self.__IHMaPropos,
@@ -87,6 +108,11 @@ class CIHM:
         self.__IHMLabelAPropos.grid(column=0, row=0)
 
     def IHMCreation_Zone_Simulation(self):
+        """
+        Fonction qui crée la zone de simulation.
+
+        @return : void
+        """
         self._IHMFrameSimulation = Frame(self._IHMWindow)
         self._IHMFrameSimulation.grid(column=0, row=3, columnspan=6, pady=10, padx=20, sticky='NS')
         self._IHMCanvasSimulation = Canvas(self._IHMWindow, width=self._iIHMWidth, height=self._iIHMHeight, bg='snow', bd=1, relief=RIDGE)

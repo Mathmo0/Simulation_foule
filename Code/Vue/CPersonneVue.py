@@ -60,11 +60,26 @@ class CPersonneVue:
             self.__sPVUcolor = self.__lPVUlistColor[9]
         
     def move(self):
+        """
+        Fonction permettant d'actualiser la position du cercle.
+
+        @return : void
+        """
         self.__PVUcanvas.delete(self.__PVUimage)
         self.__PVUimage = COperation.OPEcreate_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)
 
     def disparaitre(self):
+        """
+        Fonction permettant de faire disparaitre le cercle.
+
+        @return : void
+        """
         self.__PVUcanvas.delete(self.__PVUimage)
 
     def apparaitre(self):
+        """
+        Fonction permettant de faire apparaitre le cercle.
+
+        @return : void
+        """
         self.__PVUimage = COperation.OPEcreate_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)

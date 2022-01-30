@@ -92,6 +92,11 @@ class CIHMSimulation(CIHM):
         self._IHMWindow.mainloop()
 
     def SIMCreation_Choix_Fichier(self):
+        """
+        Fonction permettant d'afficher le menu de choix des environnements.
+
+        @return : void
+        """
         self.__sSIMEnvironnement = StringVar(self._IHMWindow)
         self.__sSIMEnvironnement.set(self.__lSIMListeEnvironnement[len(self.__lSIMListeEnvironnement) - 1])
         self.__SIMChoixMenu = OptionMenu(self._IHMWindow, self.__sSIMEnvironnement, *self.__lSIMListeEnvironnement, command=self.SIMchoix_Environnement)
@@ -99,6 +104,11 @@ class CIHMSimulation(CIHM):
 
     #TODO RENDRE FONCTIONNEL LA SAISIS
     def SIMCreation_Zone_Saisies(self):
+        """
+        Fonction permettant d'afficher les zones de saisies pour les pourcentages des forces.
+
+        @return : void
+        """
         # Force attraction
         self._IHMWindow.columnconfigure(0, minsize=0, weight=0)
         self.__SIMlabelForceAttract = Label(self._IHMWindow, text="Force d'attraction (en %):", bg=self._sIHMbackgroundColor)
@@ -124,6 +134,11 @@ class CIHMSimulation(CIHM):
         self.__fSIMForceAcceleration.grid(column=6, row=2, sticky='W')
 
     def SIMCreation_Lancement_Simulation(self):
+        """
+        Fonction permettant de créer tous les boutons en lien avec le lancement et la navigation de la simulation.
+
+        @return : void
+        """
         # Reculer
         self._IHMWindow.columnconfigure(3, minsize=0, weight=0)
         self.__SIMbouton_back = Button(self._IHMWindow, text='<<<')
@@ -153,6 +168,11 @@ class CIHMSimulation(CIHM):
         self.__SIMmenuVitesse.grid(column=4, row=5, sticky='W')
 
     def SIMcreation_Bilan(self):
+        """
+        Fonction permettant d'afficher le bouton "bilan".
+
+        @return : void
+        """
         self.__SIMbouton_bilan.config(state=DISABLED, text="Bilan", command=self.SIMaffichageBilan)
         self.__SIMbouton_bilan.grid(column=5, row=6, sticky='W')
 
@@ -164,7 +184,7 @@ class CIHMSimulation(CIHM):
         Fonction permettant d'actualiser la position des personnes.
 
         @param : multiplicateur qui permet de moduler la vitesse de la simulation
-        @return : rien
+        @return : void
         """
         index = 0
         for j in range(0, len(self.__lSIMListePersonnesVue)):
@@ -185,7 +205,7 @@ class CIHMSimulation(CIHM):
         """
         Fonction permettant de lancer la simulation.
 
-        @return : rien
+        @return : void
         """
         for personne in self.__lSIMListePersonnesVue:
             personne.disparaitre()
@@ -232,7 +252,7 @@ class CIHMSimulation(CIHM):
         """
         Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "reculer"
 
-        @return : rien
+        @return : void
         """
         self.__bSIMBackward = True
         while (self.__iSIMCurrent - 1 >= 0 and (self.__bSIMBackward == True)):
@@ -244,7 +264,7 @@ class CIHMSimulation(CIHM):
         """
         Fonction permettant d'avancer dans la simulation tant qu'on appuie sur le bouton "avancer"
 
-        @return : rien
+        @return : void
         """
         self.__bSIMForward = True
         while (self.__iSIMCurrent + 1 < len(self.__lSIMListePositions) and (self.__bSIMForward == True)):
@@ -253,9 +273,19 @@ class CIHMSimulation(CIHM):
             self.SIMmouvement()
 
     def SIMstop_Iterate_Back(self, event):
+        """
+        Fonction permettant d'arreter d'aller en arriere.
+
+        @return : void
+        """
         self.__bSIMBackward = False
 
     def SIMstop_Iterate_Front(self, event):
+        """
+        Fonction permettant d'arreter d'avancer dans la simulation.
+
+        @return : void
+        """
         self.__bSIMForward = False
 
     def SIMrefresh_ListeEnvironnement(self):
@@ -264,6 +294,11 @@ class CIHMSimulation(CIHM):
 
     #TODO rendre fonctionnel le choix de lenvironnement avec une methode
     def SIMchoix_Environnement(self, sEnvironnement):
+        """
+        Fonction permettant de réaliser les calculs des forces et calculer les positions des personnes lors d'une evacuation.
+
+        @return : void
+        """
         print(sEnvironnement)
         self.SIMclear()
         self.__SIMbouton_lancement.config(state=DISABLED)
@@ -383,6 +418,11 @@ class CIHMSimulation(CIHM):
             self.__SIMbouton_bilan.config(state=NORMAL)
 
     def SIMclear(self):
+        """
+        Fonction permettant de reinitialiser la fenetre.
+
+        @return : void
+        """
         # ___ Attributs de navigation ___
         self.__iSIMCurrent = 0
         self.__bSIMBackward = False
