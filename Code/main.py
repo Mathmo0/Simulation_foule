@@ -71,8 +71,8 @@ environnement1 = CEnvironnement("Bureau", 100, 100, np.array([400,400]), listPer
 #environnement1 = CEnvironnement()
 #environnement1.CEnvironnementFichier(fichier)
 
-listPersonnes2 = environnement1.getListePersonnes()
-listObstacle = environnement1.getListeObstacles()
+listPersonnes2 = environnement1.ENVgetListePersonnes()
+listObstacle = environnement1.ENVgetListeObstacles()
 print(listObstacle)
 #for personne in listPersonnes2 :
 #   personne.ajouterDirection(environnement1.getSorties())

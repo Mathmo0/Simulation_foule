@@ -189,7 +189,7 @@ class CIHMSimulation(CIHM):
         index = 0
         for j in range(0, len(self.__lSIMListePersonnesVue)):
             self.personne = CPersonne(False, np.array([self.__lSIMListePositions[self.__iSIMCurrent][j + index], self.__lSIMListePositions[self.__iSIMCurrent][j + index + 1]]))
-            self.personne.PERajouterDirection(self.__ENVEnvironnement.getSorties()[0])
+            self.personne.PERajouterDirection(self.__ENVEnvironnement.ENVgetSorties()[0])
             if self.personne.PERsorti() == False :
                 self.__lSIMListePersonnesVue[j].setX(self.__lSIMListePositions[self.__iSIMCurrent][j + index])
                 self.__lSIMListePersonnesVue[j].setY(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 1])
@@ -226,14 +226,14 @@ class CIHMSimulation(CIHM):
             self.__SIMbouton_bilan.config(state=DISABLED)
             self.__SIMbouton_back.config(state=DISABLED)
             self.__SIMbouton_front.config(state=DISABLED)
-            #for personne in self.lListePersonnes:
+            #for personne in self.__lENVListePersonnes:
                 #personne.disparaitre()
             self.__lSIMListePersonnes.clear()
             self._IHMWindow.update()
             self.__iSIMCurrent = 0
             # Creation des personnes et initialisation de leurs positions
             index = 0
-            for self.__iSIMCurrent in range(0, int(self.__ENVEnvironnement.getNbPersonnes())):
+            for self.__iSIMCurrent in range(0, int(self.__ENVEnvironnement.ENVgetNbPersonnes())):
                 personne = CPersonneVue(self._IHMCanvasSimulation, self.__lSIMListePositions[0][self.__iSIMCurrent + index], self.__lSIMListePositions[0][self.__iSIMCurrent + index + 1], 5)
                 self.__lSIMListePersonnesVue.append(personne)
                 index += 2
@@ -310,14 +310,14 @@ class CIHMSimulation(CIHM):
             self.LabelChargement.grid(column=0, row=5, ipadx=5, pady=5, columnspan=2)
 
             self.__SIMFichierEnvironnement = CFichier("../../environnements/" + sEnvironnement)
-            self.__ENVEnvironnement.CEnvironnementFichier(self.__SIMFichierEnvironnement)
-            for personnes in self.__ENVEnvironnement.getListePersonnes():
-                personnes.PERajouterDirection(self.__ENVEnvironnement.getSorties())
+            self.__ENVEnvironnement.ENVCEnvironnementFichier(self.__SIMFichierEnvironnement)
+            for personnes in self.__ENVEnvironnement.ENVgetListePersonnes():
+                personnes.PERajouterDirection(self.__ENVEnvironnement.ENVgetSorties())
 
-            self.__lSIMListePersonnesSorties = [True for i in range(self.__ENVEnvironnement.getNbPersonnes())]
+            self.__lSIMListePersonnesSorties = [True for i in range(self.__ENVEnvironnement.ENVgetNbPersonnes())]
             bfini = False
 
-            self.__lSIMListePersonnes = self.__ENVEnvironnement.getListePersonnes()
+            self.__lSIMListePersonnes = self.__ENVEnvironnement.ENVgetListePersonnes()
 
             #Affichage de la position initiale
             for personnes in self.__lSIMListePersonnes:
@@ -326,7 +326,7 @@ class CIHMSimulation(CIHM):
                 self._IHMWindow.update()
 
             #Affichage des obstacles
-            for obstacles in self.__ENVEnvironnement.getListeObstacles():
+            for obstacles in self.__ENVEnvironnement.ENVgetListeObstacles():
                 obstacle = CObstacleQuadrilatereVue(self._IHMCanvasSimulation, obstacles)
                 self.__lSIMListeObstaclesVue.append(obstacle)
                 self._IHMWindow.update()
@@ -387,7 +387,7 @@ class CIHMSimulation(CIHM):
                             #print('\n-------------autre------------\n')
 
                             # Force de Repulsion par un obstacle :
-                            for obstacle in self.__ENVEnvironnement.getListeObstacles():
+                            for obstacle in self.__ENVEnvironnement.ENVgetListeObstacles():
                                 coordPieton = personne.PERRecupererDerniereCoordonne()
                                 sommet = personne.PERgetForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
                                                                                                                          obstacle)
