@@ -84,7 +84,8 @@ class CFichier:
                 list_coord[i - k - 1] = tupletemp
                 str = ""
             else:
-                list_coord = [list_coord[i] for i in range(0, len(list_coord) - 1)]
+                #list_coord = [list_coord[i] for i in range(0, len(list_coord) - 1)]
+                list_coord.pop(i - k - 1)
                 k += 1
 
         return list_coord
@@ -122,7 +123,7 @@ class CFichier:
                 elif (row[0] == 'Sortie(s)'):
                     sorties = self.FICParserListeCSV(row)
                     for sortie in sorties:
-                        CEnvironnementController.ENCControleInCanvas(sortie[0], sortie[1], hauteur, largeur)
+                        sortie[0], sortie[1] = CEnvironnementController.ENCControleInCanvas(sortie[0], sortie[1], hauteur, largeur)
                         sortie[0] = 400 * sortie[0] / largeur
                         sortie[1] = 400 * sortie[1] / hauteur
 
@@ -130,7 +131,7 @@ class CFichier:
                 elif (row[0] == 'Liste de personnes'):
                     list_coord = self.FICParserListeCSV(row)
                     for coord in list_coord:
-                        CEnvironnementController.ENCControleInCanvas(coord[0], coord[1], hauteur, largeur)
+                        coord[0], coord[1] = CEnvironnementController.ENCControleInCanvas(coord[0], coord[1], hauteur, largeur)
                         coord[0] = 400 * coord[0] / largeur
                         coord[1] = 400 * coord[1] / hauteur
                     list_personnes = [CPersonne(False,coord) for coord in list_coord]

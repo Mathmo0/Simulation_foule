@@ -71,12 +71,12 @@ class CObstacleQuadrilatere(CObstacle):
 
         @return: rien
         """
-        coinTopRight = np.array([self.__tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self.__tOBSCoordonneesSommet[0][1]])
-        coinBottomLeft = np.array([self.__tOBSCoordonneesSommet[0][0], self.__tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
-        coinBottomRight = np.array([self.__tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self.__tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
-        self.__tOBSCoordonneesSommet.append(coinTopRight)
-        self.__tOBSCoordonneesSommet.append(coinBottomLeft)
-        self.__tOBSCoordonneesSommet.append(coinBottomRight)
+        coinTopRight = np.array([self._tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self._tOBSCoordonneesSommet[0][1]])
+        coinBottomLeft = np.array([self._tOBSCoordonneesSommet[0][0], self._tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
+        coinBottomRight = np.array([self._tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self._tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
+        self._tOBSCoordonneesSommet.append(coinTopRight)
+        self._tOBSCoordonneesSommet.append(coinBottomLeft)
+        self._tOBSCoordonneesSommet.append(coinBottomRight)
 
 
 """list_sorties = np.array([(3, 4), (2, 4)])

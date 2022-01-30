@@ -1,13 +1,11 @@
 import matplotlib.pyplot as plt
-#plt.use("TkAgg")
 import numpy as np
-from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 import seaborn as sns
 from Code.Modele.CForce import DeltaT
 from Code.Vue.CIHM import CIHM
+from tkinter import *
 
-
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 class CIHMBilan(CIHM):
@@ -21,52 +19,67 @@ class CIHMBilan(CIHM):
         """
          -----------------------  Affichage de la carte des chaleurs  ------------------------------
         """
-        self.figure = Figure(figsize=(5, 5))
-        self.calculCarteChaleur()
-        self.c = self.figure.add_subplot(111)
-        # self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
-        self.heatmap2d()
-        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.IHMgetWindow())
+        self.__BILfigure = Figure()
+        self.BILCalculCarteChaleur()
+        self.__BILdiagramme = self.__BILfigure.add_subplot(111)
+        self.BILHeatmap()
+        self.__BILcanvasSimulation = FigureCanvasTkAgg(self.__BILfigure, self.IHMgetWindow())
 
-        self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+        self.__BILcanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
 
+        self.__BILfigure = Figure(figsize=(5, 5), dpi = 90)
+        self.BILCalculCarteChaleur()
 
-        #self.Creation_Zone_Simulation()
-        self.figure = Figure(figsize=(5, 5))
-        self.calculCarteChaleur()
-        #self.c = self.figure.add_subplot(111)
-        #self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
-        self.heatmap2d()
-        self.CanvasSimulation = FigureCanvasTkAgg(self.figure, self.IHMgetWindow())
+        self.BILHeatmap()
+        self.__BILcanvasSimulation = FigureCanvasTkAgg(self.__BILfigure, self.IHMgetWindow())
 
-        self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
+        self.__BILcanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
 
-        """self.toolBar = NavigationToolbar2Tk(self.CanvasSimulation, self.getWindow())
-        self.toolBar.update()
-
-        self.CanvasSimulation.get_tk_widget().grid(column=0, row=3, columnspan=6, pady=20, padx=20, sticky='NS')
-"""
-
+        """
+        -----------------------  Affichage du temps de simulation  ------------------------------
+        """
+        self.__BILtempsSimulation = Label()
+        self.BILAfficherTempsSimulation()
 
         self._IHMWindow.mainloop()
-
-    def heatmap2d(self):
-        self.c = plt.imshow(self.__listCarteChaleur, cmap='viridis')
-        self.c = plt.colorbar() #ticks=[0, 1, 2, 3,4,5]
-        #self.c.plot(self.__listCarteChaleur)
-        #self.c = sns.heatmap(self.__listCarteChaleur, linewidth=0.5)
-        plt.show()
-
-    def calculCarteChaleur(self):
-        for uiBoucle1 in range(len(self.__listcoord)):
-            px1 = (self.__listcoord[uiBoucle1][0])
-            px2 = (self.__listcoord[uiBoucle1][1])
-            self.__listCarteChaleur[round(px1)][round(px2)] += 1
-
-    def calculTpsSimulation(self):
-        self.__tpsSimulation = len(self.__listcoord[0])*DeltaT
 
     def getWindowB(self):
         return self._IHMWindow
 
-#test = CIHMBilan()
+    def BILHeatmap(self):
+        """
+            Fonction permettant d'afficher la carte des chaleurs".
+
+            @return : void
+        """
+        self.__BILdiagramme = sns.heatmap(self.__listCarteChaleur, annot=None, vmin=0.0, vmax=5) #linewidth=0.5)
+        plt.show()
+
+    def BILCalculCarteChaleur(self):
+        """
+            Fonction permettant de calculer la matrice correspondant a la carte des chaleurs".
+
+            @return : void
+        """
+        for uiBoucle1 in range(len(self.__listcoord)):
+            px1 = (self.__listcoord[uiBoucle1][0])
+            px2 = (self.__listcoord[uiBoucle1][1])
+            if 400 > px1 > 0 and 400 > px2 > 0:
+                self.__listCarteChaleur[round(px1)][round(px2)] += 10
+
+    def BILCalculTpsSimulation(self):
+        """
+            Fonction permettant de calculer le temps d'evacuation".
+
+            @return : void
+        """
+        self.__tpsSimulation = len(self.__listcoord[0])*DeltaT
+
+    def BILAfficherTempsSimulation(self):
+        """
+            Fonction permettant d'afficher le temps d'evacuation".
+
+            @return : void
+        """
+        self.__BILtempsSimulation = Label(self.IHMgetWindow(), text=str(self.__tpsSimulation) + " secondes", font=("Arial", 15), bg='light grey')
+        self.__BILtempsSimulation.grid(column=3, row=6, sticky='W')
