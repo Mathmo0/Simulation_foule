@@ -16,13 +16,13 @@ class TestUnitaire_CFichier(unittest.TestCase):
 
 
         self.environnement0 = CEnvironnement()
-        self.environnement0.CEnvironnementFichier(self.fichier0)
+        self.environnement0.ENVCEnvironnementFichier(self.fichier0)
 
         self.environnement1 = CEnvironnement()
-        self.environnement1.CEnvironnementFichier(self.fichier1)
+        self.environnement1.ENVCEnvironnementFichier(self.fichier1)
 
         self.environnement2 = CEnvironnement()
-        self.environnement2.CEnvironnementFichier(self.fichier2)
+        self.environnement2.ENVCEnvironnementFichier(self.fichier2)
 
         self.sorties0 = np.array([(3, 4), (2, 4), (5,6)])
 
@@ -55,13 +55,13 @@ class TestUnitaire_CFichier(unittest.TestCase):
 
     def test_Attributs_equal_Env0(self):
         print("\ntest de la bonne récupération des données dans le fichier environnement0.csv :\n")
-        self.assertEqual(self.environnement0.getNom(), self.environnementREF.getNom())
-        self.assertEqual(self.environnement0.getSuperficie(), self.environnementREF.getSuperficie())
-        self.assertEqual(self.environnement0.getNbPersonnes(), self.environnementREF.getNbPersonnes())
-        self.assertEqual(self.environnement0.getNbObstacles(), self.environnementREF.getNbObstacles())
-        self.assertEqual(self.environnement0.getSorties().all(), self.environnementREF.getSorties().all())
-        self.assertEqual(self.environnement0.getHauteur(), self.environnementREF.getHauteur())
-        self.assertEqual(self.environnement0.getLargeur(), self.environnementREF.getLargeur())
+        self.assertEqual(self.environnement0.ENVgetNom(), self.environnementREF.ENVgetNom())
+        self.assertEqual(self.environnement0.ENVgetSuperficie(), self.environnementREF.ENVgetSuperficie())
+        self.assertEqual(self.environnement0.ENVgetNbPersonnes(), self.environnementREF.ENVgetNbPersonnes())
+        self.assertEqual(self.environnement0.ENVgetNbObstacles(), self.environnementREF.ENVgetNbObstacles())
+        self.assertEqual(self.environnement0.ENVgetSorties().all(), self.environnementREF.ENVgetSorties().all())
+        self.assertEqual(self.environnement0.ENVgetHauteur(), self.environnementREF.ENVgetHauteur())
+        self.assertEqual(self.environnement0.ENVgetLargeur(), self.environnementREF.ENVgetLargeur())
         """self.assertEqual(self.environnement0.getListePersonnes(), self.environnementREF.getListePersonnes())
         self.assertEqual(self.environnement0.getListeObstacles(), self.environnementREF.getListeObstacles())"""
         print("OK\n")

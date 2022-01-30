@@ -9,109 +9,201 @@ class CEnvironnement:
 
     # -------------------Constructeur-------------------#
     def __init__(self, nom="", hauteur=1, largeur=1, sorties= np.array([(0, 0)]), listePersonnes = [CPersonne()], listeObstacles = [CObstacleQuadrilatere()]):
-        self.sNom = nom
+        self.__sENVNom = nom
 
-        self.iHauteur = hauteur
-        self.iLargeur = largeur
+        self.__iENVHauteur = hauteur
+        self.__iENVLargeur = largeur
 
-        self.fSuperficie = hauteur * largeur
+        self.__fENVSuperficie = hauteur * largeur
 
-        self.lListePersonnes = listePersonnes
+        self.__lENVListePersonnes = listePersonnes
 
-        self.lListeObstacles = listeObstacles
+        self.__lENVListeObstacles = listeObstacles
 
-        self.iNbPersonnes = len(listePersonnes)
-        self.iNbObstacles = len(listeObstacles)
+        self.__iENVNbPersonnes = len(listePersonnes)
+        self.__iENVNbObstacles = len(listeObstacles)
 
-        self.tSorties = sorties
+        self.__tENVSorties = sorties
 
-        self.AttribuerSortie()
+        self.ENVAttribuerSortie()
 
-    def CEnvironnementFichier(self, fichier):
-        self.sNom, self.iHauteur, self.iLargeur, self.tSorties, self.lListePersonnes, self.lListeObstacles = fichier.FICLireFichierEnvironnement()
+    def ENVCEnvironnementFichier(self, fichier):
+        """
+        Cette fonction permet de contruire un environnement a partir d'un fichier
 
-        self.fSuperficie = self.iHauteur * self.iLargeur
+        @param fichier: fichier .csv contenant les informations sur l'environnement
+        @return: rien
+        """
+        self.__sENVNom, self.__iENVHauteur, self.__iENVLargeur, self.__tENVSorties, self.__lENVListePersonnes, self.__lENVListeObstacles = fichier.FICLireFichierEnvironnement()
 
-        self.iNbPersonnes = len(self.lListePersonnes)
-        self.iNbObstacles = len(self.lListeObstacles)
+        self.__fENVSuperficie = self.__iENVHauteur * self.__iENVLargeur
 
-        self.AttribuerSortie()
+        self.__iENVNbPersonnes = len(self.__lENVListePersonnes)
+        self.__iENVNbObstacles = len(self.__lENVListeObstacles)
 
-    def CEnvironnementCopie(self, environnement):
-        self.sNom = environnement.sNom
+        self.ENVAttribuerSortie()
 
-        self.iHauteur = environnement.__iOBQHauteur
-        self.iLargeur = environnement.__iOBQLargeur
+    def ENVCEnvironnementCopie(self, environnement):
+        """
+        Constructeur de recopie
 
-        self.fSuperficie = environnement.__iOBQHauteur * environnement.__iOBQLargeur
+        @param environnement: environnement qu'on veut copier
+        @return: rien
+        """
+        self.__sENVNom = environnement.__sENVNom
 
-        self.lListePersonnes = environnement.__lSIMListePersonnes
+        self.__iENVHauteur = environnement.__iOBQHauteur
+        self.__iENVLargeur = environnement.__iOBQLargeur
 
-        self.lListeObstacles = environnement.lListeObstacles
+        self.__fENVSuperficie = environnement.__iOBQHauteur * environnement.__iOBQLargeur
 
-        self.iNbPersonnes = len(environnement.iNbPersonnes)
-        self.iNbObstacles = len(environnement.iNbObstacles)
+        self.__lENVListePersonnes = environnement.__lSIMListePersonnes
 
-        self.tSorties = environnement.tSorties
+        self.__lENVListeObstacles = environnement.__lENVListeObstacles
 
-        self.AttribuerSortie()
+        self.__iENVNbPersonnes = len(environnement.__iENVNbPersonnes)
+        self.__iENVNbObstacles = len(environnement.__iENVNbObstacles)
+
+        self.__tENVSorties = environnement.__tENVSorties
+
+        self.ENVAttribuerSortie()
 
     # -------------------Getters------------------- #
-    def getNom(self):
-        return self.sNom
+    def ENVgetNom(self):
+        """
+        getter pour l'attribut __sENVNom
 
-    def getSuperficie(self):
-        return self.fSuperficie
+        @return: __sENVNom
+        """
+        return self.__sENVNom
 
-    def getNbPersonnes(self):
-        return self.iNbPersonnes
+    def ENVgetSuperficie(self):
+        """
+        getter pour l'attribut __iENVNbPersonnes
+        @return: __iENVNbPersonnes
+        """
+        return self.__fENVSuperficie
 
-    def getNbObstacles(self):
-        return self.iNbObstacles
+    def ENVgetNbPersonnes(self):
+        """
+        getter pour l'attribut __iENVNbPersonnes
+        @return: __iENVNbPersonnes
+        """
+        return self.__iENVNbPersonnes
 
-    def getSorties(self):
-        return self.tSorties
+    def ENVgetNbObstacles(self):
+        """
+        getter pour l'attribut __iENVNbObstacles
+        @return: __iENVNbObstacles
+        """
+        return self.__iENVNbObstacles
 
-    def getHauteur(self):
-        return self.iHauteur
+    def ENVgetSorties(self):
+        """
+        getter pour l'attribut __tENVSorties
+        @return: __tENVSorties
+        """
+        return self.__tENVSorties
 
-    def getLargeur(self):
-        return self.iLargeur
+    def ENVgetHauteur(self):
+        """
+        getter pour l'attribut __iENVHauteur
+        @return: __iENVHauteur
+        """
+        return self.__iENVHauteur
 
-    def getListePersonnes(self):
-        return self.lListePersonnes
+    def ENVgetLargeur(self):
+        """
+        getter pour l'attribut __iENVLargeur
+        @return: __iENVLargeur
+        """
+        return self.__iENVLargeur
 
-    def getListeObstacles(self):
-        return self.lListeObstacles
+    def ENVgetListePersonnes(self):
+        """
+        getter pour l'attribut __lENVListePersonnes
+        @return: __lENVListePersonnes
+        """
+        return self.__lENVListePersonnes
+
+    def ENVgetListeObstacles(self):
+        """
+        getter pour l'attribut __lENVListeObstacles
+        @return: __lENVListeObstacles
+        """
+        return self.__lENVListeObstacles
 
 
     # ---------------------Setters---------------------#
-    def setNom(self, nom):
-        self.sNom = nom
+    def ENVsetNom(self, nom):
+        """
+        setter pour l'attribut __sENVNom
 
-    def setHauteur(self, hauteur):
-        self.iHauteur = hauteur
-        self.superficie = self.iHauteur * self.iLargeur
+        @param nom: nouveau nom de l'environnement
+        @return: rien
+        """
+        self.__sENVNom = nom
+
+    def ENVsetHauteur(self, hauteur):
+        """
+        setter pour l'attribut __iENVHauteur
+
+        @param hauteur: nouvelle hauteur de l'environnement
+        @return: rien
+        """
+        self.__iENVHauteur = hauteur
+        self.superficie = self.__iENVHauteur * self.__iENVLargeur
 
 
-    def setLargeur(self, largeur):
-        self.iLargeur = largeur
-        self.superficie = self.iHauteur * self.iLargeur
+    def ENVsetLargeur(self, largeur):
+        """
+        setter pour l'attribut __iENVLargeur
 
-    def setSorties(self, list_sorties):
-        self.tSorties = list_sorties
+        @param largeur: nouvelle largeur de l'environnement
+        @return: rien
+        """
+        self.__iENVLargeur = largeur
+        self.superficie = self.__iENVHauteur * self.__iENVLargeur
 
-    def setListePersonnes(self, listePersonnes):
-        self.lListePersonnes = listePersonnes
-        self.iNbPersonnes = len(self.lListePersonnes)
+    def ENVsetSorties(self, list_sorties):
+        """
+        setter pour l'attribut __tENVSorties
 
-    def setListeObstacles(self, listeObstacles):
-        self.lListeObstacles = listeObstacles
-        self.iNbObstacles = len(self.lListeObstacles)
+        @param list_sorties: nouvelles sorties pour l'environnement
+        @return: rien
+        """
+        self.__tENVSorties = list_sorties
+
+    def ENVsetListePersonnes(self, listePersonnes):
+        """
+        setter pour l'attribut __lENVListePersonnes
+
+        @param listePersonnes: nouvelles personnes qui sont dans l'environnement
+        @return: rien
+        """
+        self.__lENVListePersonnes = listePersonnes
+        self.__iENVNbPersonnes = len(self.__lENVListePersonnes)
+
+    def ENVsetListeObstacles(self, listeObstacles):
+        """
+        setter pour l'attribut __lENVListeObstacles
+
+        @param listeObstacles: nouveau obstacle qui sont dans lenvironnement
+        @return: rien
+        """
+        self.__lENVListeObstacles = listeObstacles
+        self.__iENVNbObstacles = len(self.__lENVListeObstacles)
 
 
     # -------------------Methodes-------------------#
     def ENVToString(self):
+        """
+
+        Cette fonction permet d'afficher les differentes informations sur l'environnement
+
+        @return: rien
+
+        """
         print(
             "\nSalle : {}\n" 
             "Superficie : {} m2\n" 
@@ -120,28 +212,20 @@ class CEnvironnement:
             "Nombre de personnes : {}\n" 
             "Nombre d'obstacles : {}\n" 
             "Liste de sorties : {}\n"
-                .format(self.getNom(), self.getSuperficie(), self.getHauteur(), self.getLargeur(), self.getNbPersonnes(), self.getNbObstacles(), self.getSorties()))
+                .format(self.ENVgetNom(), self.ENVgetSuperficie(), self.ENVgetHauteur(), self.ENVgetLargeur(), self.ENVgetNbPersonnes(), self.ENVgetNbObstacles(), self.ENVgetSorties()))
         print("\nListe des obstacles :")
-        for obs in self.getListeObstacles():
+        for obs in self.ENVgetListeObstacles():
             obs.OBSToString()
 
-    def AttribuerSortie(self):
-        for personnes in self.lListePersonnes:
-            personnes.PERajouterDirection(self.tSorties)
+    def ENVAttribuerSortie(self):
+        """
+        Cette fonction permet d'attribuer une sortie a une personne
+
+        @return: rien
+
+        """
+        for personnes in self.__lENVListePersonnes:
+            personnes.PERajouterDirection(self.__tENVSorties)
             personnes.PERPlusCourtChemin()
 
-
-
-
-
-"""print("Lancement de la classe")
-
-list_sorties = np.array([(3, 4), (2, 4)])
-
-e1 = CEnvironnement("Bureau", 34, 20, 3, 1, list_sorties)
-#e1 = CEnvironnement()
-
-e1.ENVToString()
-e1.tSorties[0][1] = 2
-e1.ENVToString()"""
 
