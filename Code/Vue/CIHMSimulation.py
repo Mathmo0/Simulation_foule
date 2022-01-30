@@ -177,7 +177,7 @@ class CIHMSimulation(CIHM):
         self.__SIMbouton_bilan.grid(column=5, row=6, sticky='W')
 
     def SIMaffichageBilan(self):
-        self.__SIMBilan = CIHMBilan(self.__lSIMlisteTest)
+        self.__SIMBilan = CIHMBilan(self.__lSIMlisteTest, self.__iSIMTempsDeSimulation)
 
     def SIMmouvement(self):
         """
