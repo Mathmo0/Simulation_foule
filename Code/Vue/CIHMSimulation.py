@@ -193,11 +193,11 @@ class CIHMSimulation(CIHM):
             if self.personne.PERsorti() == False :
                 self.__lSIMListePersonnesVue[j].setX(self.__lSIMListePositions[self.__iSIMCurrent][j + index])
                 self.__lSIMListePersonnesVue[j].setY(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 1])
-                self.__lSIMListePersonnesVue[j].PERsetPression(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 2])
-                self.__lSIMListePersonnesVue[j].move()
+                self.__lSIMListePersonnesVue[j].PVUsetPression(self.__lSIMListePositions[self.__iSIMCurrent][j + index + 2])
+                self.__lSIMListePersonnesVue[j].PVUmove()
             else:
                 self.__lSIMListePersonnesVue[j].setColor("")
-                self.__lSIMListePersonnesVue[j].move()
+                self.__lSIMListePersonnesVue[j].PVUmove()
             index += 2
         time.sleep(0.05 / float(self.__fSIMVitesse.get()))
 
@@ -208,7 +208,7 @@ class CIHMSimulation(CIHM):
         @return : void
         """
         for personne in self.__lSIMListePersonnesVue:
-            personne.disparaitre()
+            personne.PVUdisparaitre()
 
         self.__lSIMListePersonnesVue.clear()
 

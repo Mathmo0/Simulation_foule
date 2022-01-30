@@ -21,7 +21,7 @@ class CIHMBilan(CIHM):
         """
          -----------------------  Affichage de la carte des chaleurs  ------------------------------
         """
-        self.figure = Figure(figsize=(5, 5))
+        self.figure = Figure()
         self.calculCarteChaleur()
         self.c = self.figure.add_subplot(111)
         # self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
@@ -32,7 +32,7 @@ class CIHMBilan(CIHM):
 
 
         #self.Creation_Zone_Simulation()
-        self.figure = Figure(figsize=(5, 5))
+        self.figure = Figure(figsize=(5, 5), dpi = 90)
         self.calculCarteChaleur()
         #self.c = self.figure.add_subplot(111)
         #self.c.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
@@ -61,7 +61,7 @@ class CIHMBilan(CIHM):
         for uiBoucle1 in range(len(self.__listcoord)):
             px1 = (self.__listcoord[uiBoucle1][0])
             px2 = (self.__listcoord[uiBoucle1][1])
-            self.__listCarteChaleur[round(px1)][round(px2)] += 1
+            self.__listCarteChaleur[round(px1)][round(px2)] += 10
 
     def calculTpsSimulation(self):
         self.__tpsSimulation = len(self.__listcoord[0])*DeltaT

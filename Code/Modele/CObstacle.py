@@ -7,8 +7,8 @@ class CObstacle :
 
     # -------------------Constructeur-------------------#
     def __init__(self, coordonneesSommet = np.array([0,0])):
-        self.__iOBSSuperficie = 0
-        self.__tOBSCoordonneesSommet = [coordonneesSommet]
+        self._iOBSSuperficie = 0
+        self._tOBSCoordonneesSommet = [coordonneesSommet]
 
 
     # -------------------Getters-------------------#
@@ -18,7 +18,7 @@ class CObstacle :
 
         @return: __iOBSSuperficie
         """
-        return self.__iOBSSuperficie
+        return self._iOBSSuperficie
 
     def OBSgetCoordonneesSommet(self):
         """
@@ -26,7 +26,7 @@ class CObstacle :
 
         @return: __tOBSCoordonneesSommet
         """
-        return self.__tOBSCoordonneesSommet
+        return self._tOBSCoordonneesSommet
 
 
     # ---------------------Setters---------------------#
@@ -37,7 +37,7 @@ class CObstacle :
 
         @return: rien
         """
-        self.__tOBSCoordonneesSommet = coordonneesSommets
+        self._tOBSCoordonneesSommet = coordonneesSommets
 
 
     # -------------------Methodes-------------------#

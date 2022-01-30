@@ -23,10 +23,10 @@ class CIHM:
         """
         -----------------------  Menu  ------------------------------
         """
-        self.__IHMaPropos = Label()
-        self.__IHMLabelAPropos = Label()
+        self._IHMaPropos = Label()
+        self._IHMLabelAPropos = Label()
         self.IHMCreation_Menu()
-        self.__IHMLabelChargement = Label()
+        self._IHMLabelChargement = Label()
 
         """
         -----------------------  Zone de simulation  ------------------------------
@@ -98,14 +98,14 @@ class CIHM:
 
         @return : void
         """
-        self.__IHMaPropos = Toplevel(self._IHMWindow)
-        self.__IHMaPropos.resizable(0, 0)
-        self.__IHMLabelAPropos = Label(self.__IHMaPropos,
-                                       text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.",
-                                       font=("Arial", 20),
-                                       bg='light grey')
+        self._IHMaPropos = Toplevel(self._IHMWindow)
+        self._IHMaPropos.resizable(0, 0)
+        self._IHMLabelAPropos = Label(self._IHMaPropos,
+                                      text="Ce projet de simulation de foule à été réalisé par Maxime EDELINE, Hicham MOUSTAQIM et Mathis MOYSE\n pendant leur quatrième année d'étude à Polytech Tours en informatique.",
+                                      font=("Arial", 20),
+                                      bg='light grey')
 
-        self.__IHMLabelAPropos.grid(column=0, row=0)
+        self._IHMLabelAPropos.grid(column=0, row=0)
 
     def IHMCreation_Zone_Simulation(self):
         """

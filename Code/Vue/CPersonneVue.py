@@ -34,7 +34,7 @@ class CPersonneVue:
     def getPression(self):
         return self.__fPVUpression
 
-    def setPression(self, pres):
+    def PVUsetPression(self, pres):
         self.__fPVUpression = pres
         if 0 <= self.__fPVUpression <= 1:
             self.__sPVUcolor = self.__lPVUlistColor[0]
@@ -59,7 +59,7 @@ class CPersonneVue:
         elif  self.__fPVUpression > 10:
             self.__sPVUcolor = self.__lPVUlistColor[9]
         
-    def move(self):
+    def PVUmove(self):
         """
         Fonction permettant d'actualiser la position du cercle.
 
@@ -68,7 +68,7 @@ class CPersonneVue:
         self.__PVUcanvas.delete(self.__PVUimage)
         self.__PVUimage = COperation.OPEcreate_circle(self.__fPVUx, self.__fPVUy, self.__iPVUrayon, self.__PVUcanvas, self.__sPVUcolor)
 
-    def disparaitre(self):
+    def PVUdisparaitre(self):
         """
         Fonction permettant de faire disparaitre le cercle.
 
@@ -76,7 +76,7 @@ class CPersonneVue:
         """
         self.__PVUcanvas.delete(self.__PVUimage)
 
-    def apparaitre(self):
+    def PVUapparaitre(self):
         """
         Fonction permettant de faire apparaitre le cercle.
 
