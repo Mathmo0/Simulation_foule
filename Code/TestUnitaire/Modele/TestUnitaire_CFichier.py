@@ -46,7 +46,6 @@ class TestUnitaire_CFichier(unittest.TestCase):
 
         :return: rien
         """
-        #self.assertEqual(self.environnement0, CEnvironnement("Burreau", 34, 20, self.sorties0, self.liste_Personnes, self.liste_Obstacles))
         print("\ntest du type :\n")
         self.assertIsInstance(self.environnement0, CEnvironnement)
         self.assertIsInstance(self.environnement1, CEnvironnement)
@@ -62,8 +61,6 @@ class TestUnitaire_CFichier(unittest.TestCase):
         self.assertEqual(self.environnement0.ENVgetSorties().all(), self.environnementREF.ENVgetSorties().all())
         self.assertEqual(self.environnement0.ENVgetHauteur(), self.environnementREF.ENVgetHauteur())
         self.assertEqual(self.environnement0.ENVgetLargeur(), self.environnementREF.ENVgetLargeur())
-        """self.assertEqual(self.environnement0.getListePersonnes(), self.environnementREF.getListePersonnes())
-        self.assertEqual(self.environnement0.getListeObstacles(), self.environnementREF.getListeObstacles())"""
         print("OK\n")
 
 

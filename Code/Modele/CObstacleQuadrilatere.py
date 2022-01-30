@@ -27,6 +27,7 @@ class CObstacleQuadrilatere(CObstacle):
     def OBQgetLargeur(self):
         """
         getter pour l'attribut __iOBQLargeur
+
         @return: __iOBQLargeur
         """
         return self.__iOBQLargeur
@@ -38,7 +39,8 @@ class CObstacleQuadrilatere(CObstacle):
         setter pour l'attribut __iOBQHauteur
 
         @param hauteur: nouvelle hauteur pour l'obstacle
-        @return: rien
+
+        @return: void
         """
         self.__iOBQHauteur = hauteur
         self.__iOBQSuperficie = self.__iOBQHauteur * self.__iOBQLargeur
@@ -46,8 +48,10 @@ class CObstacleQuadrilatere(CObstacle):
     def OBQsetLargeur(self, largeur):
         """
         setter pour l'attribut __iOBQLargeur
+
         @param largeur: nouvelle largeur pour l'obstacle
-        @return: rien
+
+        @return: void
         """
         self.__iOBQLargeur = largeur
         self.__iOBQSuperficie = self.__iOBQHauteur * self.__iOBQLargeur
@@ -56,7 +60,8 @@ class CObstacleQuadrilatere(CObstacle):
     # -------------------Methodes-------------------#
     def OBSToString(self):
         """
-         fonction pemettant d'afficher les differentes informations de l'obstacle
+        fonction pemettant d'afficher les differentes informations de l'obstacle
+
         @return: rien
         """
         print("\nCoordonnees : {}\n"
@@ -67,9 +72,9 @@ class CObstacleQuadrilatere(CObstacle):
 
     def OBQcalculerCoordonnees(self):
         """
-        fonction permettant de calculer les 3 autre sommets de l'obstacle
+        fonction permettant de calculer les 3 autres sommets de l'obstacle
 
-        @return: rien
+        @return: void
         """
         coinTopRight = np.array([self._tOBSCoordonneesSommet[0][0] + self.__iOBQLargeur, self._tOBSCoordonneesSommet[0][1]])
         coinBottomLeft = np.array([self._tOBSCoordonneesSommet[0][0], self._tOBSCoordonneesSommet[0][1] - self.__iOBQHauteur])
@@ -78,7 +83,3 @@ class CObstacleQuadrilatere(CObstacle):
         self._tOBSCoordonneesSommet.append(coinBottomLeft)
         self._tOBSCoordonneesSommet.append(coinBottomRight)
 
-
-"""list_sorties = np.array([(3, 4), (2, 4)])
-carreONE = CObstacleQuadrilatere(12, 12, list_sorties)
-carreONE.OBSToString()"""

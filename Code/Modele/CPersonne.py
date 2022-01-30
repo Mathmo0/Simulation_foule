@@ -11,8 +11,8 @@ from Code.Modele.CObstacle import CObstacle
 
 class CPersonne:
 
+    #-------------------Constructeur-------------------:
     def __init__(self,recursif = False,coordonnees = np.array([0,0]),vitesse = 1.34, pression = 0, rayon = 1, chpsVision = Phi,ForceRepulsion =CFRepulsion(), ForceObstacle = CFRepulsion() ,ForceAttraction = CFAttraction(),ForceAccelaration = CFAcceleration()):
-        #TODO : je sais pas si c'ets possible mais rajouter les exception necessaire mis dans les setter
         assert vitesse >= 0, " La vitesse doit etre positive"
         assert pression >= 0, "La pression doit etre positive"
         assert rayon > 0, "La rayon doit etre strictement positive "
@@ -22,7 +22,7 @@ class CPersonne:
         self.__fPERVitesse = vitesse
         self.__fPERPression = pression
         self.__lPERDirection: List[np.array()] = []
-        self.__lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnées , en indice 0 la coordonnès à l'instant t-Deltat et en indice 1 la coordonnées à l'instant t
+        self.__lPERCoordonees = [coordonnees] #cette litse contient 2 coordonnees , en indice 0 la coordonnees à l'instant t-Deltat et en indice 1 la coordonnees à l'instant t
         if recursif == False :
             self.__lPERlistPersonneProximite = [CPersonne(True)]
         else :
@@ -33,10 +33,10 @@ class CPersonne:
         self.__vPERForceRepulsionObstacle = ForceObstacle
         self.__vPERForceAttraction = ForceAttraction
         self.__vPERForceAcceleration = ForceAccelaration
-        self.__fPERRayon = 10# rayon
+        self.__fPERRayon = 10 # rayon
         self.__fPERChampsDeVision = chpsVision
 
-#------------------------Getter------------------------
+    #------------------------Getter------------------------
 
     def PERgetVitesse(self):
         """
@@ -49,6 +49,7 @@ class CPersonne:
     def PERgetVecteurVitesse(self):
         """
         getter pour l'attribut __vPERVitesse
+
         @return: __vPERVitesse
         """
         return self.__vPERVecteurVitesse
@@ -56,6 +57,7 @@ class CPersonne:
     def PERgetPression(self):
         """
         getter pour l'attribut __fPERPression
+
         @return: __fPERPression
         """
         return self.__fPERPression
@@ -63,6 +65,7 @@ class CPersonne:
     def PERgetListDirection(self) :
         """
         getter pour l'attribut .__lPERDirection
+
         @return: __lDirection
         """
         return self.__lPERDirection
@@ -70,6 +73,7 @@ class CPersonne:
     def PERgetListCoordonnees(self):
         """
         getter pour l'attribut __lPERCoordonees
+
         @return: __lPERCoordonees
         """
         return self.__lPERCoordonees
@@ -93,6 +97,7 @@ class CPersonne:
     def PERgetForceRepulsionPersonne(self):
         """
         getter pour l'attribut __vPERForceRepulsionPersonne
+
         @return: __vPERForceRepulsionPersonne
         """
         return self.__vPERForceRepulsionPersonne
@@ -108,6 +113,7 @@ class CPersonne:
     def PERgetForceAttraction(self):
         """
         getter pour l'attribut __vPERForceAttraction
+
         @return: __vPERForceAttraction
         """
         return self.__vPERForceAttraction
@@ -115,6 +121,7 @@ class CPersonne:
     def PERgetForceAcceleration(self):
         """
         getter pour l'attribut __vPERForceAcceleration
+
         @return: __vPERForceAcceleration
         """
         return self.__vPERForceAcceleration
@@ -122,6 +129,7 @@ class CPersonne:
     def PERgetRayon(self):
         """
         getter pour l'attribut __fPERRayon
+
         @return: __fPERRayon
         """
         return self.__fPERRayon
@@ -129,17 +137,20 @@ class CPersonne:
     def PERgetChampsDeVision(self):
         """
         getter pour l'attribut __fPERChampsDeVision
+
         @return: __fPERChampsDeVision
         """
         return self.__fPERChampsDeVision
 
-#------------------------Setter------------------------
+    #------------------------Setter------------------------
 
     def PERsetVitesse(self, vitesse):
         """
         setter pour l'attribut __fPERVitesse
+
         @param vitesse: nouvelle vitesse qu'on veut affecter au pieton
-        @return: rien
+
+        @return: void
         """
         assert vitesse >= 0," La vitesse doit etre positive"
 
@@ -148,8 +159,10 @@ class CPersonne:
     def PERsetPression(self, pression):
         """
         setter pour l'attribut __fPERPression
+
         @param pression: nouvelle pression subit par le pieton
-        @return: rien
+
+        @return: void
         """
         assert pression >= 0, "La pression doit etre positive"
 
@@ -158,26 +171,30 @@ class CPersonne:
     def PERsetListDirection(self, direction):
         """
         setter pour l'attribut __lPERDirection
+
         @param direction: nouvelle direction pour le pieton
-        @return: rien
+
+        @return: void
         """
         self.__lPERDirection = direction
 
     def PERsetListCoordonnees(self, listcoordonnees):
         """
         setter pour l'attribut __lPERCoordonees
-        @param coordonnees: nouvelles corrdonées du pieton
-        @return: rien
-        """
-        #TODO : exeption si taille de la liste > 2
 
+        @param coordonnees: nouvelles corrdonees du pieton
+
+        @return: void
+        """
         self.__lPERCoordonees = listcoordonnees
 
     def PERsetRayon(self, rayon):
         """
         setter pour l'attribut __fPERRayon
+
         @param rayon: nouveau rayon
-        @return:  rien
+
+        @return:  void
         """
         assert rayon > 0 , "La rayon doit etre strictement positive "
 
@@ -186,8 +203,10 @@ class CPersonne:
     def PERsetChampsDeVision(self, chpsVision):
         """
         setter pour l'attribut __fPERChampsDeVision
-        @param chpsVision: nouveau champde vision de la personne
-        @return: rien
+
+        @param chpsVision: nouveau champ de vision de la personne
+
+        @return: void
         """
         assert chpsVision > 0,"Le champ de vision doit être strictement positif"
 
@@ -198,6 +217,7 @@ class CPersonne:
     def PERRecupererDirectionActuelle(self):
         """
         permet de récupérer la direction actuelle du pieton
+
         @return: Un np.array qui contient les coordonnées de la direction
         """
         return self.__lPERDirection[0]
@@ -218,7 +238,8 @@ class CPersonne:
         Permet d'ajouter une coordonnee dans la liste __lPERCoordonees
 
         @param coordonnees: coordonnee du pieton qu'on veut ajouter
-        @return: rien
+
+        @return: void
         """
 
         if(len(self.__lPERCoordonees) == 2) :
@@ -230,45 +251,56 @@ class CPersonne:
     def PERajouterPersonne(self, Personne):
         """
         Permet d'ajouter une personne proche du pieton dans la liste __lPERlistPersonneProximite
+
         @param Personne: personne proche du pieton
-        @return: rien
+
+        @return: void
         """
         self.__lPERlistPersonneProximite.append(Personne)
 
     def PERajouterDirection(self, direction):
         """
         Permet d'ajouter une nouvelle direction pour le pieton dans la liste __lPERDirection
+
         @param direction: nouvelle direction que le pieton suivra
-        @return: rien
+
+        @return: void
         """
         self.__lPERDirection.append(direction)
 
     def PERajouterObstacle(self, obstacle):
         """
+        Permet d'ajouter un obstacle dans la liste des obstacles a proximite de la personne
+
         @param obstacle: permet d'ajouter un obstacle proche au pieton dans la liste __lPERlistObstacleProximite
-        @return: rien
+
+        @return: void
         """
         self.__lPERlistObstacleProximite.append(obstacle)
 
     def PERClearPersonneProximite(self):
         """
         Vide la liste __lPERlistPersonneProximite
-        @return: rien
+
+        @return: void
         """
         self.__lPERlistPersonneProximite.clear()
 
     def PERClearlistObstacleProx(self):
         """
         Vide la liste __lPERlistObstacleProximite
-        @return: rien
+
+        @return: void
         """
         self.__lPERlistObstacleProximite.clear()
 
     def PERCalculVecteurVitesse(self, t):
         """
         Permet de Calculer le vecteur vitesse du pieotn à l'instant t
-        @param t: instant t pour lequel on calcul le vecteur vitesse
-        @return:  rien
+
+        @param t: instant t pour lequel on calcule le vecteur vitesse
+
+        @return:  void
         """
         force = CForce()
         self.__vPERVecteurVitesse = force.FORVecteurVitesse(self.__lPERCoordonees[0], self.PERRecupererDerniereCoordonne(), t)
@@ -277,7 +309,8 @@ class CPersonne:
     def PERCalculVitesse(self):
         """
         Permet de calculer la vitesse du pieton à partir du Vecteur Vitesse
-        @return: rien
+
+        @return: void
         """
         force = CForce()
         self.__fPERVitesse = np.linalg.norm(self.__vPERVecteurVitesse)
@@ -287,15 +320,14 @@ class CPersonne:
 
     def PERCalculerForceRepulsion(self):
         """
-        Permet de calculer la force de repulsion totale excercé par toute les personne qui sont dans __lPERlistPersonneProximite
+        Permet de calculer la force de repulsion totale excerce par toute les personne qui sont dans __lPERlistPersonneProximite
 
-        @return: rien
+        @return: void
         """
         valeurTotaleForceRepulsion = np.array([0.0,0.0])
 
         #calcul de nouvelle force de repulsion
         for personne in self.__lPERlistPersonneProximite :
-            #TODO : Exception aucune direction
             try :
                 valeurTotaleForceRepulsion += self.__vPERForceRepulsionPersonne.FREForceRepulsionPersonne(self.__lPERDirection[0], self.PERRecupererDerniereCoordonne(), self.__lPERCoordonees[0], personne.PERRecupererDerniereCoordonne(), personne.PERRecupererDirectionActuelle(), personne.PERgetVitesse())# self.__fPERRayon
             except :
@@ -308,7 +340,7 @@ class CPersonne:
         """
         Permet de calculer la force de repulsion applique sur le pieton par tous les obstacles qui sont dans la liste __lPERlistObstacleProximite
 
-        @return: rien
+        @return: void
         """
         sommet = np.array([0.0,0.0])
         valeurTotaleForceRepulsionObstacle = np.array([0.0,0.0])
@@ -322,7 +354,7 @@ class CPersonne:
         """
         Permet de calculer la force d'acceleration
 
-        @return: rien
+        @return: void
         """
         eALpha = self.__lPERDirection[0]
         RAlpha = self.PERRecupererDerniereCoordonne()
@@ -346,9 +378,9 @@ class CPersonne:
 
     def PERCalculerNouvellePosition(self, t):
         """
-        Permet calculer la nouvelle position du pieton une fois toute les forces calcule et l'ajoute a la liste de coordonnees __lPERCoordonees
+        Permet calculer la nouvelle position du pieton une fois toutes les forces calculees et l'ajoute a la liste de coordonnees __lPERCoordonees
 
-        @return: rien
+        @return: void
         """
         Force = self.__vPERForceAcceleration.FACgetForceAcceleration() + self.__vPERForceRepulsionPersonne.FREgettertForceRepulsion() + self.__vPERForceRepulsionObstacle.FREgettertForceRepulsion() #+self.__vPERForceAttraction.get() # pas encore fait
         self.__fPERPression = np.linalg.norm(Force)
@@ -379,7 +411,7 @@ class CPersonne:
         """
         Permet de determiner la direction que le pieton doit emprunter
 
-        @return: rien
+        @return: void
         """
         distance = 9999999999999999999
         coord = []

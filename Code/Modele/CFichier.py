@@ -2,7 +2,6 @@ import csv
 import re
 import numpy as np
 
-from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CPersonne import CPersonne
 from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 from Code.Controller.CEnvironnementController import CEnvironnementController
@@ -15,7 +14,7 @@ class CFichier:
 
     # -------------------Constructeur-------------------#
     def __init__(self, nomFichier=""):
-        self.__sFICNomFichier = nomFichier# + ".csv"
+        self.__sFICNomFichier = nomFichier
 
     # -------------------Getters-------------------#
     def FICgetNomFichier(self):
@@ -43,8 +42,6 @@ class CFichier:
 
         @return : liste contenant les positions des personnes.
         """
-
-
         # Creation de la liste des positions
         listPositions = []
 
@@ -65,9 +62,9 @@ class CFichier:
         @param row:
         @return: liste
         """
-        str = ""  #Variable temp pour recuper et parser
+        str = ""  #Variable temporaire pour recuper et parser
         list_coord = [np.array([0,0]) for i in range(1, len(row))]
-        k = 0 #Variable pour gerer le decalage si case vide entre case renmplie
+        k = 0 #Variable pour gerer le decalage si il y'a une case vide entre les cases renmplies
 
         for i in range(1, len(row)):
             if (row[i] != ''):
@@ -79,12 +76,11 @@ class CFichier:
                 listtemp[0] = int(listtemp[0])
                 listtemp[1] = int(listtemp[1])
 
-                tupletemp = np.array([listtemp[0], listtemp[1]])#(int(listtemp[0]), int(listtemp[1]))
+                tupletemp = np.array([listtemp[0], listtemp[1]])
 
                 list_coord[i - k - 1] = tupletemp
                 str = ""
             else:
-                #list_coord = [list_coord[i] for i in range(0, len(list_coord) - 1)]
                 list_coord.pop(i - k - 1)
                 k += 1
 
@@ -94,7 +90,7 @@ class CFichier:
         """
             fonction pour construire un objet CEnvironnement a partir d'un fichier csv
 
-            @return : list des différents attribut récupérer par le parsing
+            @return : liste des differents attributs recuperes par le parsing
 
         """
         # variables
@@ -162,6 +158,7 @@ class CFichier:
                 list_obstacles[i].OBQsetHauteur(liste_dimensions_obstacles[i][0])
                 list_obstacles[i].OBQsetLargeur(liste_dimensions_obstacles[i][1])
 
+            #Calcule des autres sommets de chaque obstacle
             for obs in list_obstacles:
                 obs.OBQcalculerCoordonnees()
 

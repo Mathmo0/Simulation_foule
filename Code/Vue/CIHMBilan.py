@@ -10,6 +10,7 @@ from matplotlib.figure import Figure
 
 class CIHMBilan(CIHM):
 
+    #-----------------------Constructeur-----------------------:
     def __init__(self, listcoord ,tpsSimulation = 0):
         super().__init__("Bilan de l'évacuation d'une foule")
         self.__listcoord = listcoord
@@ -43,23 +44,25 @@ class CIHMBilan(CIHM):
 
         self._IHMWindow.mainloop()
 
+    #-----------------------Getter-----------------------:
     def getWindowB(self):
         return self._IHMWindow
 
+    #-----------------------Methodes-----------------------
     def BILHeatmap(self):
         """
-            Fonction permettant d'afficher la carte des chaleurs".
+        Fonction permettant d'afficher la carte des chaleurs.
 
-            @return : void
+        @return : void
         """
-        self.__BILdiagramme = sns.heatmap(self.__listCarteChaleur, annot=None, vmin=0.0, vmax=5) #linewidth=0.5)
+        self.__BILdiagramme = sns.heatmap(self.__listCarteChaleur, annot=None, vmin=0.0, vmax=20)
         plt.show()
 
     def BILCalculCarteChaleur(self):
         """
-            Fonction permettant de calculer la matrice correspondant a la carte des chaleurs".
+        Fonction permettant de calculer la matrice correspondant a la carte des chaleurs.
 
-            @return : void
+        @return : void
         """
         for uiBoucle1 in range(len(self.__listcoord)):
             px1 = (self.__listcoord[uiBoucle1][0])
@@ -69,17 +72,17 @@ class CIHMBilan(CIHM):
 
     def BILCalculTpsSimulation(self):
         """
-            Fonction permettant de calculer le temps d'evacuation".
+        Fonction permettant de calculer le temps d'evacuation.
 
-            @return : void
+        @return : void
         """
         self.__tpsSimulation = len(self.__listcoord[0])*DeltaT
 
     def BILAfficherTempsSimulation(self):
         """
-            Fonction permettant d'afficher le temps d'evacuation".
+        Fonction permettant d'afficher le temps d'evacuation.
 
-            @return : void
+        @return : void
         """
         self.__BILtempsSimulation = Label(self.IHMgetWindow(), text=str(self.__tpsSimulation) + " secondes", font=("Arial", 15), bg='light grey')
         self.__BILtempsSimulation.grid(column=3, row=6, sticky='W')

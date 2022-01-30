@@ -4,9 +4,11 @@ from Code.Modele.COperation import COperation
 
 class CFAttraction(CForce) :
 
+    #---------------------Constructeur---------------------:
     def __init__(self,ValeurForceAttraction = np.array([0.0,0.0])) :
         self.__tFATValeurForceAttraction = ValeurForceAttraction
 
+    #---------------------Getter et Setter---------------------:
     def FATgetValeurForceAttraction(self):
         """
         getter pour l'attribut __tFATValeurForceAttraction
@@ -16,9 +18,8 @@ class CFAttraction(CForce) :
         return self.__tFATValeurForceAttraction
 
     def FATsetValeurForceAttraction(self, ValeurForceAttraction):
-
         """
-         setter pour l'attribut __tFATValeurForceAttraction
+        setter pour l'attribut __tFATValeurForceAttraction
 
         @param ValeurForceAttraction: nouvelle valeur pour la force d'attraction
 
@@ -26,13 +27,13 @@ class CFAttraction(CForce) :
         """
         self.__tFATValeurForceAttraction = ValeurForceAttraction
 
-    def FATeffetAttraction(self, Ralpha, Ri, t) :
+    def FATeffetAttraction(self, Ralpha, Ri, t):
         """
         Cette fonction permet de calculer l'effet d'attraction
 
         @param Ralpha: Position du pieton alpha à l'instant t
         @param Ri: Position du pieton i à l'instant t
-        @param t: temps actuelle dans la simulation
+        @param t: temps actuel dans la simulation
 
         @return: la valeur de l'effet de repulsion
         """
@@ -50,7 +51,7 @@ class CFAttraction(CForce) :
         @param eApha: vecteur direction du pieton alpha
         @param Ralpha: Position du pieton alpha à l'instant t
         @param Ri: Position du pieton i à l'instant t
-        @param t: temps actuelle dans la simulation
+        @param t: temps actuel dans la simulation
 
         @return: valeur de la force d'attraction
 

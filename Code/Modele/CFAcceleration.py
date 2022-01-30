@@ -1,8 +1,6 @@
 from Code.Modele.CForce import CForce, tau
 
 import numpy as np
-import math
-from numpy import linalg as la
 
 class CFAcceleration(CForce) :
 
@@ -10,17 +8,16 @@ class CFAcceleration(CForce) :
 
         self.__tFACForceAcceleration = tForceAcceleration;
 
-    #getter et setter :
-
+    #---------------------getter et setter--------------------- :
     def FACgetForceAcceleration(self):
         """
-        getter pour l'attribut __tFACForceAcceleration
+        Getter pour l'attribut __tFACForceAcceleration
 
         @return: __tFACForceAcceleration
         """
         return self.__tFACForceAcceleration
 
-    #methodes :
+    #---------------------methodes--------------------- :
 
     def FACForceDacceleration(self,vAlpha, vAlpha0, vRkAlpha, vRalpha):
         """

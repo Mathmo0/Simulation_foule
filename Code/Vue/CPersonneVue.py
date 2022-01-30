@@ -1,7 +1,7 @@
 from Code.Modele.COperation import COperation
 
 class CPersonneVue:
-
+    #-----------------Constructeur-----------------:
     def __init__(self, canvas, x, y, rayon, color = 'DeepSkyBlue2', listcolor = ['DeepSkyBlue2', "DeepSkyBlue3","DodgerBlue2", "DodgerBlue3", "DeepSkyBlue4", "DodgerBlue4","midnightblue","navy","darkblue","black"], pression = 0):
         self.__PVUcanvas = canvas
         self.__PVUimage = COperation.OPEcreate_circle(x, y, rayon, canvas, color)
@@ -12,6 +12,7 @@ class CPersonneVue:
         self.__fPVUpression = pression
         self.__lPVUlistColor = listcolor
 
+    #-----------------Getter et Setter-----------------:
     def getX(self):
         return self.__fPVUx
 
@@ -58,7 +59,8 @@ class CPersonneVue:
             self.__sPVUcolor = self.__lPVUlistColor[9]
         elif  self.__fPVUpression > 10:
             self.__sPVUcolor = self.__lPVUlistColor[9]
-        
+
+    #-----------------Methodes-----------------:
     def PVUmove(self):
         """
         Fonction permettant d'actualiser la position du cercle.

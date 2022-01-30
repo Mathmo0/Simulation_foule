@@ -22,7 +22,5 @@ class TestUnitaire_CFAttraction(unittest.TestCase):
         self.assertEqual(-1.99,round(acceleration[1],2))
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

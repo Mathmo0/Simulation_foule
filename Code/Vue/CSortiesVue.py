@@ -1,9 +1,8 @@
-from tkinter import *
-import Code.Modele.CEnvironnement as CEnvironnement
 from Code.Modele.COperation import COperation
 import numpy as np
 
 class CSortiesVue:
+    #-----------------Constructeur-----------------:
     def __init__(self, canvas, listeCoord:np.array, rayon = 10):
         self.__SORcanvas = canvas
         self.__SORrayon = rayon

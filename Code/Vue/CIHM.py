@@ -36,11 +36,11 @@ class CIHM:
         self._IHMFrameSimulation = Frame(self._IHMWindow)
         self._IHMCanvasSimulation = Canvas(self._IHMWindow)
 
-        #self.Window.mainloop()
-
+    #-----------------------Getter-----------------------:
     def IHMgetWindow(self):
         return self._IHMWindow
 
+    #-----------------------Methodes-----------------------:
     def IHMCreation_Fenetre(self):
         """
         Fonction permettant l'affichage de la fenetre principale.
@@ -48,9 +48,8 @@ class CIHM:
         @return : void
         """
         self._IHMWindow['background'] = 'light gray'
-        # self.window.wm_attributes("-transparentcolor", 'grey')
         self._IHMWindow.title("Simulation de foule à échelle microscopique")
-        # self.window.resizable(0, 0)
+        #self.window.resizable(0, 0)
         self._IHMWindow.geometry("1080x720")
         self._IHMWindow.minsize(1080, 720)
         self._IHMWindow.iconbitmap("../../Images/logo_polytech.ico")
@@ -60,13 +59,11 @@ class CIHM:
 
     def IHMCreation_Menu(self):
         """
-        Fonction permettant de créer un menu
+        Fonction permettant de creer un menu
 
         @return : void
         """
-        # TODO afficher les infos correspondantes aux boutons
         self._IHMmainMenu = Menu(self._IHMWindow)
-        #fileMenuFichier = Menu(self.mainMenu)
         self._IHMmainMenu.add_cascade(label="à propos", command=self.IHMA_Propos)
         self._IHMmainMenu.add_cascade(label="?")
         self._IHMWindow.config(menu=self._IHMmainMenu)
@@ -76,6 +73,7 @@ class CIHM:
         Fonction affichant un titre a la fenetre principale.
 
         @param : titre que l'on veut attribuer a la fenetre.
+
         @return : void
         """
         self._IHMlabelTitle = Label(self._IHMWindow,
@@ -94,7 +92,7 @@ class CIHM:
 
     def IHMA_Propos(self):
         """
-        Fonction qui crée une option a propos en haut a gauche qui affiche une pop up en cliquant dessus.
+        Fonction qui cree une option a propos en haut a gauche qui affiche une pop up en cliquant dessus.
 
         @return : void
         """
@@ -109,7 +107,7 @@ class CIHM:
 
     def IHMCreation_Zone_Simulation(self):
         """
-        Fonction qui crée la zone de simulation.
+        Fonction qui cree la zone de simulation.
 
         @return : void
         """

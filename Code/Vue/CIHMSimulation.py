@@ -8,14 +8,15 @@ from Code.Modele.CPersonne import CPersonne
 from Code.Vue.CIHM import CIHM
 from Code.Vue.CIHMBilan import CIHMBilan
 from Code.Vue.CPersonneVue import CPersonneVue
-from tkinter import *
 from Code.Vue.CObstacleQuadrilatereVue import CObstacleQuadrilatereVue
 from Code.Modele.CFichier import CFichier
 from Code.Modele.CEnvironnement import CEnvironnement
 from Code.Modele.CForce import DeltaT
-import csv
-
 from Code.Vue.CSortiesVue import CSortiesVue
+
+import csv
+from tkinter import *
+
 
 
 class CIHMSimulation(CIHM):
@@ -102,7 +103,6 @@ class CIHMSimulation(CIHM):
         self.__SIMChoixMenu = OptionMenu(self._IHMWindow, self.__sSIMEnvironnement, *self.__lSIMListeEnvironnement, command=self.SIMchoix_Environnement)
         self.__SIMChoixMenu.grid(column=0, row=2, sticky='E')
 
-    #TODO RENDRE FONCTIONNEL LA SAISIS
     def SIMCreation_Zone_Saisies(self):
         """
         Fonction permettant d'afficher les zones de saisies pour les pourcentages des forces.
@@ -117,7 +117,7 @@ class CIHMSimulation(CIHM):
         self.__fSIMForceAttraction = Entry(self._IHMWindow, width=3)
         self.__fSIMForceAttraction.grid(column=2, row=2, sticky='W')
 
-        # Force répulsion
+        # Force repulsion
         self._IHMWindow.columnconfigure(2, minsize=0, weight=1)
         self.__SIMlabelForceRepuls = Label(self._IHMWindow, text="Force de répulsion (en %):", bg=self._sIHMbackgroundColor)
         self.__SIMlabelForceRepuls.grid(column=3, row=2, sticky='E')
@@ -125,7 +125,7 @@ class CIHMSimulation(CIHM):
         self.__fSIMForceRepulsion = Entry(self._IHMWindow, width=3)
         self.__fSIMForceRepulsion.grid(column=4, row=2, sticky='W')
 
-        # Force accélération
+        # Force acceleration
         self._IHMWindow.columnconfigure(4, minsize=0, weight=1)
         self.__SIMlabelForceAcc = Label(self._IHMWindow, text="Force d'accélération (en %):", bg=self._sIHMbackgroundColor)
         self.__SIMlabelForceAcc.grid(column=5, row=2, sticky='E')
@@ -135,7 +135,7 @@ class CIHMSimulation(CIHM):
 
     def SIMCreation_Lancement_Simulation(self):
         """
-        Fonction permettant de créer tous les boutons en lien avec le lancement et la navigation de la simulation.
+        Fonction permettant de creer tous les boutons en lien avec le lancement et la navigation de la simulation.
 
         @return : void
         """
@@ -184,6 +184,7 @@ class CIHMSimulation(CIHM):
         Fonction permettant d'actualiser la position des personnes.
 
         @param : multiplicateur qui permet de moduler la vitesse de la simulation
+
         @return : void
         """
         index = 0
@@ -226,11 +227,10 @@ class CIHMSimulation(CIHM):
             self.__SIMbouton_bilan.config(state=DISABLED)
             self.__SIMbouton_back.config(state=DISABLED)
             self.__SIMbouton_front.config(state=DISABLED)
-            #for personne in self.__lENVListePersonnes:
-                #personne.disparaitre()
             self.__lSIMListePersonnes.clear()
             self._IHMWindow.update()
             self.__iSIMCurrent = 0
+
             # Creation des personnes et initialisation de leurs positions
             index = 0
             for self.__iSIMCurrent in range(0, int(self.__ENVEnvironnement.ENVgetNbPersonnes())):
@@ -292,10 +292,9 @@ class CIHMSimulation(CIHM):
         self.__lSIMListeEnvironnement = os.listdir('../../environnements/')
         self.__lSIMListeEnvironnement.append('Vide')
 
-    #TODO rendre fonctionnel le choix de lenvironnement avec une methode
     def SIMchoix_Environnement(self, sEnvironnement):
         """
-        Fonction permettant de réaliser les calculs des forces et calculer les positions des personnes lors d'une evacuation.
+        Fonction permettant de realiser les calculs des forces et calculer les positions des personnes lors d'une evacuation.
 
         @return : void
         """
@@ -331,8 +330,7 @@ class CIHMSimulation(CIHM):
                 self.__lSIMListeObstaclesVue.append(obstacle)
                 self._IHMWindow.update()
 
-            #for sortie in self.__ENVEnvironnement.getSorties():
-            sortie = CSortiesVue(self._IHMCanvasSimulation, self.__ENVEnvironnement.getSorties()[0])
+            sortie = CSortiesVue(self._IHMCanvasSimulation, self.__ENVEnvironnement.ENVgetSorties()[0])
             self.__lSIMListeSortiesVue.append(sortie)
             self._IHMWindow.update()
 
@@ -342,7 +340,6 @@ class CIHMSimulation(CIHM):
                 writer = csv.writer(csv_file, delimiter=';', lineterminator='\n')
                 writer.writerow(header)
                 while bfini == False and self.__iSIMTempsDeSimulation <= 5000:
-                    print(self.__iSIMTempsDeSimulation)
                     if self.__lSIMListePersonnes == []:
                         bfini = True
 
@@ -370,7 +367,7 @@ class CIHMSimulation(CIHM):
                             # ajout des personnes proche de personne
                             for personneProx in self.__lSIMListePersonnes:
 
-                                # pour pas qu'on ajoute elle-même dans la liste et les personnes sorti
+                                # pour pas qu'on ajoute elle-meme dans la liste et les personnes sorti
 
                                 if self.__lSIMListePersonnes.index(personne) != self.__lSIMListePersonnes.index(personneProx) and (
                                         self.__lSIMListePersonnesSorties[self.__lSIMListePersonnes.index(personneProx)] == True):
@@ -378,27 +375,18 @@ class CIHMSimulation(CIHM):
                                     coordperprox = personneProx.PERRecupererDerniereCoordonne()
                                     if (COperation.OPEDetectionCercle(coordper[0], coordper[1], coordperprox[0], coordperprox[1], 20) == True):
                                         personne.PERajouterPersonne(personneProx)
-                            #print('__________Position : ', personne.RecupererDerniereCoordonne())
                             personne.PERCalculerForceRepulsion()
-                            #print("____REP : ", personne.getForceRepulsionPersonne().gettertForceRepulsion())
-                            #personne.CalculForceAttraction(self.iTempsDeSimulation)
-                            #print("____REPAttraction : ", personne.getForceAttraction().getValeurForceAttraction())
-
-                            #print('\n-------------autre------------\n')
 
                             # Force de Repulsion par un obstacle :
                             for obstacle in self.__ENVEnvironnement.ENVgetListeObstacles():
                                 coordPieton = personne.PERRecupererDerniereCoordonne()
-                                sommet = personne.PERgetForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton,
-                                                                                                                         obstacle)
-                                #print("sommet = ", sommet)
+                                sommet = personne.PERgetForceRepulsionObstacle().FREDeterminerSommetObstacleQuadrilatere(coordPieton, obstacle)
                                 if (COperation.OPEDetectionCercle(sommet[0], sommet[1], coordPieton[0], coordPieton[1], 10) == True):
                                     personne.PERajouterObstacle(obstacle)
 
                             personne.PERCalculerForceRepulsionObstacle()
-                            print("____REPOBSTACLE : ", personne.PERgetForceRepulsionObstacle().FREgettertForceRepulsion())
-                            # Nouvelle Position:
 
+                            # Nouvelle Position:
                             personne.PERCalculerNouvellePosition(self.__iSIMTempsDeSimulation)
 
                             # On verifie si la personne est sortie ou non.
@@ -437,4 +425,4 @@ class CIHMSimulation(CIHM):
 
         self.IHMCreation_Zone_Simulation()
 
-test = CIHMSimulation()
+Simulation = CIHMSimulation()

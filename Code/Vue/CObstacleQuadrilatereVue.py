@@ -1,8 +1,8 @@
-from tkinter import *
 from Code.Modele.CObstacleQuadrilatere import CObstacleQuadrilatere
 
 
 class CObstacleQuadrilatereVue:
+    #----------------- Constructeur-----------------:
     def __init__(self, canvas, obstacle = CObstacleQuadrilatere()):
         self.__QVUcanvas = canvas
         self.__fQVUtopLeftx = obstacle.OBSgetCoordonneesSommet()[0][0]

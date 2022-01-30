@@ -32,6 +32,7 @@ class CEnvironnement:
         Cette fonction permet de contruire un environnement a partir d'un fichier
 
         @param fichier: fichier .csv contenant les informations sur l'environnement
+
         @return: rien
         """
         self.__sENVNom, self.__iENVHauteur, self.__iENVLargeur, self.__tENVSorties, self.__lENVListePersonnes, self.__lENVListeObstacles = fichier.FICLireFichierEnvironnement()
@@ -48,6 +49,7 @@ class CEnvironnement:
         Constructeur de recopie
 
         @param environnement: environnement qu'on veut copier
+
         @return: rien
         """
         self.__sENVNom = environnement.__sENVNom
@@ -71,7 +73,7 @@ class CEnvironnement:
     # -------------------Getters------------------- #
     def ENVgetNom(self):
         """
-        getter pour l'attribut __sENVNom
+        Getter pour l'attribut __sENVNom
 
         @return: __sENVNom
         """
@@ -79,56 +81,64 @@ class CEnvironnement:
 
     def ENVgetSuperficie(self):
         """
-        getter pour l'attribut __iENVNbPersonnes
-        @return: __iENVNbPersonnes
+        Getter pour l'attribut __fENVSuperficie
+
+        @return: __fENVSuperficie
         """
         return self.__fENVSuperficie
 
     def ENVgetNbPersonnes(self):
         """
-        getter pour l'attribut __iENVNbPersonnes
+        Getter pour l'attribut __iENVNbPersonnes
+
         @return: __iENVNbPersonnes
         """
         return self.__iENVNbPersonnes
 
     def ENVgetNbObstacles(self):
         """
-        getter pour l'attribut __iENVNbObstacles
+        Getter pour l'attribut __iENVNbObstacles
+
         @return: __iENVNbObstacles
         """
         return self.__iENVNbObstacles
 
     def ENVgetSorties(self):
         """
-        getter pour l'attribut __tENVSorties
+        Getter pour l'attribut __tENVSorties
+
         @return: __tENVSorties
         """
         return self.__tENVSorties
 
     def ENVgetHauteur(self):
         """
-        getter pour l'attribut __iENVHauteur
+        Getter pour l'attribut __iENVHauteur
+
         @return: __iENVHauteur
         """
         return self.__iENVHauteur
 
     def ENVgetLargeur(self):
         """
-        getter pour l'attribut __iENVLargeur
+        Getter pour l'attribut __iENVLargeur
+
         @return: __iENVLargeur
         """
         return self.__iENVLargeur
 
     def ENVgetListePersonnes(self):
         """
-        getter pour l'attribut __lENVListePersonnes
+        Getter pour l'attribut __lENVListePersonnes
+
         @return: __lENVListePersonnes
         """
         return self.__lENVListePersonnes
 
     def ENVgetListeObstacles(self):
         """
-        getter pour l'attribut __lENVListeObstacles
+        Getter pour l'attribut __lENVListeObstacles
+
         @return: __lENVListeObstacles
         """
         return self.__lENVListeObstacles
@@ -137,18 +147,20 @@ class CEnvironnement:
     # ---------------------Setters---------------------#
     def ENVsetNom(self, nom):
         """
-        setter pour l'attribut __sENVNom
+        Setter pour l'attribut __sENVNom
 
         @param nom: nouveau nom de l'environnement
+
         @return: rien
         """
         self.__sENVNom = nom
 
     def ENVsetHauteur(self, hauteur):
         """
-        setter pour l'attribut __iENVHauteur
+        Setter pour l'attribut __iENVHauteur
 
         @param hauteur: nouvelle hauteur de l'environnement
+
         @return: rien
         """
         self.__iENVHauteur = hauteur
@@ -157,9 +169,10 @@ class CEnvironnement:
 
     def ENVsetLargeur(self, largeur):
         """
-        setter pour l'attribut __iENVLargeur
+        Setter pour l'attribut __iENVLargeur
 
         @param largeur: nouvelle largeur de l'environnement
+
         @return: rien
         """
         self.__iENVLargeur = largeur
@@ -167,18 +180,20 @@ class CEnvironnement:
 
     def ENVsetSorties(self, list_sorties):
         """
-        setter pour l'attribut __tENVSorties
+        Setter pour l'attribut __tENVSorties
 
         @param list_sorties: nouvelles sorties pour l'environnement
+
         @return: rien
         """
         self.__tENVSorties = list_sorties
 
     def ENVsetListePersonnes(self, listePersonnes):
         """
-        setter pour l'attribut __lENVListePersonnes
+        Setter pour l'attribut __lENVListePersonnes
 
         @param listePersonnes: nouvelles personnes qui sont dans l'environnement
+
         @return: rien
         """
         self.__lENVListePersonnes = listePersonnes
@@ -186,9 +201,10 @@ class CEnvironnement:
 
     def ENVsetListeObstacles(self, listeObstacles):
         """
-        setter pour l'attribut __lENVListeObstacles
+        Setter pour l'attribut __lENVListeObstacles
 
         @param listeObstacles: nouveau obstacle qui sont dans lenvironnement
+
         @return: rien
         """
         self.__lENVListeObstacles = listeObstacles
@@ -198,7 +214,6 @@ class CEnvironnement:
     # -------------------Methodes-------------------#
     def ENVToString(self):
         """
-
         Cette fonction permet d'afficher les differentes informations sur l'environnement
 
         @return: rien
@@ -222,7 +237,6 @@ class CEnvironnement:
         Cette fonction permet d'attribuer une sortie a une personne
 
         @return: rien
-
         """
         for personnes in self.__lENVListePersonnes:
             personnes.PERajouterDirection(self.__tENVSorties)
